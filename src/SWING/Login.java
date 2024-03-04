@@ -1,14 +1,22 @@
 
 package SWING;
 
+import USUARIOS.UsuariosMetodos;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
+    private UsuariosMetodos funcion;
     boolean escondido = true;
 
-    public Login() {
+    public Login(UsuariosMetodos metodo) {
+
+        funcion = metodo != null ? metodo : new UsuariosMetodos();
         initComponents();
         
         setLocationRelativeTo(null);
@@ -88,7 +96,26 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_SalirBTNActionPerformed
 
     private void LoginBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBTNActionPerformed
-        // TODO add your handling code here:
+
+        String usuario = UsuarioTextbox.getText();
+        String contraseña = ContraseñaTextbox.getText();
+
+        try {
+            boolean existe = funcion.revisarContraseña(usuario, contraseña);
+
+            if (existe) {
+                
+                MenuPrincipal pasar = new MenuPrincipal();
+                pasar.setVisible(true);
+                this.setVisible(false);
+                
+            }
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+
     }//GEN-LAST:event_LoginBTNActionPerformed
 
     private void ContraseñaTextboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ContraseñaTextboxActionPerformed
@@ -137,7 +164,7 @@ public class Login extends javax.swing.JFrame {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Login().setVisible(true);
+                new Login(new UsuariosMetodos()).setVisible(true);
             }
         });
     }

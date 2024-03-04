@@ -2,23 +2,30 @@
 package USUARIOS;
 
 import java.util.Calendar;
+import java.io.*;
 
 public class Usuario {
     
+    private int code;
     private String name;
     private String usuario;
     private int puntos;
     private Calendar fechaCreacion;
     private String password;
 
-    public Usuario(String name, String usuario, String password) {
-        this.fechaCreacion = Calendar.getInstance();
-        this.puntos = 0;
-
+    public Usuario(int codigo, String name, String usuario, String password) {
+        code = codigo;
         this.name = name;
         this.usuario = usuario;
         this.password = password;
 
+        this.puntos = 0;
+        this.fechaCreacion = Calendar.getInstance();
+
+    }
+
+    public int getCodigo() {
+        return code;
     }
 
     public String getNombre() {
@@ -42,6 +49,11 @@ public class Usuario {
 
     public String getPassword() {
         return password;
+
+    }
+
+    public void setPassword(String nuevaContraseña) {
+        this.password = nuevaContraseña;
 
     }
 

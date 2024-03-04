@@ -1,15 +1,10 @@
-package sequence;
+package SWING;
 
-import SWING.MainInicial;
-
-public class Sequence {
+public class Main {
 
     public static void main(String[] args) {
-
         MainInicial pasar = new MainInicial();
         pasar.setVisible(true);
-        
-
     }
-    
+
 }
