@@ -1,12 +1,12 @@
 package sequence;
 
-import SWING.MainInicial;
+import SWING.MenuInicial;
 
 public class Sequence {
 
     public static void main(String[] args) {
 
-        MainInicial pasar = new MainInicial();
+        MenuInicial pasar = new MenuInicial();
         pasar.setVisible(true);
         
 

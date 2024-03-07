@@ -1,12 +1,19 @@
 
 package SWING;
 
+import TABLERO.TableroMain;
+import USUARIOS.UsuariosMetodos;
+
 
 public class MenuPrincipal extends javax.swing.JFrame {
 
-    public MenuPrincipal() {
+    private UsuariosMetodos funcion;
+
+    public MenuPrincipal(UsuariosMetodos metodo) {
+
+        funcion = metodo != null ? metodo : new UsuariosMetodos();
         initComponents();
-                setLocationRelativeTo(null);
+        setLocationRelativeTo(null);
 
     }
 
@@ -15,12 +22,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private void initComponents() {
 
         CerrarSesionBTN = new javax.swing.JButton();
+        ReportesBTN = new javax.swing.JButton();
         ConfigBTN = new javax.swing.JButton();
         JugarBTN = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        getContentPane().setLayout(null);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         CerrarSesionBTN.setBorder(null);
         CerrarSesionBTN.setContentAreaFilled(false);
@@ -29,8 +37,16 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 CerrarSesionBTNActionPerformed(evt);
             }
         });
-        getContentPane().add(CerrarSesionBTN);
-        CerrarSesionBTN.setBounds(260, 280, 300, 50);
+        getContentPane().add(CerrarSesionBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 320, 300, 60));
+
+        ReportesBTN.setBorder(null);
+        ReportesBTN.setContentAreaFilled(false);
+        ReportesBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReportesBTNActionPerformed(evt);
+            }
+        });
+        getContentPane().add(ReportesBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 260, 300, 50));
 
         ConfigBTN.setBorder(null);
         ConfigBTN.setContentAreaFilled(false);
@@ -39,8 +55,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 ConfigBTNActionPerformed(evt);
             }
         });
-        getContentPane().add(ConfigBTN);
-        ConfigBTN.setBounds(260, 210, 300, 50);
+        getContentPane().add(ConfigBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 190, 300, 50));
 
         JugarBTN.setBorder(null);
         JugarBTN.setContentAreaFilled(false);
@@ -49,28 +64,38 @@ public class MenuPrincipal extends javax.swing.JFrame {
                 JugarBTNActionPerformed(evt);
             }
         });
-        getContentPane().add(JugarBTN);
-        JugarBTN.setBounds(260, 131, 300, 50);
+        getContentPane().add(JugarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 111, 300, 70));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/BG_MenuPrincipal.png"))); // NOI18N
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(0, 0, 820, 462);
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void JugarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JugarBTNActionPerformed
+        TableroMain pasar = new TableroMain(funcion);
+        pasar.setVisible(true);
+        this.setVisible(false);
 
-        
     }//GEN-LAST:event_JugarBTNActionPerformed
 
     private void ConfigBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigBTNActionPerformed
-        // TODO add your handling code here:
+        Configuracion pasar = new Configuracion(funcion);
+        pasar.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_ConfigBTNActionPerformed
 
     private void CerrarSesionBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarSesionBTNActionPerformed
-        // TODO add your handling code here:
+        Login pasar = new Login(funcion);
+        pasar.setVisible(true);
+        this.setVisible(false);
+
     }//GEN-LAST:event_CerrarSesionBTNActionPerformed
+
+    private void ReportesBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReportesBTNActionPerformed
+        Reportes pasar = new Reportes();
+        pasar.setVisible(true);
+        this.setVisible(false);    }//GEN-LAST:event_ReportesBTNActionPerformed
 
     /**
      * @param args the command line arguments
@@ -102,7 +127,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MenuPrincipal().setVisible(true);
+                new MenuPrincipal(new UsuariosMetodos()).setVisible(true);
             }
         });
     }
@@ -111,6 +136,7 @@ public class MenuPrincipal extends javax.swing.JFrame {
     private javax.swing.JButton CerrarSesionBTN;
     private javax.swing.JButton ConfigBTN;
     private javax.swing.JButton JugarBTN;
+    private javax.swing.JButton ReportesBTN;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

@@ -3,11 +3,8 @@ package SWING;
 
 import USUARIOS.UsuariosMetodos;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
@@ -92,7 +89,9 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void SalirBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirBTNActionPerformed
-        // TODO add your handling code here:
+        MenuInicial pasar = new MenuInicial();
+        pasar.setVisible(true);
+        this.setVisible(false);
     }//GEN-LAST:event_SalirBTNActionPerformed
 
     private void LoginBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBTNActionPerformed
@@ -105,7 +104,7 @@ public class Login extends javax.swing.JFrame {
 
             if (existe) {
                 
-                MenuPrincipal pasar = new MenuPrincipal();
+                MenuPrincipal pasar = new MenuPrincipal(funcion);
                 pasar.setVisible(true);
                 this.setVisible(false);
                 

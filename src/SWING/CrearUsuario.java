@@ -98,7 +98,7 @@ public class CrearUsuario extends javax.swing.JFrame {
 
     private void SalirBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SalirBTNActionPerformed
 
-        MainInicial pasar = new MainInicial();
+        MenuInicial pasar = new MenuInicial();
         pasar.setVisible(true);
         this.setVisible(false);
 

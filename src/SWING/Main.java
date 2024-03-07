@@ -3,7 +3,7 @@ package SWING;
 public class Main {
 
     public static void main(String[] args) {
-        MainInicial pasar = new MainInicial();
+        MenuInicial pasar = new MenuInicial();
         pasar.setVisible(true);
     }
 
