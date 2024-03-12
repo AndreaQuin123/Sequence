@@ -447,5 +447,34 @@ public class Tablero extends JPanel {
             }
         }
     }
+    
+    //FUNCIONES PARA REVISAR SECUENCIA
+    
+        public boolean revisarSecuenciaVertical(int row, int col, ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
+        for (int i = row; i < row + 5; i++) {
+            if (i >= N_ROWS || casillas[i][col].getTipo() != tipo || casillas[i][col].getRango() != rango) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean revisarSecuenciaHorizontal(int row, int col, ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
+        for (int j = col; j < col + 5; j++) {
+            if (j >= N_COLS || casillas[row][j].getTipo() != tipo || casillas[row][j].getRango() != rango) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public boolean revisarSecuenciaDiagonal(int row, int col, ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
+        for (int i = row, j = col; i < row + 5 && j < col + 5; i++, j++) {
+            if (i >= N_ROWS || j >= N_COLS || casillas[i][j].getTipo() != tipo || casillas[i][j].getRango() != rango) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

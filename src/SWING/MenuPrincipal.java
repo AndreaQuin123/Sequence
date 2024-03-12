@@ -73,10 +73,13 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JugarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JugarBTNActionPerformed
-        TableroMain pasar = new TableroMain(funcion);
-        pasar.setVisible(true);
-        this.setVisible(false);
-
+        try {
+            TableroMain pasar = new TableroMain(funcion);
+            pasar.setVisible(true);
+            this.setVisible(false);
+        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_JugarBTNActionPerformed
 
     private void ConfigBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfigBTNActionPerformed

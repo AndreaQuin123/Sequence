@@ -4,10 +4,21 @@ import SWING.Configuracion;
 import java.util.ArrayList;
 import java.util.List;
 import USUARIOS.UsuariosMetodos;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
+import javax.swing.border.LineBorder;
 
 
 public class TableroMain extends javax.swing.JFrame {
@@ -17,10 +28,11 @@ public class TableroMain extends javax.swing.JFrame {
     private Timer timer;
     private Carta[] cartaEntregada;
     private int turnoActual = 1;
+    private final Map<JLabel, Carta> labelCartaMap = new HashMap<>();
 
     private UsuariosMetodos funcion;
 
-    public TableroMain(UsuariosMetodos metodo) {
+    public TableroMain(UsuariosMetodos metodo) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
         funcion = metodo != null ? metodo : new UsuariosMetodos();
         Configuracion.cantidadJugador = Configuracion.cantidadJugador != null ? Configuracion.cantidadJugador : "4 Jugadores";
         Configuracion.colorFicha = Configuracion.colorFicha != null ? Configuracion.colorFicha : "AMARILLO";
@@ -193,34 +205,23 @@ public class TableroMain extends javax.swing.JFrame {
                 Player21.setVisible(true);
                 Player22.setVisible(true);
 
-                CartaJugador2_11.setVisible(true);
-                CartaJugador2_11.setIcon(manojo.getCardIcon(cartaEntregada[0].getTipo(), cartaEntregada[0].getRango()));
-                CartaJugador2_12.setVisible(true);
-                CartaJugador2_12.setIcon(manojo.getCardIcon(cartaEntregada[1].getTipo(), cartaEntregada[1].getRango()));
-                CartaJugador2_13.setVisible(true);
-                CartaJugador2_13.setIcon(manojo.getCardIcon(cartaEntregada[2].getTipo(), cartaEntregada[2].getRango()));
-                CartaJugador2_14.setVisible(true);
-                CartaJugador2_14.setIcon(manojo.getCardIcon(cartaEntregada[3].getTipo(), cartaEntregada[3].getRango()));
-                CartaJugador2_15.setVisible(true);
-                CartaJugador2_15.setIcon(manojo.getCardIcon(cartaEntregada[4].getTipo(), cartaEntregada[4].getRango()));
-                CartaJugador2_16.setVisible(true);
-                CartaJugador2_16.setIcon(manojo.getCardIcon(cartaEntregada[5].getTipo(), cartaEntregada[5].getRango()));
-                CartaJugador2_17.setVisible(true);
-                CartaJugador2_17.setIcon(manojo.getCardIcon(cartaEntregada[6].getTipo(), cartaEntregada[6].getRango()));
-                CartaJugador2_21.setVisible(true);
-                CartaJugador2_21.setIcon(manojo.getCardIcon(cartaEntregada[7].getTipo(), cartaEntregada[7].getRango()));
-                CartaJugador2_22.setVisible(true);
-                CartaJugador2_22.setIcon(manojo.getCardIcon(cartaEntregada[8].getTipo(), cartaEntregada[8].getRango()));
-                CartaJugador2_23.setVisible(true);
-                CartaJugador2_23.setIcon(manojo.getCardIcon(cartaEntregada[9].getTipo(), cartaEntregada[9].getRango()));
-                CartaJugador2_24.setVisible(true);
-                CartaJugador2_24.setIcon(manojo.getCardIcon(cartaEntregada[10].getTipo(), cartaEntregada[10].getRango()));
-                CartaJugador2_25.setVisible(true);
-                CartaJugador2_25.setIcon(manojo.getCardIcon(cartaEntregada[11].getTipo(), cartaEntregada[11].getRango()));
-                CartaJugador2_26.setVisible(true);
-                CartaJugador2_26.setIcon(manojo.getCardIcon(cartaEntregada[12].getTipo(), cartaEntregada[12].getRango()));
-                CartaJugador2_27.setVisible(true);
-                CartaJugador2_27.setIcon(manojo.getCardIcon(cartaEntregada[13].getTipo(), cartaEntregada[13].getRango()));
+                for (int i = 0; i < 14; i++) {
+                    int cardIndex = (i % 7) + 11 + (i / 7) * 10;
+
+                    try {
+                        JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField("CartaJugador2_" + cardIndex).get(this);
+                        cartaLabel.setVisible(true);
+                        cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
+
+                        Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        labelCartaMap.put(cartaLabel, carta);
+
+                        MouseListener boardMouseListener = new BoardMouseListener();
+                        cartaLabel.addMouseListener(boardMouseListener);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        System.err.println("Field CartaJugador2_" + cardIndex + " doesn't exist.");
+                    }
+                }
 
                 tablero1.setBounds(440, 10, 500, 740);
                 Deck.setBounds(450, 790, 120, 80);
@@ -236,42 +237,26 @@ public class TableroMain extends javax.swing.JFrame {
                 Player31.setVisible(true);
                 Player32.setVisible(true);
                 Player33.setVisible(true);
-                CartaJugador3_11.setVisible(true);
-                CartaJugador3_11.setIcon(manojo.getCardIcon(cartaEntregada[0].getTipo(), cartaEntregada[0].getRango()));
-                CartaJugador3_12.setVisible(true);
-                CartaJugador3_12.setIcon(manojo.getCardIcon(cartaEntregada[1].getTipo(), cartaEntregada[1].getRango()));
-                CartaJugador3_13.setVisible(true);
-                CartaJugador3_13.setIcon(manojo.getCardIcon(cartaEntregada[2].getTipo(), cartaEntregada[2].getRango()));
-                CartaJugador3_14.setVisible(true);
-                CartaJugador3_14.setIcon(manojo.getCardIcon(cartaEntregada[3].getTipo(), cartaEntregada[3].getRango()));
-                CartaJugador3_15.setVisible(true);
-                CartaJugador3_15.setIcon(manojo.getCardIcon(cartaEntregada[4].getTipo(), cartaEntregada[4].getRango()));
-                CartaJugador3_16.setVisible(true);
-                CartaJugador3_16.setIcon(manojo.getCardIcon(cartaEntregada[5].getTipo(), cartaEntregada[5].getRango()));
-                CartaJugador3_21.setVisible(true);
-                CartaJugador3_21.setIcon(manojo.getCardIcon(cartaEntregada[6].getTipo(), cartaEntregada[6].getRango()));
-                CartaJugador3_22.setVisible(true);
-                CartaJugador3_22.setIcon(manojo.getCardIcon(cartaEntregada[7].getTipo(), cartaEntregada[7].getRango()));
-                CartaJugador3_23.setVisible(true);
-                CartaJugador3_23.setIcon(manojo.getCardIcon(cartaEntregada[8].getTipo(), cartaEntregada[8].getRango()));
-                CartaJugador3_24.setVisible(true);
-                CartaJugador3_24.setIcon(manojo.getCardIcon(cartaEntregada[9].getTipo(), cartaEntregada[9].getRango()));
-                CartaJugador3_25.setIcon(manojo.getCardIcon(cartaEntregada[10].getTipo(), cartaEntregada[10].getRango()));
-                CartaJugador3_25.setVisible(true);
-                CartaJugador3_26.setIcon(manojo.getCardIcon(cartaEntregada[11].getTipo(), cartaEntregada[11].getRango()));
-                CartaJugador3_26.setVisible(true);
-                CartaJugador3_31.setIcon(manojo.getCardIcon(cartaEntregada[12].getTipo(), cartaEntregada[12].getRango()));
-                CartaJugador3_31.setVisible(true);
-                CartaJugador3_32.setIcon(manojo.getCardIcon(cartaEntregada[13].getTipo(), cartaEntregada[13].getRango()));
-                CartaJugador3_32.setVisible(true);
-                CartaJugador3_33.setIcon(manojo.getCardIcon(cartaEntregada[14].getTipo(), cartaEntregada[14].getRango()));
-                CartaJugador3_33.setVisible(true);
-                CartaJugador3_34.setIcon(manojo.getCardIcon(cartaEntregada[15].getTipo(), cartaEntregada[15].getRango()));
-                CartaJugador3_34.setVisible(true);
-                CartaJugador3_35.setIcon(manojo.getCardIcon(cartaEntregada[16].getTipo(), cartaEntregada[16].getRango()));
-                CartaJugador3_35.setVisible(true);
-                CartaJugador3_36.setIcon(manojo.getCardIcon(cartaEntregada[17].getTipo(), cartaEntregada[17].getRango()));
-                CartaJugador3_36.setVisible(true);
+
+                for (int i = 0; i < cartaEntregada.length; i++) {
+                    int cardIndex = (i % 6) + 11 + (i / 6) * 10;
+
+                    String labelName = String.format("CartaJugador3_%d", cardIndex);
+
+                    try {
+                        JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
+                        cartaLabel.setVisible(true);
+                        cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
+
+                        Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        labelCartaMap.put(cartaLabel, carta);
+
+                        MouseListener boardMouseListener = new BoardMouseListener();
+                        cartaLabel.addMouseListener(boardMouseListener);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        System.err.println("Field " + labelName + " doesn't exist.");
+                    }
+                }
 
                 tablero1.setBounds(780, 30, 500, 740);
                 Deck.setBounds(500, 760, 120, 80);
@@ -288,62 +273,24 @@ public class TableroMain extends javax.swing.JFrame {
                 Player43.setVisible(true);
                 Player44.setVisible(true);
 
-                CartaJugador4_11.setVisible(true);
-                CartaJugador4_11.setIcon(manojo.getCardIcon(cartaEntregada[0].getTipo(), cartaEntregada[0].getRango()));
-                CartaJugador4_12.setVisible(true);
-                CartaJugador4_12.setIcon(manojo.getCardIcon(cartaEntregada[1].getTipo(), cartaEntregada[1].getRango()));
-                CartaJugador4_13.setVisible(true);
-                CartaJugador4_13.setIcon(manojo.getCardIcon(cartaEntregada[2].getTipo(), cartaEntregada[2].getRango()));
-                CartaJugador4_14.setVisible(true);
-                CartaJugador4_14.setIcon(manojo.getCardIcon(cartaEntregada[3].getTipo(), cartaEntregada[3].getRango()));
-                CartaJugador4_15.setVisible(true);
-                CartaJugador4_15.setIcon(manojo.getCardIcon(cartaEntregada[4].getTipo(), cartaEntregada[4].getRango()));
-                CartaJugador4_16.setVisible(true);
-                CartaJugador4_16.setIcon(manojo.getCardIcon(cartaEntregada[5].getTipo(), cartaEntregada[5].getRango()));
-                CartaJugador4_17.setVisible(true);
-                CartaJugador4_17.setIcon(manojo.getCardIcon(cartaEntregada[6].getTipo(), cartaEntregada[6].getRango()));
-                CartaJugador4_21.setVisible(true);
-                CartaJugador4_21.setIcon(manojo.getCardIcon(cartaEntregada[7].getTipo(), cartaEntregada[7].getRango()));
-                CartaJugador4_22.setVisible(true);
-                CartaJugador4_22.setIcon(manojo.getCardIcon(cartaEntregada[8].getTipo(), cartaEntregada[8].getRango()));
-                CartaJugador4_23.setVisible(true);
-                CartaJugador4_23.setIcon(manojo.getCardIcon(cartaEntregada[9].getTipo(), cartaEntregada[9].getRango()));
-                CartaJugador4_24.setVisible(true);
-                CartaJugador4_24.setIcon(manojo.getCardIcon(cartaEntregada[10].getTipo(), cartaEntregada[10].getRango()));
-                CartaJugador4_25.setVisible(true);
-                CartaJugador4_25.setIcon(manojo.getCardIcon(cartaEntregada[11].getTipo(), cartaEntregada[11].getRango()));
-                CartaJugador4_26.setVisible(true);
-                CartaJugador4_26.setIcon(manojo.getCardIcon(cartaEntregada[12].getTipo(), cartaEntregada[12].getRango()));
-                CartaJugador4_27.setVisible(true);
-                CartaJugador4_27.setIcon(manojo.getCardIcon(cartaEntregada[13].getTipo(), cartaEntregada[13].getRango()));
-                CartaJugador4_31.setVisible(true);
-                CartaJugador4_31.setIcon(manojo.getCardIcon(cartaEntregada[14].getTipo(), cartaEntregada[14].getRango()));
-                CartaJugador4_32.setVisible(true);
-                CartaJugador4_32.setIcon(manojo.getCardIcon(cartaEntregada[15].getTipo(), cartaEntregada[15].getRango()));
-                CartaJugador4_33.setVisible(true);
-                CartaJugador4_33.setIcon(manojo.getCardIcon(cartaEntregada[16].getTipo(), cartaEntregada[16].getRango()));
-                CartaJugador4_34.setVisible(true);
-                CartaJugador4_34.setIcon(manojo.getCardIcon(cartaEntregada[17].getTipo(), cartaEntregada[17].getRango()));
-                CartaJugador4_35.setVisible(true);
-                CartaJugador4_35.setIcon(manojo.getCardIcon(cartaEntregada[18].getTipo(), cartaEntregada[18].getRango()));
-                CartaJugador4_36.setVisible(true);
-                CartaJugador4_36.setIcon(manojo.getCardIcon(cartaEntregada[19].getTipo(), cartaEntregada[19].getRango()));
-                CartaJugador4_37.setVisible(true);
-                CartaJugador4_37.setIcon(manojo.getCardIcon(cartaEntregada[20].getTipo(), cartaEntregada[20].getRango()));
-                CartaJugador4_41.setVisible(true);
-                CartaJugador4_41.setIcon(manojo.getCardIcon(cartaEntregada[21].getTipo(), cartaEntregada[21].getRango()));
-                CartaJugador4_42.setVisible(true);
-                CartaJugador4_42.setIcon(manojo.getCardIcon(cartaEntregada[22].getTipo(), cartaEntregada[22].getRango()));
-                CartaJugador4_43.setVisible(true);
-                CartaJugador4_43.setIcon(manojo.getCardIcon(cartaEntregada[23].getTipo(), cartaEntregada[23].getRango()));
-                CartaJugador4_44.setVisible(true);
-                CartaJugador4_44.setIcon(manojo.getCardIcon(cartaEntregada[24].getTipo(), cartaEntregada[24].getRango()));
-                CartaJugador4_45.setVisible(true);
-                CartaJugador4_45.setIcon(manojo.getCardIcon(cartaEntregada[25].getTipo(), cartaEntregada[25].getRango()));
-                CartaJugador4_46.setVisible(true);
-                CartaJugador4_46.setIcon(manojo.getCardIcon(cartaEntregada[26].getTipo(), cartaEntregada[26].getRango()));
-                CartaJugador4_47.setVisible(true);
-                CartaJugador4_47.setIcon(manojo.getCardIcon(cartaEntregada[27].getTipo(), cartaEntregada[27].getRango()));
+                for (int i = 0; i < cartaEntregada.length; i++) {
+                    int cardIndex = (i % 7) + 11 + (i / 7) * 10;
+
+                    String labelName = String.format("CartaJugador4_%d", cardIndex);
+                    try {
+                        JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
+                        cartaLabel.setVisible(true);
+                        cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
+
+                        Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        labelCartaMap.put(cartaLabel, carta);
+
+                        MouseListener boardMouseListener = new BoardMouseListener();
+                        cartaLabel.addMouseListener(boardMouseListener);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        System.err.println("Field " + labelName + " doesn't exist.");
+                    }
+                }
 
                 tablero1.setBounds(440, 10, 500, 740);
                 Deck.setBounds(450, 790, 120, 80);
@@ -362,66 +309,26 @@ public class TableroMain extends javax.swing.JFrame {
                 Player64.setVisible(true);
                 Player65.setVisible(true);
                 Player66.setVisible(true);
-                CartaJugador6_11.setVisible(true);
-                CartaJugador6_11.setIcon(manojo.getCardIcon(cartaEntregada[0].getTipo(), cartaEntregada[0].getRango()));
-                CartaJugador6_12.setVisible(true);
-                CartaJugador6_12.setIcon(manojo.getCardIcon(cartaEntregada[1].getTipo(), cartaEntregada[1].getRango()));
-                CartaJugador6_13.setVisible(true);
-                CartaJugador6_13.setIcon(manojo.getCardIcon(cartaEntregada[2].getTipo(), cartaEntregada[2].getRango()));
-                CartaJugador6_14.setVisible(true);
-                CartaJugador6_14.setIcon(manojo.getCardIcon(cartaEntregada[3].getTipo(), cartaEntregada[3].getRango()));
-                CartaJugador6_15.setVisible(true);
-                CartaJugador6_15.setIcon(manojo.getCardIcon(cartaEntregada[4].getTipo(), cartaEntregada[4].getRango()));
-                CartaJugador6_21.setVisible(true);
-                CartaJugador6_21.setIcon(manojo.getCardIcon(cartaEntregada[5].getTipo(), cartaEntregada[5].getRango()));
-                CartaJugador6_22.setVisible(true);
-                CartaJugador6_22.setIcon(manojo.getCardIcon(cartaEntregada[6].getTipo(), cartaEntregada[6].getRango()));
-                CartaJugador6_23.setVisible(true);
-                CartaJugador6_23.setIcon(manojo.getCardIcon(cartaEntregada[7].getTipo(), cartaEntregada[7].getRango()));
-                CartaJugador6_24.setVisible(true);
-                CartaJugador6_24.setIcon(manojo.getCardIcon(cartaEntregada[8].getTipo(), cartaEntregada[8].getRango()));
-                CartaJugador6_25.setVisible(true);
-                CartaJugador6_25.setIcon(manojo.getCardIcon(cartaEntregada[9].getTipo(), cartaEntregada[9].getRango()));
-                CartaJugador6_31.setVisible(true);
-                CartaJugador6_31.setIcon(manojo.getCardIcon(cartaEntregada[10].getTipo(), cartaEntregada[10].getRango()));
-                CartaJugador6_32.setVisible(true);
-                CartaJugador6_32.setIcon(manojo.getCardIcon(cartaEntregada[11].getTipo(), cartaEntregada[11].getRango()));
-                CartaJugador6_33.setVisible(true);
-                CartaJugador6_33.setIcon(manojo.getCardIcon(cartaEntregada[12].getTipo(), cartaEntregada[12].getRango()));
-                CartaJugador6_34.setVisible(true);
-                CartaJugador6_34.setIcon(manojo.getCardIcon(cartaEntregada[13].getTipo(), cartaEntregada[13].getRango()));
-                CartaJugador6_35.setVisible(true);
-                CartaJugador6_35.setIcon(manojo.getCardIcon(cartaEntregada[14].getTipo(), cartaEntregada[14].getRango()));
-                CartaJugador6_41.setVisible(true);
-                CartaJugador6_41.setIcon(manojo.getCardIcon(cartaEntregada[15].getTipo(), cartaEntregada[15].getRango()));
-                CartaJugador6_42.setVisible(true);
-                CartaJugador6_42.setIcon(manojo.getCardIcon(cartaEntregada[16].getTipo(), cartaEntregada[16].getRango()));
-                CartaJugador6_43.setVisible(true);
-                CartaJugador6_43.setIcon(manojo.getCardIcon(cartaEntregada[17].getTipo(), cartaEntregada[17].getRango()));
-                CartaJugador6_44.setVisible(true);
-                CartaJugador6_44.setIcon(manojo.getCardIcon(cartaEntregada[18].getTipo(), cartaEntregada[18].getRango()));
-                CartaJugador6_45.setVisible(true);
-                CartaJugador6_45.setIcon(manojo.getCardIcon(cartaEntregada[19].getTipo(), cartaEntregada[19].getRango()));
-                CartaJugador6_51.setVisible(true);
-                CartaJugador6_51.setIcon(manojo.getCardIcon(cartaEntregada[20].getTipo(), cartaEntregada[20].getRango()));
-                CartaJugador6_52.setVisible(true);
-                CartaJugador6_52.setIcon(manojo.getCardIcon(cartaEntregada[21].getTipo(), cartaEntregada[21].getRango()));
-                CartaJugador6_53.setVisible(true);
-                CartaJugador6_53.setIcon(manojo.getCardIcon(cartaEntregada[22].getTipo(), cartaEntregada[22].getRango()));
-                CartaJugador6_54.setVisible(true);
-                CartaJugador6_54.setIcon(manojo.getCardIcon(cartaEntregada[23].getTipo(), cartaEntregada[23].getRango()));
-                CartaJugador6_55.setVisible(true);
-                CartaJugador6_55.setIcon(manojo.getCardIcon(cartaEntregada[24].getTipo(), cartaEntregada[24].getRango()));
-                CartaJugador6_61.setVisible(true);
-                CartaJugador6_61.setIcon(manojo.getCardIcon(cartaEntregada[25].getTipo(), cartaEntregada[25].getRango()));
-                CartaJugador6_62.setVisible(true);
-                CartaJugador6_62.setIcon(manojo.getCardIcon(cartaEntregada[26].getTipo(), cartaEntregada[26].getRango()));
-                CartaJugador6_63.setVisible(true);
-                CartaJugador6_63.setIcon(manojo.getCardIcon(cartaEntregada[27].getTipo(), cartaEntregada[27].getRango()));
-                CartaJugador6_64.setVisible(true);
-                CartaJugador6_64.setIcon(manojo.getCardIcon(cartaEntregada[28].getTipo(), cartaEntregada[28].getRango()));
-                CartaJugador6_65.setVisible(true);
-                CartaJugador6_65.setIcon(manojo.getCardIcon(cartaEntregada[29].getTipo(), cartaEntregada[29].getRango()));
+
+                for (int i = 0; i < cartaEntregada.length; i++) {
+                    int cardIndex = (i % 5) + 11 + (i / 5) * 10;
+                    String labelName = String.format("CartaJugador6_"+cardIndex);
+
+                    try {
+                        JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
+                        cartaLabel.setVisible(true);
+                        cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
+
+                        Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        labelCartaMap.put(cartaLabel, carta);
+
+                        MouseListener boardMouseListener = new BoardMouseListener();
+                        cartaLabel.addMouseListener(boardMouseListener);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        System.err.println("Field " + labelName + " doesn't exist.");
+                    }
+                }
+
                 tablero1.setBounds(780, 30, 500, 740);
                 Deck.setBounds(500, 760, 120, 80);
                 Timer.setBounds(650, 780, 180, 80);
@@ -441,70 +348,26 @@ public class TableroMain extends javax.swing.JFrame {
                 Player86.setVisible(true);
                 Player87.setVisible(true);
                 Player88.setVisible(true);
-                CartaJugador8_11.setVisible(true);
-                CartaJugador8_11.setIcon(manojo.getCardIcon(cartaEntregada[0].getTipo(), cartaEntregada[0].getRango()));
-                CartaJugador8_12.setVisible(true);
-                CartaJugador8_12.setIcon(manojo.getCardIcon(cartaEntregada[1].getTipo(), cartaEntregada[1].getRango()));
-                CartaJugador8_13.setVisible(true);
-                CartaJugador8_13.setIcon(manojo.getCardIcon(cartaEntregada[2].getTipo(), cartaEntregada[2].getRango()));
-                CartaJugador8_14.setVisible(true);
-                CartaJugador8_14.setIcon(manojo.getCardIcon(cartaEntregada[3].getTipo(), cartaEntregada[3].getRango()));
-                CartaJugador8_21.setVisible(true);
-                CartaJugador8_21.setIcon(manojo.getCardIcon(cartaEntregada[4].getTipo(), cartaEntregada[4].getRango()));
-                CartaJugador8_22.setVisible(true);
-                CartaJugador8_22.setIcon(manojo.getCardIcon(cartaEntregada[5].getTipo(), cartaEntregada[5].getRango()));
-                CartaJugador8_23.setVisible(true);
-                CartaJugador8_23.setIcon(manojo.getCardIcon(cartaEntregada[6].getTipo(), cartaEntregada[6].getRango()));
-                CartaJugador8_24.setVisible(true);
-                CartaJugador8_24.setIcon(manojo.getCardIcon(cartaEntregada[7].getTipo(), cartaEntregada[7].getRango()));
-                CartaJugador8_31.setVisible(true);
-                CartaJugador8_31.setIcon(manojo.getCardIcon(cartaEntregada[8].getTipo(), cartaEntregada[8].getRango()));
-                CartaJugador8_32.setVisible(true);
-                CartaJugador8_32.setIcon(manojo.getCardIcon(cartaEntregada[9].getTipo(), cartaEntregada[9].getRango()));
-                CartaJugador8_33.setVisible(true);
-                CartaJugador8_33.setIcon(manojo.getCardIcon(cartaEntregada[10].getTipo(), cartaEntregada[10].getRango()));
-                CartaJugador8_34.setVisible(true);
-                CartaJugador8_34.setIcon(manojo.getCardIcon(cartaEntregada[11].getTipo(), cartaEntregada[11].getRango()));
-                CartaJugador8_41.setVisible(true);
-                CartaJugador8_41.setIcon(manojo.getCardIcon(cartaEntregada[12].getTipo(), cartaEntregada[12].getRango()));
-                CartaJugador8_42.setVisible(true);
-                CartaJugador8_42.setIcon(manojo.getCardIcon(cartaEntregada[13].getTipo(), cartaEntregada[13].getRango()));
-                CartaJugador8_43.setVisible(true);
-                CartaJugador8_43.setIcon(manojo.getCardIcon(cartaEntregada[14].getTipo(), cartaEntregada[14].getRango()));
-                CartaJugador8_44.setVisible(true);
-                CartaJugador8_44.setIcon(manojo.getCardIcon(cartaEntregada[15].getTipo(), cartaEntregada[15].getRango()));
-                CartaJugador8_51.setVisible(true);
-                CartaJugador8_51.setIcon(manojo.getCardIcon(cartaEntregada[16].getTipo(), cartaEntregada[16].getRango()));
-                CartaJugador8_52.setVisible(true);
-                CartaJugador8_52.setIcon(manojo.getCardIcon(cartaEntregada[17].getTipo(), cartaEntregada[17].getRango()));
-                CartaJugador8_53.setVisible(true);
-                CartaJugador8_53.setIcon(manojo.getCardIcon(cartaEntregada[18].getTipo(), cartaEntregada[18].getRango()));
-                CartaJugador8_54.setVisible(true);
-                CartaJugador8_54.setIcon(manojo.getCardIcon(cartaEntregada[19].getTipo(), cartaEntregada[19].getRango()));
-                CartaJugador8_61.setVisible(true);
-                CartaJugador8_61.setIcon(manojo.getCardIcon(cartaEntregada[20].getTipo(), cartaEntregada[20].getRango()));
-                CartaJugador8_62.setVisible(true);
-                CartaJugador8_62.setIcon(manojo.getCardIcon(cartaEntregada[21].getTipo(), cartaEntregada[21].getRango()));
-                CartaJugador8_63.setVisible(true);
-                CartaJugador8_63.setIcon(manojo.getCardIcon(cartaEntregada[22].getTipo(), cartaEntregada[22].getRango()));
-                CartaJugador8_64.setVisible(true);
-                CartaJugador8_64.setIcon(manojo.getCardIcon(cartaEntregada[23].getTipo(), cartaEntregada[23].getRango()));
-                CartaJugador8_71.setVisible(true);
-                CartaJugador8_71.setIcon(manojo.getCardIcon(cartaEntregada[24].getTipo(), cartaEntregada[24].getRango()));
-                CartaJugador8_72.setVisible(true);
-                CartaJugador8_72.setIcon(manojo.getCardIcon(cartaEntregada[25].getTipo(), cartaEntregada[25].getRango()));
-                CartaJugador8_73.setVisible(true);
-                CartaJugador8_73.setIcon(manojo.getCardIcon(cartaEntregada[26].getTipo(), cartaEntregada[26].getRango()));
-                CartaJugador8_74.setVisible(true);
-                CartaJugador8_74.setIcon(manojo.getCardIcon(cartaEntregada[27].getTipo(), cartaEntregada[27].getRango()));
-                CartaJugador8_81.setVisible(true);
-                CartaJugador8_81.setIcon(manojo.getCardIcon(cartaEntregada[28].getTipo(), cartaEntregada[28].getRango()));
-                CartaJugador8_82.setVisible(true);
-                CartaJugador8_82.setIcon(manojo.getCardIcon(cartaEntregada[29].getTipo(), cartaEntregada[29].getRango()));
-                CartaJugador8_83.setVisible(true);
-                CartaJugador8_83.setIcon(manojo.getCardIcon(cartaEntregada[30].getTipo(), cartaEntregada[30].getRango()));
-                CartaJugador8_84.setVisible(true);
-                CartaJugador8_84.setIcon(manojo.getCardIcon(cartaEntregada[31].getTipo(), cartaEntregada[31].getRango()));
+
+                for (int i = 0; i < cartaEntregada.length; i++) {
+                    int cardIndex = (i % 4) + 11 + (i / 4) * 10;
+                    String labelName = String.format("CartaJugador8_" + cardIndex);
+
+                    try {
+                        JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
+                        cartaLabel.setVisible(true);
+                        cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
+
+                        Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        labelCartaMap.put(cartaLabel, carta);
+
+                        MouseListener boardMouseListener = new BoardMouseListener();
+                        cartaLabel.addMouseListener(boardMouseListener);
+                    } catch (NoSuchFieldException | IllegalAccessException e) {
+                        System.err.println("Field " + labelName + " doesn't exist.");
+                    }
+                }
+                
                 Deck.setBounds(450, 790, 120, 80);
                 Timer.setBounds(750, 790, 180, 80);
 
@@ -528,7 +391,7 @@ public class TableroMain extends javax.swing.JFrame {
     */
     private class TimerListener implements ActionListener {
 
-        int segundosRestantes = 30;
+        int segundosRestantes = 120;
 
         public void actionPerformed(ActionEvent evt) {
             segundosRestantes--;
@@ -542,7 +405,7 @@ public class TableroMain extends javax.swing.JFrame {
 
     /*
     Lo que hace al terminarse el timer
-    */
+     */
     private void timerAcabado() {
         JOptionPane.showMessageDialog(this, "¡Se acabo el tiempo!!");
     }
@@ -553,7 +416,6 @@ public class TableroMain extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         tablero1 = new TABLERO.Tablero();
-        Divider_Placeholder = new javax.swing.JLabel();
         CartaJugador6_11 = new javax.swing.JLabel();
         CartaJugador6_12 = new javax.swing.JLabel();
         CartaJugador6_13 = new javax.swing.JLabel();
@@ -590,6 +452,7 @@ public class TableroMain extends javax.swing.JFrame {
         CartaJugador6_64 = new javax.swing.JLabel();
         CartaJugador6_65 = new javax.swing.JLabel();
         Player66 = new javax.swing.JLabel();
+        Divider_Placeholder = new javax.swing.JLabel();
         CartaJugador3_16 = new javax.swing.JLabel();
         CartaJugador3_15 = new javax.swing.JLabel();
         CartaJugador3_14 = new javax.swing.JLabel();
@@ -708,6 +571,12 @@ public class TableroMain extends javax.swing.JFrame {
         jPanel1.setBackground(new java.awt.Color(190, 190, 190));
         jPanel1.setLayout(null);
 
+        tablero1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablero1MouseClicked(evt);
+            }
+        });
+
         javax.swing.GroupLayout tablero1Layout = new javax.swing.GroupLayout(tablero1);
         tablero1.setLayout(tablero1Layout);
         tablero1Layout.setHorizontalGroup(
@@ -721,11 +590,6 @@ public class TableroMain extends javax.swing.JFrame {
 
         jPanel1.add(tablero1);
         tablero1.setBounds(780, 30, 500, 740);
-
-        Divider_Placeholder.setBackground(new java.awt.Color(100, 100, 100));
-        Divider_Placeholder.setOpaque(true);
-        jPanel1.add(Divider_Placeholder);
-        Divider_Placeholder.setBounds(0, 0, 1460, 890);
 
         CartaJugador6_11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
         CartaJugador6_11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -918,6 +782,11 @@ public class TableroMain extends javax.swing.JFrame {
         Player66.setOpaque(true);
         jPanel1.add(Player66);
         Player66.setBounds(400, 490, 340, 210);
+
+        Divider_Placeholder.setBackground(new java.awt.Color(100, 100, 100));
+        Divider_Placeholder.setOpaque(true);
+        jPanel1.add(Divider_Placeholder);
+        Divider_Placeholder.setBounds(0, 0, 1460, 890);
 
         CartaJugador3_16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
         CartaJugador3_16.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1544,6 +1413,46 @@ public class TableroMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private Carta cartaCreada(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
+        return new Carta(tipo, rango);
+    }
+
+    private class BoardMouseListener extends MouseAdapter {
+
+        @Override
+        public void mouseClicked(MouseEvent e) {
+            JLabel clickedLabel = (JLabel) e.getComponent();
+
+            Carta carta = labelCartaMap.get(clickedLabel);
+
+            if (carta != null) {
+                String tipo = carta.getTipo().toString();
+                String rango = carta.getRango().toString();
+                clickedLabel.setBorder(new LineBorder(Color.yellow, 3));
+                System.out.println("Type: " + tipo + ", Rank: " + rango);
+
+                if (Casilla.selectedButton != null) {
+                    ManojoCartas.Tipo casillaType = Casilla.selectedButton.getTipo();
+                    ManojoCartas.Rango casillaRank = Casilla.selectedButton.getRango();
+
+                    if (tipo.equals(casillaType.toString()) && rango.equals(casillaRank.toString())) {
+                        System.out.println("Coinciden.");
+                        clickedLabel.setBorder(new LineBorder(Color.black, 1)); 
+                        Casilla.selectedButton.setIcon(new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_Amarillo.png")));
+                        jPanel1.revalidate();
+                        jPanel1.repaint();
+                        
+                    } else {
+                        System.out.println("No coinciden.");
+                    }
+
+                    Casilla.selectedButton.setBorder(new LineBorder(Color.black, 1));
+                    Casilla.selectedButton = null;
+                }
+            }
+        }
+    }
+
     private void DeckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeckMouseClicked
 
         Carta carta = manojo.siguienteCarta();
@@ -1563,6 +1472,12 @@ public class TableroMain extends javax.swing.JFrame {
     private void TimerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TimerMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_TimerMouseClicked
+
+    private void tablero1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablero1MouseClicked
+
+        
+
+    }//GEN-LAST:event_tablero1MouseClicked
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -1591,7 +1506,15 @@ public class TableroMain extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TableroMain(new UsuariosMetodos()).setVisible(true);
+                try {
+                    new TableroMain(new UsuariosMetodos()).setVisible(true);
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(TableroMain.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(TableroMain.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchFieldException ex) {
+                    Logger.getLogger(TableroMain.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }

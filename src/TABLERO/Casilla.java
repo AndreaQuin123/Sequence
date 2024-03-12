@@ -10,9 +10,10 @@ import javax.swing.border.LineBorder;
 
 public class Casilla extends JButton {
 
-    private static Casilla selectedButton = null;
+    static Casilla selectedButton;
     private ManojoCartas.Tipo tipo;
     private ManojoCartas.Rango rango;
+    private boolean tieneFicha; 
 
     public Casilla(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
         setContentAreaFilled(true);
@@ -21,6 +22,8 @@ public class Casilla extends JButton {
 
         this.tipo = tipo;
         this.rango=rango;
+        this.tieneFicha=false;
+        
         
         addActionListener(new ActionListener() {
             @Override
@@ -32,8 +35,11 @@ public class Casilla extends JButton {
                 setBorder(new LineBorder(Color.YELLOW, 3));
 
                 selectedButton = Casilla.this;
+                
                 System.out.println("Este SOUT se encuentra en la clase de Casilla:"+selectedButton.getTipo() + " " + selectedButton.getRango());
 
+                
+                
             }
         });
     }
@@ -50,6 +56,16 @@ public class Casilla extends JButton {
 
     public ManojoCartas.Rango getRango() {
         return rango;
+
+    }
+
+    public boolean getFicha() {
+        return tieneFicha;
+
+    }
+
+    public void setFicha() {
+        this.tieneFicha = true;
 
     }
 
