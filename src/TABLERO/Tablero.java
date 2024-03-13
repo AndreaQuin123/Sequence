@@ -16,7 +16,7 @@ public class Tablero extends JPanel {
     private final int BOARD_WIDTH = N_COLS * CELL_SIZE_WIDTH + 1;
     private final int BOARD_HEIGHT = N_ROWS * CELL_SIZE_HEIGHT + 1;
 
-    private final Casilla[][] casillas;
+    final Casilla[][] casillas;
 
     public Tablero() {
         casillas = new Casilla[N_ROWS][N_COLS];
@@ -411,15 +411,15 @@ public class Tablero extends JPanel {
         ImageIcon icon95 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/9_of_diamonds.png"));
         casillas[9][5].setIcon(icon95);  
         
-        casillas[9][6]=Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.OCHO);
+        casillas[9][6]=Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.OCHO);
         ImageIcon icon96 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/8_of_diamonds.png"));
         casillas[9][6].setIcon(icon96);  
         
-        casillas[9][7]=Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.SIETE);
+        casillas[9][7]=Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.SIETE);
         ImageIcon icon97 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/7_of_diamonds.png"));
         casillas[9][7].setIcon(icon97);    
         
-        casillas[9][8]=Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.SEIS);
+        casillas[9][8]=Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.SEIS);
         ImageIcon icon98 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/6_of_diamonds.png"));
         casillas[9][8].setIcon(icon98);  
         
@@ -447,34 +447,6 @@ public class Tablero extends JPanel {
             }
         }
     }
-    
-    //FUNCIONES PARA REVISAR SECUENCIA
-    
-        public boolean revisarSecuenciaVertical(int row, int col, ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
-        for (int i = row; i < row + 5; i++) {
-            if (i >= N_ROWS || casillas[i][col].getTipo() != tipo || casillas[i][col].getRango() != rango) {
-                return false;
-            }
-        }
-        return true;
-    }
 
-    public boolean revisarSecuenciaHorizontal(int row, int col, ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
-        for (int j = col; j < col + 5; j++) {
-            if (j >= N_COLS || casillas[row][j].getTipo() != tipo || casillas[row][j].getRango() != rango) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean revisarSecuenciaDiagonal(int row, int col, ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
-        for (int i = row, j = col; i < row + 5 && j < col + 5; i++, j++) {
-            if (i >= N_ROWS || j >= N_COLS || casillas[i][j].getTipo() != tipo || casillas[i][j].getRango() != rango) {
-                return false;
-            }
-        }
-        return true;
-    }
 
 }

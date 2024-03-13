@@ -5,11 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import USUARIOS.UsuariosMetodos;
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -20,22 +24,45 @@ import javax.swing.JOptionPane;
 import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
-
 public class TableroMain extends javax.swing.JFrame {
 
     private final List<Carta> cards = new ArrayList<>();
     ManojoCartas manojo = new ManojoCartas();
     private Timer timer;
     private Carta[] cartaEntregada;
+    private int jugadores;
     private int turnoActual = 1;
     private final Map<JLabel, Carta> labelCartaMap = new HashMap<>();
+    private String[] players;
+    static Casilla[][] casillas;
 
     private UsuariosMetodos funcion;
+    private Tablero Tablero;
+    private LogicaJuego Logica;
 
     public TableroMain(UsuariosMetodos metodo) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
         funcion = metodo != null ? metodo : new UsuariosMetodos();
         Configuracion.cantidadJugador = Configuracion.cantidadJugador != null ? Configuracion.cantidadJugador : "4 Jugadores";
         Configuracion.colorFicha = Configuracion.colorFicha != null ? Configuracion.colorFicha : "AMARILLO";
+        Tablero = Tablero != null ? Tablero : new Tablero();
+        casillas = Tablero.casillas;
+        
+        switch (Configuracion.cantidadJugador) {
+            case "2 Jugadores":
+                jugadores = 2;
+            case "3 Jugadores":
+                jugadores = 3;
+            case "4 Jugadores":
+                jugadores = 4;
+            case "6 Jugadores":
+                jugadores = 6;
+            case "8 Jugadores":
+                jugadores = 8;
+        }
+
+        players = new String[jugadores];
+
+        Logica = Logica != null ? Logica : new LogicaJuego(players, casillas);
 
         manojo.reiniciarMazo();
 
@@ -219,14 +246,15 @@ public class TableroMain extends javax.swing.JFrame {
                         MouseListener boardMouseListener = new BoardMouseListener();
                         cartaLabel.addMouseListener(boardMouseListener);
                     } catch (NoSuchFieldException | IllegalAccessException e) {
-                        System.err.println("Field CartaJugador2_" + cardIndex + " doesn't exist.");
+                        System.err.println("no existe el label papu");
                     }
                 }
 
-                tablero1.setBounds(440, 10, 500, 740);
-                Deck.setBounds(450, 790, 120, 80);
-                Timer.setBounds(750, 790, 180, 80);
-
+                tablero1.setBounds(450, 10, 500, 740);
+                Deck.setBounds(520, 760, 120, 80);
+                Timer.setBounds(720, 790, 180, 80);
+                UltimaCarta.setBounds(180,620,110,150);
+                UltimaCartaTexto.setBounds(10, 780, 550, 40);
                 tablero1.setVisible(true);
 
                 break;
@@ -254,14 +282,17 @@ public class TableroMain extends javax.swing.JFrame {
                         MouseListener boardMouseListener = new BoardMouseListener();
                         cartaLabel.addMouseListener(boardMouseListener);
                     } catch (NoSuchFieldException | IllegalAccessException e) {
-                        System.err.println("Field " + labelName + " doesn't exist.");
+                        System.err.println("no existe el label papu");
                     }
                 }
 
                 tablero1.setBounds(780, 30, 500, 740);
                 Deck.setBounds(500, 760, 120, 80);
-                Timer.setBounds(650, 780, 180, 80);
+                Timer.setBounds(1080, 780,200,130);
+                UltimaCarta.setBounds(220,710,110,150);
+                UltimaCartaTexto.setBounds(350,770,550,40);
 
+                
                 tablero1.setVisible(true);
 
                 break;
@@ -288,13 +319,15 @@ public class TableroMain extends javax.swing.JFrame {
                         MouseListener boardMouseListener = new BoardMouseListener();
                         cartaLabel.addMouseListener(boardMouseListener);
                     } catch (NoSuchFieldException | IllegalAccessException e) {
-                        System.err.println("Field " + labelName + " doesn't exist.");
+                        System.err.println("no existe el label papu");
                     }
                 }
 
-                tablero1.setBounds(440, 10, 500, 740);
-                Deck.setBounds(450, 790, 120, 80);
-                Timer.setBounds(750, 790, 180, 80);
+                tablero1.setBounds(450, 10, 500, 740);
+                Deck.setBounds(520, 760, 120, 80);
+                Timer.setBounds(720, 790, 180, 80);
+                UltimaCarta.setBounds(180,620,110,150);
+                UltimaCartaTexto.setBounds(10, 780, 550, 40);
 
                 tablero1.setVisible(true);
 
@@ -312,7 +345,7 @@ public class TableroMain extends javax.swing.JFrame {
 
                 for (int i = 0; i < cartaEntregada.length; i++) {
                     int cardIndex = (i % 5) + 11 + (i / 5) * 10;
-                    String labelName = String.format("CartaJugador6_"+cardIndex);
+                    String labelName = String.format("CartaJugador6_" + cardIndex);
 
                     try {
                         JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
@@ -325,13 +358,15 @@ public class TableroMain extends javax.swing.JFrame {
                         MouseListener boardMouseListener = new BoardMouseListener();
                         cartaLabel.addMouseListener(boardMouseListener);
                     } catch (NoSuchFieldException | IllegalAccessException e) {
-                        System.err.println("Field " + labelName + " doesn't exist.");
+                        System.err.println("no existe el label papu");
                     }
                 }
 
                 tablero1.setBounds(780, 30, 500, 740);
                 Deck.setBounds(500, 760, 120, 80);
-                Timer.setBounds(650, 780, 180, 80);
+                Timer.setBounds(1080, 780,200,130);
+                UltimaCarta.setBounds(220,710,110,150);
+                UltimaCartaTexto.setBounds(350,770,550,40);
 
                 tablero1.setVisible(true);
 
@@ -364,14 +399,16 @@ public class TableroMain extends javax.swing.JFrame {
                         MouseListener boardMouseListener = new BoardMouseListener();
                         cartaLabel.addMouseListener(boardMouseListener);
                     } catch (NoSuchFieldException | IllegalAccessException e) {
-                        System.err.println("Field " + labelName + " doesn't exist.");
+                        System.err.println("no existe el label papu");
                     }
                 }
-                
-                Deck.setBounds(450, 790, 120, 80);
-                Timer.setBounds(750, 790, 180, 80);
 
-                tablero1.setBounds(440, 10, 500, 740);
+                tablero1.setBounds(450, 10, 500, 740);
+                Deck.setBounds(520, 760, 120, 80);
+                Timer.setBounds(720, 790, 180, 80);
+                UltimaCarta.setBounds(180,620,110,150);
+                UltimaCartaTexto.setBounds(10, 780, 550, 40);
+                
                 tablero1.setVisible(true);
 
                 break;
@@ -387,8 +424,8 @@ public class TableroMain extends javax.swing.JFrame {
     }
 
     /*
-    Timer
-    */
+    Configuracion del timer, 120 segundos (2 minutos) 
+     */
     private class TimerListener implements ActionListener {
 
         int segundosRestantes = 120;
@@ -404,10 +441,11 @@ public class TableroMain extends javax.swing.JFrame {
     }
 
     /*
-    Lo que hace al terminarse el timer
+    Lo que hace al terminarse el timer, el jugador actual pierde su turno
      */
     private void timerAcabado() {
-        JOptionPane.showMessageDialog(this, "¡Se acabo el tiempo!!");
+        JOptionPane.showMessageDialog(this, "¡Se acabo el tiempo, pierde su turno!");
+        Logica.cambiarTurno();
     }
 
     @SuppressWarnings("unchecked")
@@ -416,6 +454,40 @@ public class TableroMain extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         tablero1 = new TABLERO.Tablero();
+        UltimaCarta = new javax.swing.JLabel();
+        UltimaCartaTexto = new javax.swing.JLabel();
+        CartaJugador4_47 = new javax.swing.JLabel();
+        CartaJugador4_46 = new javax.swing.JLabel();
+        CartaJugador4_45 = new javax.swing.JLabel();
+        CartaJugador4_44 = new javax.swing.JLabel();
+        CartaJugador4_43 = new javax.swing.JLabel();
+        CartaJugador4_42 = new javax.swing.JLabel();
+        CartaJugador4_41 = new javax.swing.JLabel();
+        Player44 = new javax.swing.JLabel();
+        CartaJugador4_37 = new javax.swing.JLabel();
+        CartaJugador4_36 = new javax.swing.JLabel();
+        CartaJugador4_35 = new javax.swing.JLabel();
+        CartaJugador4_34 = new javax.swing.JLabel();
+        CartaJugador4_33 = new javax.swing.JLabel();
+        CartaJugador4_32 = new javax.swing.JLabel();
+        CartaJugador4_31 = new javax.swing.JLabel();
+        Player43 = new javax.swing.JLabel();
+        CartaJugador4_27 = new javax.swing.JLabel();
+        CartaJugador4_26 = new javax.swing.JLabel();
+        CartaJugador4_25 = new javax.swing.JLabel();
+        CartaJugador4_24 = new javax.swing.JLabel();
+        CartaJugador4_23 = new javax.swing.JLabel();
+        CartaJugador4_22 = new javax.swing.JLabel();
+        CartaJugador4_21 = new javax.swing.JLabel();
+        Player42 = new javax.swing.JLabel();
+        CartaJugador4_17 = new javax.swing.JLabel();
+        CartaJugador4_16 = new javax.swing.JLabel();
+        CartaJugador4_15 = new javax.swing.JLabel();
+        CartaJugador4_14 = new javax.swing.JLabel();
+        CartaJugador4_13 = new javax.swing.JLabel();
+        CartaJugador4_12 = new javax.swing.JLabel();
+        CartaJugador4_11 = new javax.swing.JLabel();
+        Player41 = new javax.swing.JLabel();
         CartaJugador6_11 = new javax.swing.JLabel();
         CartaJugador6_12 = new javax.swing.JLabel();
         CartaJugador6_13 = new javax.swing.JLabel();
@@ -452,7 +524,6 @@ public class TableroMain extends javax.swing.JFrame {
         CartaJugador6_64 = new javax.swing.JLabel();
         CartaJugador6_65 = new javax.swing.JLabel();
         Player66 = new javax.swing.JLabel();
-        Divider_Placeholder = new javax.swing.JLabel();
         CartaJugador3_16 = new javax.swing.JLabel();
         CartaJugador3_15 = new javax.swing.JLabel();
         CartaJugador3_14 = new javax.swing.JLabel();
@@ -514,38 +585,6 @@ public class TableroMain extends javax.swing.JFrame {
         CartaJugador8_83 = new javax.swing.JLabel();
         CartaJugador8_84 = new javax.swing.JLabel();
         Player88 = new javax.swing.JLabel();
-        CartaJugador4_47 = new javax.swing.JLabel();
-        CartaJugador4_46 = new javax.swing.JLabel();
-        CartaJugador4_45 = new javax.swing.JLabel();
-        CartaJugador4_44 = new javax.swing.JLabel();
-        CartaJugador4_43 = new javax.swing.JLabel();
-        CartaJugador4_42 = new javax.swing.JLabel();
-        CartaJugador4_41 = new javax.swing.JLabel();
-        Player44 = new javax.swing.JLabel();
-        CartaJugador4_37 = new javax.swing.JLabel();
-        CartaJugador4_36 = new javax.swing.JLabel();
-        CartaJugador4_35 = new javax.swing.JLabel();
-        CartaJugador4_34 = new javax.swing.JLabel();
-        CartaJugador4_33 = new javax.swing.JLabel();
-        CartaJugador4_32 = new javax.swing.JLabel();
-        CartaJugador4_31 = new javax.swing.JLabel();
-        Player43 = new javax.swing.JLabel();
-        CartaJugador4_27 = new javax.swing.JLabel();
-        CartaJugador4_26 = new javax.swing.JLabel();
-        CartaJugador4_25 = new javax.swing.JLabel();
-        CartaJugador4_24 = new javax.swing.JLabel();
-        CartaJugador4_23 = new javax.swing.JLabel();
-        CartaJugador4_22 = new javax.swing.JLabel();
-        CartaJugador4_21 = new javax.swing.JLabel();
-        Player42 = new javax.swing.JLabel();
-        CartaJugador4_17 = new javax.swing.JLabel();
-        CartaJugador4_16 = new javax.swing.JLabel();
-        CartaJugador4_15 = new javax.swing.JLabel();
-        CartaJugador4_14 = new javax.swing.JLabel();
-        CartaJugador4_13 = new javax.swing.JLabel();
-        CartaJugador4_12 = new javax.swing.JLabel();
-        CartaJugador4_11 = new javax.swing.JLabel();
-        Player41 = new javax.swing.JLabel();
         CartaJugador2_11 = new javax.swing.JLabel();
         CartaJugador2_12 = new javax.swing.JLabel();
         CartaJugador2_13 = new javax.swing.JLabel();
@@ -564,11 +603,12 @@ public class TableroMain extends javax.swing.JFrame {
         Player21 = new javax.swing.JLabel();
         Timer = new javax.swing.JLabel();
         Deck = new javax.swing.JLabel();
+        Divider_Placeholder = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel1.setBackground(new java.awt.Color(190, 190, 190));
+        jPanel1.setBackground(new java.awt.Color(255, 153, 153));
         jPanel1.setLayout(null);
 
         tablero1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -590,6 +630,183 @@ public class TableroMain extends javax.swing.JFrame {
 
         jPanel1.add(tablero1);
         tablero1.setBounds(780, 30, 500, 740);
+
+        UltimaCarta.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(UltimaCarta);
+        UltimaCarta.setBounds(180, 610, 110, 150);
+
+        UltimaCartaTexto.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
+        UltimaCartaTexto.setText("ULTIMA CARTA: ");
+        jPanel1.add(UltimaCartaTexto);
+        UltimaCartaTexto.setBounds(10, 780, 550, 40);
+
+        CartaJugador4_47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_47.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_47);
+        CartaJugador4_47.setBounds(1250, 420, 52, 80);
+
+        CartaJugador4_46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_46.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_46);
+        CartaJugador4_46.setBounds(1180, 470, 52, 80);
+
+        CartaJugador4_45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_45.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_45);
+        CartaJugador4_45.setBounds(1180, 380, 52, 80);
+
+        CartaJugador4_44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_44.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_44);
+        CartaJugador4_44.setBounds(1110, 470, 52, 80);
+
+        CartaJugador4_43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_43.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_43);
+        CartaJugador4_43.setBounds(1110, 380, 52, 80);
+
+        CartaJugador4_42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_42.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_42);
+        CartaJugador4_42.setBounds(1040, 470, 52, 80);
+
+        CartaJugador4_41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_41.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_41);
+        CartaJugador4_41.setBounds(1040, 380, 52, 80);
+
+        Player44.setBackground(new java.awt.Color(80, 80, 80));
+        Player44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Cartas_BG_4Player.png"))); // NOI18N
+        Player44.setText("jLabel1");
+        Player44.setOpaque(true);
+        jPanel1.add(Player44);
+        Player44.setBounds(990, 360, 360, 210);
+
+        CartaJugador4_37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_37.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_37);
+        CartaJugador4_37.setBounds(1260, 130, 52, 80);
+
+        CartaJugador4_36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_36.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_36);
+        CartaJugador4_36.setBounds(1190, 180, 52, 80);
+
+        CartaJugador4_35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_35.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_35);
+        CartaJugador4_35.setBounds(1190, 90, 52, 80);
+
+        CartaJugador4_34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_34.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_34);
+        CartaJugador4_34.setBounds(1120, 180, 52, 80);
+
+        CartaJugador4_33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_33.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_33);
+        CartaJugador4_33.setBounds(1120, 90, 52, 80);
+
+        CartaJugador4_32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_32.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_32);
+        CartaJugador4_32.setBounds(1050, 180, 52, 80);
+
+        CartaJugador4_31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_31.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_31);
+        CartaJugador4_31.setBounds(1050, 90, 52, 80);
+
+        Player43.setBackground(new java.awt.Color(100, 100, 100));
+        Player43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Cartas_BG_4Player.png"))); // NOI18N
+        Player43.setText("jLabel1");
+        Player43.setOpaque(true);
+        jPanel1.add(Player43);
+        Player43.setBounds(990, 60, 360, 220);
+
+        CartaJugador4_27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_27.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_27);
+        CartaJugador4_27.setBounds(320, 430, 52, 80);
+
+        CartaJugador4_26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_26.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_26);
+        CartaJugador4_26.setBounds(250, 480, 52, 80);
+
+        CartaJugador4_25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_25.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_25);
+        CartaJugador4_25.setBounds(250, 390, 52, 80);
+
+        CartaJugador4_24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_24.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_24);
+        CartaJugador4_24.setBounds(180, 480, 52, 80);
+
+        CartaJugador4_23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_23.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_23);
+        CartaJugador4_23.setBounds(180, 390, 52, 80);
+
+        CartaJugador4_22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_22.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_22);
+        CartaJugador4_22.setBounds(110, 480, 52, 80);
+
+        CartaJugador4_21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_21.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_21);
+        CartaJugador4_21.setBounds(110, 390, 52, 80);
+
+        Player42.setBackground(new java.awt.Color(100, 100, 100));
+        Player42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Cartas_BG_4Player.png"))); // NOI18N
+        Player42.setText("jLabel1");
+        Player42.setOpaque(true);
+        jPanel1.add(Player42);
+        Player42.setBounds(50, 360, 360, 220);
+
+        CartaJugador4_17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_17.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_17);
+        CartaJugador4_17.setBounds(320, 120, 52, 80);
+
+        CartaJugador4_16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_16.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_16);
+        CartaJugador4_16.setBounds(250, 170, 52, 80);
+
+        CartaJugador4_15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_15.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_15);
+        CartaJugador4_15.setBounds(250, 80, 52, 80);
+
+        CartaJugador4_14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_14);
+        CartaJugador4_14.setBounds(180, 170, 52, 80);
+
+        CartaJugador4_13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_13.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_13);
+        CartaJugador4_13.setBounds(180, 80, 52, 80);
+
+        CartaJugador4_12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_12);
+        CartaJugador4_12.setBounds(110, 170, 52, 80);
+
+        CartaJugador4_11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
+        CartaJugador4_11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jPanel1.add(CartaJugador4_11);
+        CartaJugador4_11.setBounds(110, 80, 52, 80);
+
+        Player41.setBackground(new java.awt.Color(80, 80, 80));
+        Player41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Cartas_BG_4Player.png"))); // NOI18N
+        Player41.setText("jLabel1");
+        Player41.setOpaque(true);
+        jPanel1.add(Player41);
+        Player41.setBounds(50, 60, 360, 220);
 
         CartaJugador6_11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
         CartaJugador6_11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -782,11 +999,6 @@ public class TableroMain extends javax.swing.JFrame {
         Player66.setOpaque(true);
         jPanel1.add(Player66);
         Player66.setBounds(400, 490, 340, 210);
-
-        Divider_Placeholder.setBackground(new java.awt.Color(100, 100, 100));
-        Divider_Placeholder.setOpaque(true);
-        jPanel1.add(Divider_Placeholder);
-        Divider_Placeholder.setBounds(0, 0, 1460, 890);
 
         CartaJugador3_16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
         CartaJugador3_16.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1109,174 +1321,6 @@ public class TableroMain extends javax.swing.JFrame {
         jPanel1.add(Player88);
         Player88.setBounds(980, 610, 380, 180);
 
-        CartaJugador4_47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_47.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_47);
-        CartaJugador4_47.setBounds(1250, 420, 52, 80);
-
-        CartaJugador4_46.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_46.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_46);
-        CartaJugador4_46.setBounds(1180, 470, 52, 80);
-
-        CartaJugador4_45.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_45.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_45);
-        CartaJugador4_45.setBounds(1180, 380, 52, 80);
-
-        CartaJugador4_44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_44.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_44);
-        CartaJugador4_44.setBounds(1110, 470, 52, 80);
-
-        CartaJugador4_43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_43.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_43);
-        CartaJugador4_43.setBounds(1110, 380, 52, 80);
-
-        CartaJugador4_42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_42.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_42);
-        CartaJugador4_42.setBounds(1040, 470, 52, 80);
-
-        CartaJugador4_41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_41.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_41);
-        CartaJugador4_41.setBounds(1040, 380, 52, 80);
-
-        Player44.setBackground(new java.awt.Color(80, 80, 80));
-        Player44.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Cartas_BG_4Player.png"))); // NOI18N
-        Player44.setText("jLabel1");
-        Player44.setOpaque(true);
-        jPanel1.add(Player44);
-        Player44.setBounds(990, 360, 360, 210);
-
-        CartaJugador4_37.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_37.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_37);
-        CartaJugador4_37.setBounds(1260, 130, 52, 80);
-
-        CartaJugador4_36.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_36.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_36);
-        CartaJugador4_36.setBounds(1190, 180, 52, 80);
-
-        CartaJugador4_35.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_35.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_35);
-        CartaJugador4_35.setBounds(1190, 90, 52, 80);
-
-        CartaJugador4_34.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_34.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_34);
-        CartaJugador4_34.setBounds(1120, 180, 52, 80);
-
-        CartaJugador4_33.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_33.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_33);
-        CartaJugador4_33.setBounds(1120, 90, 52, 80);
-
-        CartaJugador4_32.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_32.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_32);
-        CartaJugador4_32.setBounds(1050, 180, 52, 80);
-
-        CartaJugador4_31.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_31.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_31);
-        CartaJugador4_31.setBounds(1050, 90, 52, 80);
-
-        Player43.setBackground(new java.awt.Color(100, 100, 100));
-        Player43.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Cartas_BG_4Player.png"))); // NOI18N
-        Player43.setText("jLabel1");
-        Player43.setOpaque(true);
-        jPanel1.add(Player43);
-        Player43.setBounds(990, 60, 360, 220);
-
-        CartaJugador4_27.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_27.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_27);
-        CartaJugador4_27.setBounds(320, 430, 52, 80);
-
-        CartaJugador4_26.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_26.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_26);
-        CartaJugador4_26.setBounds(250, 480, 52, 80);
-
-        CartaJugador4_25.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_25.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_25);
-        CartaJugador4_25.setBounds(250, 390, 52, 80);
-
-        CartaJugador4_24.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_24.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_24);
-        CartaJugador4_24.setBounds(180, 480, 52, 80);
-
-        CartaJugador4_23.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_23.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_23);
-        CartaJugador4_23.setBounds(180, 390, 52, 80);
-
-        CartaJugador4_22.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_22.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_22);
-        CartaJugador4_22.setBounds(110, 480, 52, 80);
-
-        CartaJugador4_21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_21.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_21);
-        CartaJugador4_21.setBounds(110, 390, 52, 80);
-
-        Player42.setBackground(new java.awt.Color(100, 100, 100));
-        Player42.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Cartas_BG_4Player.png"))); // NOI18N
-        Player42.setText("jLabel1");
-        Player42.setOpaque(true);
-        jPanel1.add(Player42);
-        Player42.setBounds(50, 360, 360, 220);
-
-        CartaJugador4_17.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_17.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_17);
-        CartaJugador4_17.setBounds(320, 120, 52, 80);
-
-        CartaJugador4_16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_16.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_16);
-        CartaJugador4_16.setBounds(250, 170, 52, 80);
-
-        CartaJugador4_15.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_15.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_15);
-        CartaJugador4_15.setBounds(250, 80, 52, 80);
-
-        CartaJugador4_14.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_14.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_14);
-        CartaJugador4_14.setBounds(180, 170, 52, 80);
-
-        CartaJugador4_13.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_13.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_13);
-        CartaJugador4_13.setBounds(180, 80, 52, 80);
-
-        CartaJugador4_12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_12.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_12);
-        CartaJugador4_12.setBounds(110, 170, 52, 80);
-
-        CartaJugador4_11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
-        CartaJugador4_11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        jPanel1.add(CartaJugador4_11);
-        CartaJugador4_11.setBounds(110, 80, 52, 80);
-
-        Player41.setBackground(new java.awt.Color(80, 80, 80));
-        Player41.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/Cartas_BG_4Player.png"))); // NOI18N
-        Player41.setText("jLabel1");
-        Player41.setOpaque(true);
-        jPanel1.add(Player41);
-        Player41.setBounds(50, 60, 360, 220);
-
         CartaJugador2_11.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
         CartaJugador2_11.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.add(CartaJugador2_11);
@@ -1361,17 +1405,21 @@ public class TableroMain extends javax.swing.JFrame {
         jPanel1.add(Player21);
         Player21.setBounds(990, 210, 360, 220);
 
-        Timer.setBackground(new java.awt.Color(100, 100, 100));
+        Timer.setBackground(new java.awt.Color(255, 255, 255));
         Timer.setFont(new java.awt.Font("Yu Mincho", 1, 48)); // NOI18N
         Timer.setForeground(new java.awt.Color(0, 0, 0));
-        Timer.setText("00:00");
+        Timer.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        Timer.setText("  00:00");
+        Timer.setVerticalAlignment(javax.swing.SwingConstants.TOP);
+        Timer.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(255, 51, 51), 4));
+        Timer.setOpaque(true);
         Timer.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 TimerMouseClicked(evt);
             }
         });
         jPanel1.add(Timer);
-        Timer.setBounds(620, 780, 290, 130);
+        Timer.setBounds(1080, 780, 200, 130);
 
         Deck.setBackground(new java.awt.Color(100, 100, 100));
         Deck.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/back.png"))); // NOI18N
@@ -1383,6 +1431,11 @@ public class TableroMain extends javax.swing.JFrame {
         });
         jPanel1.add(Deck);
         Deck.setBounds(450, 790, 120, 80);
+
+        Divider_Placeholder.setBackground(new java.awt.Color(100, 100, 100));
+        Divider_Placeholder.setOpaque(true);
+        jPanel1.add(Divider_Placeholder);
+        Divider_Placeholder.setBounds(0, 0, 1460, 890);
 
         switch (Configuracion.cantidadJugador) {
             case "2 Jugadores":
@@ -1413,8 +1466,34 @@ public class TableroMain extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    public static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) {
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g = resizedImage.createGraphics();
+        g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
+        g.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        g.dispose();
+        return resizedImage;
+    }
+
     private Carta cartaCreada(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
         return new Carta(tipo, rango);
+    }
+
+    public int[] getPosicion(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
+        int[] position = new int[]{-1, -1};
+
+        for (int row = 0; row < casillas.length; row++) {
+            for (int col = 0; col < casillas[row].length; col++) {
+                Casilla casilla = casillas[row][col];
+                if (casilla.getTipo() == tipo && casilla.getRango() == rango) {
+                    position[0] = row;
+                    position[1] = col;
+                    break;
+                }
+            }
+        }
+
+        return position;
     }
 
     private class BoardMouseListener extends MouseAdapter {
@@ -1422,10 +1501,13 @@ public class TableroMain extends javax.swing.JFrame {
         @Override
         public void mouseClicked(MouseEvent e) {
             JLabel clickedLabel = (JLabel) e.getComponent();
-
             Carta carta = labelCartaMap.get(clickedLabel);
 
             if (carta != null) {
+                for (JLabel label : labelCartaMap.keySet()) {
+                    label.setBorder(new LineBorder(Color.black, 1));
+                }
+
                 String tipo = carta.getTipo().toString();
                 String rango = carta.getRango().toString();
                 clickedLabel.setBorder(new LineBorder(Color.yellow, 3));
@@ -1436,12 +1518,36 @@ public class TableroMain extends javax.swing.JFrame {
                     ManojoCartas.Rango casillaRank = Casilla.selectedButton.getRango();
 
                     if (tipo.equals(casillaType.toString()) && rango.equals(casillaRank.toString())) {
-                        System.out.println("Coinciden.");
-                        clickedLabel.setBorder(new LineBorder(Color.black, 1)); 
+
+                        ImageIcon icono = (ImageIcon) Casilla.selectedButton.getIcon();
+                        Image image = icono.getImage();
+                        Image resizedImage = image.getScaledInstance(110, 150, Image.SCALE_SMOOTH);
+                        ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                        UltimaCarta.setIcon(resizedIcon);
+                        UltimaCartaTexto.setText("ULTIMA CARTA: " + casillaType.toString() + " " + casillaRank.toString());
+
+                        Casilla.selectedButton.setBorder(new LineBorder(Color.black, 1));
                         Casilla.selectedButton.setIcon(new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_Amarillo.png")));
+                        int[] posicion = getPosicion(casillaType, casillaRank);
+                        int row = posicion[0];
+                        int col = posicion[1];
+                        casillas[row][col].setFicha();
+
+                        Carta nextCarta = manojo.siguienteCarta();
+                        clickedLabel.setIcon(manojo.getCardIcon(nextCarta.getTipo(), nextCarta.getRango()));
+                        labelCartaMap.put(clickedLabel, nextCarta);
+
+                        if (Logica.checkForWin()) {
+                            JOptionPane.showMessageDialog(null,"EL GANADOR ES....");
+                        } else {
+                            System.out.println("no gano");
+                        }
+
                         jPanel1.revalidate();
                         jPanel1.repaint();
-                        
+
+                        Logica.cambiarTurno();
+
                     } else {
                         System.out.println("No coinciden.");
                     }
@@ -1469,13 +1575,13 @@ public class TableroMain extends javax.swing.JFrame {
 
     }//GEN-LAST:event_DeckMouseClicked
 
+
     private void TimerMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TimerMouseClicked
         // TODO add your handling code here:
     }//GEN-LAST:event_TimerMouseClicked
 
     private void tablero1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablero1MouseClicked
 
-        
 
     }//GEN-LAST:event_tablero1MouseClicked
 
@@ -1668,6 +1774,8 @@ public class TableroMain extends javax.swing.JFrame {
     private javax.swing.JLabel Player87;
     private javax.swing.JLabel Player88;
     private javax.swing.JLabel Timer;
+    private javax.swing.JLabel UltimaCarta;
+    private javax.swing.JLabel UltimaCartaTexto;
     private javax.swing.JPanel jPanel1;
     private TABLERO.Tablero tablero1;
     // End of variables declaration//GEN-END:variables
