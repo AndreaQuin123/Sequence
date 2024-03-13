@@ -1,7 +1,9 @@
 package USUARIOS;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
@@ -144,6 +146,29 @@ public class UsuariosMetodos {
         } else {
             JOptionPane.showMessageDialog(null, "¡Usuario ya existe!", "ERROR EN VERIFICACIÓN", JOptionPane.OK_CANCEL_OPTION);
         }
+    }
+    
+    public List<Usuario> getUsuarios() throws IOException {
+        List<Usuario> userList = new ArrayList<>();
+        usuarios.seek(0);
+
+        try {
+            while (usuarios.getFilePointer() < usuarios.length()) {
+                int code = usuarios.readInt();
+                String name = usuarios.readUTF();
+                String user = usuarios.readUTF();
+                String password = usuarios.readUTF();
+                int puntos = usuarios.readInt();
+                long fechaCreacion = usuarios.readLong();
+
+                Usuario newUser = new Usuario(code, name, user, password);
+                userList.add(newUser);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(UsuariosMetodos.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return userList;
     }
 
     public void closeFile() {
