@@ -1,4 +1,3 @@
-
 package SWING;
 
 import USUARIOS.Usuario;
@@ -12,7 +11,13 @@ public class ElegirOponente extends javax.swing.JFrame {
 
     private UsuariosMetodos funcion;
     DefaultComboBoxModel<String> comboBoxModel;
-    
+    private String[] Equipo1 = {""};
+    private String[] Equipo2 = {""};
+    private String[] Equipo3 = {""};
+    int contadorEquipo1;
+    int contadorEquipo2;
+    int contadorEquipo3;
+
     public ElegirOponente() {
         funcion = funcion != null ? funcion : new UsuariosMetodos();
 
@@ -20,7 +25,7 @@ public class ElegirOponente extends javax.swing.JFrame {
         initComponents();
 
         setLocationRelativeTo(null);
-        
+
         Equipo1_2.setVisible(false);
         Equipo2_2.setVisible(false);
         Equipo1_3.setVisible(false);
@@ -77,12 +82,12 @@ public class ElegirOponente extends javax.swing.JFrame {
         usuariosEnComboBox();
 
     }
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        CrearBTN = new javax.swing.JButton();
         Equipo = new javax.swing.JComboBox<>();
         Miembro = new javax.swing.JComboBox<>();
         Equipo1_3 = new javax.swing.JPanel();
@@ -109,6 +114,15 @@ public class ElegirOponente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        CrearBTN.setBorder(null);
+        CrearBTN.setContentAreaFilled(false);
+        CrearBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CrearBTNActionPerformed(evt);
+            }
+        });
+        getContentPane().add(CrearBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 390, 180, 50));
 
         Equipo.setBackground(new java.awt.Color(255, 255, 255));
         Equipo.setForeground(new java.awt.Color(0, 0, 0));
@@ -202,6 +216,115 @@ public class ElegirOponente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void CrearBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CrearBTNActionPerformed
+        String miembroAgregado = (String) Miembro.getSelectedItem();
+        String equipoPerteneciente = (String) Equipo.getSelectedItem();
+
+        System.out.println(miembroAgregado + " " + equipoPerteneciente);
+
+        if (null != Configuracion.cantidadJugador) {
+            switch (Configuracion.cantidadJugador) {
+                case "2 Jugadores":
+                    if ((contadorEquipo1 < 1 && equipoPerteneciente.equals("EQUIPO 1"))
+                            || (contadorEquipo2 < 1 && equipoPerteneciente.equals("EQUIPO 2"))) {
+                        switch (equipoPerteneciente) {
+                            case "EQUIPO 1":
+                                TextArea21.setText(TextArea21.getText() + "\n" + miembroAgregado);
+                                contadorEquipo1++;
+                                break;
+                            case "EQUIPO 2":
+                                TextArea22.setText(TextArea22.getText() + "\n" + miembroAgregado);
+                                contadorEquipo2++;
+                                break;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ya no puede agregar miembros a este equipo.");
+                    }
+                    break;
+                case "4 Jugadores":
+                if ((contadorEquipo1 < 2 && equipoPerteneciente.equals("EQUIPO 1")) || 
+                    (contadorEquipo2 < 2 && equipoPerteneciente.equals("EQUIPO 2"))) {
+                        switch (equipoPerteneciente) {
+                            case "EQUIPO 1":
+                                TextArea21.setText(TextArea21.getText() + "\n" + miembroAgregado);
+                                contadorEquipo1++;
+                                break;
+                            case "EQUIPO 2":
+                                TextArea22.setText(TextArea22.getText() + "\n" + miembroAgregado);
+                                contadorEquipo2++;
+                                break;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ya no puede agregar miembros a este equipo.");
+                    }
+                    break;
+                case "8 Jugadores":
+                if ((contadorEquipo1 < 4 && equipoPerteneciente.equals("EQUIPO 1")) || 
+                    (contadorEquipo2 < 4 && equipoPerteneciente.equals("EQUIPO 2"))) {
+                        switch (equipoPerteneciente) {
+                            case "EQUIPO 1":
+                                TextArea21.setText(TextArea21.getText() + "\n" + miembroAgregado);
+                                contadorEquipo1++;
+                                break;
+                            case "EQUIPO 2":
+                                TextArea22.setText(TextArea22.getText() + "\n" + miembroAgregado);
+                                contadorEquipo2++;
+                                break;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ya no puede agregar miembros a este equipo.");
+                    }
+                    break;
+                case "3 Jugadores":
+                    if ((contadorEquipo1 < 1 && equipoPerteneciente.equals("EQUIPO 1"))
+                            || (contadorEquipo2 < 1 && equipoPerteneciente.equals("EQUIPO 2"))
+                            || (contadorEquipo3 < 1 && equipoPerteneciente.equals("EQUIPO 3"))) {
+                        switch (equipoPerteneciente) {
+                            case "EQUIPO 1":
+                                TextArea31.setText(TextArea31.getText() + "\n" + miembroAgregado);
+                                contadorEquipo1++;
+                                break;
+                            case "EQUIPO 2":
+                                TextArea32.setText(TextArea32.getText() + "\n" + miembroAgregado);
+                                contadorEquipo2++;
+                                break;
+                            case "EQUIPO 3":
+                                TextArea33.setText(TextArea33.getText() + "\n" + miembroAgregado);
+                                contadorEquipo3++;
+                                break;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ya no puede agregar miembros a este equipo.");
+                    }
+                    break;
+                case "6 Jugadores":
+                    if ((contadorEquipo1 < 2 && equipoPerteneciente.equals("EQUIPO 1"))
+                            || (contadorEquipo2 < 2 && equipoPerteneciente.equals("EQUIPO 2"))
+                            || (contadorEquipo3 < 2 && equipoPerteneciente.equals("EQUIPO 3"))) {
+                        switch (equipoPerteneciente) {
+                            case "EQUIPO 1":
+                                TextArea31.setText(TextArea31.getText() + "\n" + miembroAgregado);
+                                contadorEquipo1++;
+                                break;
+                            case "EQUIPO 2":
+                                TextArea32.setText(TextArea32.getText() + "\n" + miembroAgregado);
+                                contadorEquipo2++;
+                                break;
+                            case "EQUIPO 3":
+                                TextArea33.setText(TextArea33.getText() + "\n" + miembroAgregado);
+                                contadorEquipo3++;
+                                break;
+                        }
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Ya no puede agregar miembros a este equipo.");
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }//GEN-LAST:event_CrearBTNActionPerformed
+
     private void usuariosEnComboBox() {
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
         List<Usuario> users;
@@ -218,8 +341,7 @@ public class ElegirOponente extends javax.swing.JFrame {
         }
     }
 
-
-public static void main(String args[]) {
+    public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -252,6 +374,7 @@ public static void main(String args[]) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CrearBTN;
     private javax.swing.JComboBox<String> Equipo;
     private javax.swing.JPanel Equipo1_2;
     private javax.swing.JPanel Equipo1_3;
