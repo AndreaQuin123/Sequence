@@ -1,17 +1,21 @@
-
 package SWING;
 
-import TABLERO.TableroMain;
+import USUARIOS.Usuario;
 import USUARIOS.UsuariosMetodos;
-
+import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 public class MenuPrincipal extends javax.swing.JFrame {
 
     private UsuariosMetodos funcion;
 
     public MenuPrincipal(UsuariosMetodos metodo) {
-
         funcion = metodo != null ? metodo : new UsuariosMetodos();
+        Configuracion.cantidadJugador = Configuracion.cantidadJugador != null ? Configuracion.cantidadJugador : "4 Jugadores";
+
         initComponents();
         setLocationRelativeTo(null);
 
@@ -73,12 +77,31 @@ public class MenuPrincipal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void JugarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JugarBTNActionPerformed
+
         try {
-            TableroMain pasar = new TableroMain(funcion);
-            pasar.setVisible(true);
-            this.setVisible(false);
-        } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException e) {
-            e.printStackTrace();
+            List<Usuario> users = funcion.getUsuarios();
+
+            if (Configuracion.cantidadJugador.equals("2 Jugadores") && users.size() < 2) {
+                JOptionPane.showMessageDialog(null, "No hay suficiente jugadores para iniciar una partida con esta configuracion.");
+            } else if (Configuracion.cantidadJugador.equals("4 Jugadores") && users.size() < 4) {
+                JOptionPane.showMessageDialog(null, "No hay suficiente jugadores para iniciar una partida con esta configuracion.");
+
+            } else if (Configuracion.cantidadJugador.equals("8 Jugadores") && users.size() < 8) {
+                JOptionPane.showMessageDialog(null, "No hay suficiente jugadores para iniciar una partida con esta configuracion.");
+
+            } else if (Configuracion.cantidadJugador.equals("6 Jugadores") && users.size() < 6) {
+                JOptionPane.showMessageDialog(null, "No hay suficiente jugadores para iniciar una partida con esta configuracion.");
+
+            } else if (Configuracion.cantidadJugador.equals("3 Jugadores") && users.size() < 3) {
+                JOptionPane.showMessageDialog(null, "No hay suficiente jugadores para iniciar una partida con esta configuracion.");
+
+            } else {
+                ElegirOponente pasar = new ElegirOponente();
+                pasar.setVisible(true);
+                this.setVisible(false);
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(MenuPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_JugarBTNActionPerformed
 

@@ -1,24 +1,31 @@
 package SWING;
 
+import TABLERO.TableroMain;
 import USUARIOS.Usuario;
 import USUARIOS.UsuariosMetodos;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
 public class ElegirOponente extends javax.swing.JFrame {
 
     private UsuariosMetodos funcion;
+
+    //players es la lista para nosotros y el comboBox es para hacer el modelo para el combobox
+    public static ArrayList<String> players = new ArrayList<>();
     DefaultComboBoxModel<String> comboBoxModel;
-    private String[] Equipo1 = {""};
-    private String[] Equipo2 = {""};
-    private String[] Equipo3 = {""};
+    public static ArrayList<String> Equipo1 = new ArrayList<>();
+    public static ArrayList<String> Equipo2 = new ArrayList<>();
+    public static ArrayList<String> Equipo3 = new ArrayList<>();
     int contadorEquipo1;
     int contadorEquipo2;
     int contadorEquipo3;
 
-    public ElegirOponente() {
+    public ElegirOponente() throws IOException {
         funcion = funcion != null ? funcion : new UsuariosMetodos();
 
         Configuracion.cantidadJugador = Configuracion.cantidadJugador != null ? Configuracion.cantidadJugador : "4 Jugadores";
@@ -87,6 +94,8 @@ public class ElegirOponente extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        RegresarBTN = new javax.swing.JButton();
+        JugarBTN = new javax.swing.JButton();
         CrearBTN = new javax.swing.JButton();
         Equipo = new javax.swing.JComboBox<>();
         Miembro = new javax.swing.JComboBox<>();
@@ -114,6 +123,30 @@ public class ElegirOponente extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        RegresarBTN.setBackground(new java.awt.Color(245, 245, 245));
+        RegresarBTN.setFont(new java.awt.Font("Yu Gothic", 1, 18)); // NOI18N
+        RegresarBTN.setForeground(new java.awt.Color(0, 0, 0));
+        RegresarBTN.setText("REGRESAR");
+        RegresarBTN.setBorder(null);
+        RegresarBTN.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        RegresarBTN.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        RegresarBTN.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        RegresarBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RegresarBTNActionPerformed(evt);
+            }
+        });
+        getContentPane().add(RegresarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 340, 130, 40));
+
+        JugarBTN.setBorder(null);
+        JugarBTN.setContentAreaFilled(false);
+        JugarBTN.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                JugarBTNActionPerformed(evt);
+            }
+        });
+        getContentPane().add(JugarBTN, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 20, 180, 50));
 
         CrearBTN.setBorder(null);
         CrearBTN.setContentAreaFilled(false);
@@ -231,10 +264,14 @@ public class ElegirOponente extends javax.swing.JFrame {
                             case "EQUIPO 1":
                                 TextArea21.setText(TextArea21.getText() + "\n" + miembroAgregado);
                                 contadorEquipo1++;
+                                Equipo1.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                             case "EQUIPO 2":
                                 TextArea22.setText(TextArea22.getText() + "\n" + miembroAgregado);
                                 contadorEquipo2++;
+                                Equipo2.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                         }
                     } else {
@@ -242,16 +279,21 @@ public class ElegirOponente extends javax.swing.JFrame {
                     }
                     break;
                 case "4 Jugadores":
-                if ((contadorEquipo1 < 2 && equipoPerteneciente.equals("EQUIPO 1")) || 
-                    (contadorEquipo2 < 2 && equipoPerteneciente.equals("EQUIPO 2"))) {
+                    if ((contadorEquipo1 < 2 && equipoPerteneciente.equals("EQUIPO 1"))
+                            || (contadorEquipo2 < 2 && equipoPerteneciente.equals("EQUIPO 2"))) {
                         switch (equipoPerteneciente) {
                             case "EQUIPO 1":
                                 TextArea21.setText(TextArea21.getText() + "\n" + miembroAgregado);
                                 contadorEquipo1++;
+                                Equipo1.add(miembroAgregado);
+                                players.add(miembroAgregado);
+
                                 break;
                             case "EQUIPO 2":
                                 TextArea22.setText(TextArea22.getText() + "\n" + miembroAgregado);
                                 contadorEquipo2++;
+                                Equipo2.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                         }
                     } else {
@@ -259,16 +301,20 @@ public class ElegirOponente extends javax.swing.JFrame {
                     }
                     break;
                 case "8 Jugadores":
-                if ((contadorEquipo1 < 4 && equipoPerteneciente.equals("EQUIPO 1")) || 
-                    (contadorEquipo2 < 4 && equipoPerteneciente.equals("EQUIPO 2"))) {
+                    if ((contadorEquipo1 < 4 && equipoPerteneciente.equals("EQUIPO 1"))
+                            || (contadorEquipo2 < 4 && equipoPerteneciente.equals("EQUIPO 2"))) {
                         switch (equipoPerteneciente) {
                             case "EQUIPO 1":
                                 TextArea21.setText(TextArea21.getText() + "\n" + miembroAgregado);
                                 contadorEquipo1++;
+                                Equipo1.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                             case "EQUIPO 2":
                                 TextArea22.setText(TextArea22.getText() + "\n" + miembroAgregado);
                                 contadorEquipo2++;
+                                Equipo2.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                         }
                     } else {
@@ -283,14 +329,22 @@ public class ElegirOponente extends javax.swing.JFrame {
                             case "EQUIPO 1":
                                 TextArea31.setText(TextArea31.getText() + "\n" + miembroAgregado);
                                 contadorEquipo1++;
+                                Equipo1.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                             case "EQUIPO 2":
                                 TextArea32.setText(TextArea32.getText() + "\n" + miembroAgregado);
                                 contadorEquipo2++;
+                                Equipo2.add(miembroAgregado);
+                                 {
+                                    players.add(miembroAgregado);
+                                }
                                 break;
                             case "EQUIPO 3":
                                 TextArea33.setText(TextArea33.getText() + "\n" + miembroAgregado);
                                 contadorEquipo3++;
+                                Equipo3.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                         }
                     } else {
@@ -305,14 +359,20 @@ public class ElegirOponente extends javax.swing.JFrame {
                             case "EQUIPO 1":
                                 TextArea31.setText(TextArea31.getText() + "\n" + miembroAgregado);
                                 contadorEquipo1++;
+                                Equipo1.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                             case "EQUIPO 2":
                                 TextArea32.setText(TextArea32.getText() + "\n" + miembroAgregado);
                                 contadorEquipo2++;
+                                Equipo2.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                             case "EQUIPO 3":
                                 TextArea33.setText(TextArea33.getText() + "\n" + miembroAgregado);
                                 contadorEquipo3++;
+                                Equipo3.add(miembroAgregado);
+                                players.add(miembroAgregado);
                                 break;
                         }
                     } else {
@@ -324,6 +384,114 @@ public class ElegirOponente extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_CrearBTNActionPerformed
+
+    private void JugarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JugarBTNActionPerformed
+
+        if (Configuracion.cantidadJugador.equals("2 Jugadores")) {
+            if ((contadorEquipo1 < 1 || contadorEquipo2 < 1)) {
+                JOptionPane.showMessageDialog(null, "Por favor elegir los miembros de cada equipo.");
+            } else {
+                try {
+                    TableroMain pasar = new TableroMain(funcion);
+                    pasar.setVisible(true);
+                    this.setVisible(false);
+
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchFieldException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        if (Configuracion.cantidadJugador.equals("4 Jugadores")) {
+            if (contadorEquipo1 < 2 || contadorEquipo2 < 2) {
+                JOptionPane.showMessageDialog(null, "Por favor elegir los miembros de cada equipo.");
+            } else {
+                try {
+                    TableroMain pasar = new TableroMain(funcion);
+                    pasar.setVisible(true);
+                    this.setVisible(false);
+
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchFieldException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        if (Configuracion.cantidadJugador.equals("8 Jugadores")) {
+            if ((contadorEquipo1 < 4 || contadorEquipo2 < 4)) {
+                JOptionPane.showMessageDialog(null, "Por favor elegir los miembros de cada equipo.");
+            } else {
+                try {
+                    TableroMain pasar = new TableroMain(funcion);
+                    pasar.setVisible(true);
+                    this.setVisible(false);
+
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchFieldException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        if (Configuracion.cantidadJugador.equals("3 Jugadores")) {
+            if (contadorEquipo1 < 1 || contadorEquipo2 < 1 || contadorEquipo3 < 1) {
+                JOptionPane.showMessageDialog(null, "Por favor elegir los miembros de cada equipo.");
+            } else {
+                try {
+                    TableroMain pasar = new TableroMain(funcion);
+                    pasar.setVisible(true);
+                    this.setVisible(false);
+
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchFieldException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+        if (Configuracion.cantidadJugador.equals("6 Jugadores")) {
+            if (contadorEquipo1 < 2 || contadorEquipo2 < 2 || contadorEquipo3 < 2) {
+                JOptionPane.showMessageDialog(null, "Por favor elegir los miembros de cada equipo.");
+            } else {
+                try {
+                    TableroMain pasar = new TableroMain(funcion);
+                    pasar.setVisible(true);
+                    this.setVisible(false);
+
+                } catch (IllegalArgumentException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IllegalAccessException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (NoSuchFieldException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+
+
+    }//GEN-LAST:event_JugarBTNActionPerformed
+
+    private void RegresarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarBTNActionPerformed
+
+        MenuPrincipal pasar = new MenuPrincipal(funcion);
+        pasar.setVisible(true);
+        this.setVisible(false);
+
+    }//GEN-LAST:event_RegresarBTNActionPerformed
 
     private void usuariosEnComboBox() {
         DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
@@ -368,7 +536,11 @@ public class ElegirOponente extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new ElegirOponente().setVisible(true);
+                try {
+                    new ElegirOponente().setVisible(true);
+                } catch (IOException ex) {
+                    Logger.getLogger(ElegirOponente.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
         });
     }
@@ -381,7 +553,9 @@ public class ElegirOponente extends javax.swing.JFrame {
     private javax.swing.JPanel Equipo2_2;
     private javax.swing.JPanel Equipo2_3;
     private javax.swing.JPanel Equipo3_3;
+    private javax.swing.JButton JugarBTN;
     private javax.swing.JComboBox<String> Miembro;
+    private javax.swing.JButton RegresarBTN;
     private javax.swing.JTextArea TextArea21;
     private javax.swing.JTextArea TextArea22;
     private javax.swing.JTextArea TextArea31;

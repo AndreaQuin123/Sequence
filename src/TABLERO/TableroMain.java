@@ -1,6 +1,7 @@
 package TABLERO;
 
 import SWING.Configuracion;
+import SWING.ElegirOponente;
 import java.util.ArrayList;
 import java.util.List;
 import USUARIOS.UsuariosMetodos;
@@ -14,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
@@ -33,8 +35,9 @@ public class TableroMain extends javax.swing.JFrame {
     private int jugadores;
     private int turnoActual = 1;
     private final Map<JLabel, Carta> labelCartaMap = new HashMap<>();
-    private String[] players;
     static Casilla[][] casillas;
+    
+    String firstPlayer, secondPlayer, thirdPlayer, fourthPlayer, fifthPlayer, sixthPlayer, seventhPlayer, eighthPlayer;
 
     private UsuariosMetodos funcion;
     private Tablero Tablero;
@@ -42,11 +45,25 @@ public class TableroMain extends javax.swing.JFrame {
 
     public TableroMain(UsuariosMetodos metodo) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
         funcion = metodo != null ? metodo : new UsuariosMetodos();
-        Configuracion.cantidadJugador = Configuracion.cantidadJugador != null ? Configuracion.cantidadJugador : "4 Jugadores";
+        Configuracion.cantidadJugador = Configuracion.cantidadJugador != null ? Configuracion.cantidadJugador : "3 Jugadores";
         Configuracion.colorFicha = Configuracion.colorFicha != null ? Configuracion.colorFicha : "AMARILLO";
         Tablero = Tablero != null ? Tablero : new Tablero();
         casillas = Tablero.casillas;
-        
+
+        try {
+            ElegirOponente oponente = new ElegirOponente();
+        } catch (IOException ex) {
+            Logger.getLogger(TableroMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        ArrayList<String> players = Logica.players;
+
+        String jugadorActual = Logica.getPlayerActual();
+        TurnoJugador.setText(jugadorActual);
+
+        String equipoActual = Logica.getEquipoActual();
+        EquipoActual.setText(equipoActual);
+
         switch (Configuracion.cantidadJugador) {
             case "2 Jugadores":
                 jugadores = 2;
@@ -60,8 +77,6 @@ public class TableroMain extends javax.swing.JFrame {
                 jugadores = 8;
         }
 
-        players = new String[jugadores];
-
         Logica = Logica != null ? Logica : new LogicaJuego(players, casillas);
 
         manojo.reiniciarMazo();
@@ -71,176 +86,63 @@ public class TableroMain extends javax.swing.JFrame {
         tablero1.setVisible(false);
         Divider_Placeholder.setVisible(false);
 
-        // 2 JUGADORES ---------------------
-        CartaJugador2_11.setVisible(false);
-        CartaJugador2_12.setVisible(false);
-        CartaJugador2_13.setVisible(false);
-        CartaJugador2_14.setVisible(false);
-        CartaJugador2_15.setVisible(false);
-        CartaJugador2_16.setVisible(false);
-        CartaJugador2_17.setVisible(false);
+        escondarCartas();
+
         Player21.setVisible(false);
-        CartaJugador2_21.setVisible(false);
-        CartaJugador2_22.setVisible(false);
-        CartaJugador2_23.setVisible(false);
-        CartaJugador2_24.setVisible(false);
-        CartaJugador2_25.setVisible(false);
-        CartaJugador2_26.setVisible(false);
-        CartaJugador2_27.setVisible(false);
         Player22.setVisible(false);
 
         // 3 JUGADORES ---------------------
-        CartaJugador3_11.setVisible(false);
-        CartaJugador3_12.setVisible(false);
-        CartaJugador3_13.setVisible(false);
-        CartaJugador3_14.setVisible(false);
-        CartaJugador3_15.setVisible(false);
-        CartaJugador3_16.setVisible(false);
         Player31.setVisible(false);
-        CartaJugador3_21.setVisible(false);
-        CartaJugador3_22.setVisible(false);
-        CartaJugador3_23.setVisible(false);
-        CartaJugador3_24.setVisible(false);
-        CartaJugador3_25.setVisible(false);
-        CartaJugador3_26.setVisible(false);
         Player32.setVisible(false);
-        CartaJugador3_31.setVisible(false);
-        CartaJugador3_32.setVisible(false);
-        CartaJugador3_33.setVisible(false);
-        CartaJugador3_34.setVisible(false);
-        CartaJugador3_35.setVisible(false);
-        CartaJugador3_36.setVisible(false);
         Player33.setVisible(false);
 
         // 4 JUGADORES ---------------------
-        CartaJugador4_11.setVisible(false);
-        CartaJugador4_12.setVisible(false);
-        CartaJugador4_13.setVisible(false);
-        CartaJugador4_14.setVisible(false);
-        CartaJugador4_15.setVisible(false);
-        CartaJugador4_16.setVisible(false);
-        CartaJugador4_17.setVisible(false);
         Player41.setVisible(false);
-        CartaJugador4_21.setVisible(false);
-        CartaJugador4_22.setVisible(false);
-        CartaJugador4_23.setVisible(false);
-        CartaJugador4_24.setVisible(false);
-        CartaJugador4_25.setVisible(false);
-        CartaJugador4_26.setVisible(false);
-        CartaJugador4_27.setVisible(false);
         Player42.setVisible(false);
-        CartaJugador4_31.setVisible(false);
-        CartaJugador4_32.setVisible(false);
-        CartaJugador4_33.setVisible(false);
-        CartaJugador4_34.setVisible(false);
-        CartaJugador4_35.setVisible(false);
-        CartaJugador4_36.setVisible(false);
-        CartaJugador4_37.setVisible(false);
         Player43.setVisible(false);
-        CartaJugador4_41.setVisible(false);
-        CartaJugador4_42.setVisible(false);
-        CartaJugador4_43.setVisible(false);
-        CartaJugador4_44.setVisible(false);
-        CartaJugador4_45.setVisible(false);
-        CartaJugador4_46.setVisible(false);
-        CartaJugador4_47.setVisible(false);
         Player44.setVisible(false);
 
         // 6 JUGADORES ---------------------
-        CartaJugador6_11.setVisible(false);
-        CartaJugador6_12.setVisible(false);
-        CartaJugador6_13.setVisible(false);
-        CartaJugador6_14.setVisible(false);
-        CartaJugador6_15.setVisible(false);
         Player61.setVisible(false);
-        CartaJugador6_21.setVisible(false);
-        CartaJugador6_22.setVisible(false);
-        CartaJugador6_23.setVisible(false);
-        CartaJugador6_24.setVisible(false);
-        CartaJugador6_25.setVisible(false);
         Player62.setVisible(false);
-        CartaJugador6_31.setVisible(false);
-        CartaJugador6_32.setVisible(false);
-        CartaJugador6_33.setVisible(false);
-        CartaJugador6_34.setVisible(false);
-        CartaJugador6_35.setVisible(false);
         Player63.setVisible(false);
-        CartaJugador6_41.setVisible(false);
-        CartaJugador6_42.setVisible(false);
-        CartaJugador6_43.setVisible(false);
-        CartaJugador6_44.setVisible(false);
-        CartaJugador6_45.setVisible(false);
         Player64.setVisible(false);
-        CartaJugador6_51.setVisible(false);
-        CartaJugador6_52.setVisible(false);
-        CartaJugador6_53.setVisible(false);
-        CartaJugador6_54.setVisible(false);
-        CartaJugador6_55.setVisible(false);
         Player65.setVisible(false);
-        CartaJugador6_61.setVisible(false);
-        CartaJugador6_62.setVisible(false);
-        CartaJugador6_63.setVisible(false);
-        CartaJugador6_64.setVisible(false);
-        CartaJugador6_65.setVisible(false);
         Player66.setVisible(false);
 
         // 8 JUGADORES ---------------------
-        CartaJugador8_11.setVisible(false);
-        CartaJugador8_12.setVisible(false);
-        CartaJugador8_13.setVisible(false);
-        CartaJugador8_14.setVisible(false);
         Player81.setVisible(false);
-        CartaJugador8_21.setVisible(false);
-        CartaJugador8_22.setVisible(false);
-        CartaJugador8_23.setVisible(false);
-        CartaJugador8_24.setVisible(false);
         Player82.setVisible(false);
-        CartaJugador8_31.setVisible(false);
-        CartaJugador8_32.setVisible(false);
-        CartaJugador8_33.setVisible(false);
-        CartaJugador8_34.setVisible(false);
         Player83.setVisible(false);
-        CartaJugador8_41.setVisible(false);
-        CartaJugador8_42.setVisible(false);
-        CartaJugador8_43.setVisible(false);
-        CartaJugador8_44.setVisible(false);
         Player84.setVisible(false);
-        CartaJugador8_51.setVisible(false);
-        CartaJugador8_52.setVisible(false);
-        CartaJugador8_53.setVisible(false);
-        CartaJugador8_54.setVisible(false);
         Player85.setVisible(false);
-        CartaJugador8_61.setVisible(false);
-        CartaJugador8_62.setVisible(false);
-        CartaJugador8_63.setVisible(false);
-        CartaJugador8_64.setVisible(false);
         Player86.setVisible(false);
-        CartaJugador8_71.setVisible(false);
-        CartaJugador8_72.setVisible(false);
-        CartaJugador8_73.setVisible(false);
-        CartaJugador8_74.setVisible(false);
         Player87.setVisible(false);
-        CartaJugador8_81.setVisible(false);
-        CartaJugador8_82.setVisible(false);
-        CartaJugador8_83.setVisible(false);
-        CartaJugador8_84.setVisible(false);
         Player88.setVisible(false);
 
         switch (Configuracion.cantidadJugador) {
             case "2 Jugadores":
-                cartaEntregada = manojo.entregarCartas(14);
-                Player21.setVisible(true);
-                Player22.setVisible(true);
+                firstPlayer = players.get(0);
+                secondPlayer = players.get(1);
 
-                for (int i = 0; i < 14; i++) {
-                    int cardIndex = (i % 7) + 11 + (i / 7) * 10;
+                for (int i = 0; i < cartaEntregada.length; i++) {
+                    int cardIndex = (i % 4) + 11 + (i / 4) * 10;
+                    String labelName = String.format("CartaJugador2_" + cardIndex);
 
                     try {
-                        JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField("CartaJugador2_" + cardIndex).get(this);
+                        JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
                         cartaLabel.setVisible(true);
                         cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
 
+                        String owner;
+                        if (i < 7) {
+                            owner = firstPlayer;
+                        } else {
+                            owner = secondPlayer;
+                        }
+                        
                         Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        carta.setDueño(owner);
                         labelCartaMap.put(cartaLabel, carta);
 
                         MouseListener boardMouseListener = new BoardMouseListener();
@@ -253,8 +155,10 @@ public class TableroMain extends javax.swing.JFrame {
                 tablero1.setBounds(450, 10, 500, 740);
                 Deck.setBounds(520, 760, 120, 80);
                 Timer.setBounds(720, 790, 180, 80);
-                UltimaCarta.setBounds(180,620,110,150);
+                UltimaCarta.setBounds(180, 620, 110, 150);
                 UltimaCartaTexto.setBounds(10, 780, 550, 40);
+                EquipoActual.setBounds(1060, 800, 190, 40);
+                TurnoJugador.setBounds(990, 760, 240, 40);
                 tablero1.setVisible(true);
 
                 break;
@@ -262,6 +166,11 @@ public class TableroMain extends javax.swing.JFrame {
             case "3 Jugadores":
                 cartaEntregada = manojo.entregarCartas(18);
 
+                firstPlayer = players.get(0);
+                secondPlayer = players.get(1);
+                thirdPlayer = players.get(2);
+                
+                
                 Player31.setVisible(true);
                 Player32.setVisible(true);
                 Player33.setVisible(true);
@@ -276,7 +185,17 @@ public class TableroMain extends javax.swing.JFrame {
                         cartaLabel.setVisible(true);
                         cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
 
+                        String owner;
+                        if (i < 6) {
+                            owner = firstPlayer;
+                        } else if (i < 12) {
+                            owner = secondPlayer;
+                        } else {
+                            owner = thirdPlayer;
+                        }
+
                         Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        carta.setDueño(owner);
                         labelCartaMap.put(cartaLabel, carta);
 
                         MouseListener boardMouseListener = new BoardMouseListener();
@@ -287,18 +206,26 @@ public class TableroMain extends javax.swing.JFrame {
                 }
 
                 tablero1.setBounds(780, 30, 500, 740);
-                Deck.setBounds(500, 760, 120, 80);
-                Timer.setBounds(1080, 780,200,130);
-                UltimaCarta.setBounds(220,710,110,150);
-                UltimaCartaTexto.setBounds(350,770,550,40);
+                Deck.setBounds(450, 760, 120, 80);
+                Timer.setBounds(1080, 780, 200, 130);
+                UltimaCarta.setBounds(20, 710, 110, 150);
+                UltimaCartaTexto.setBounds(140, 770, 550, 40);
+                EquipoActual.setBounds(600, 770, 190, 40);
+                TurnoJugador.setBounds(600, 810, 240, 40);
 
-                
                 tablero1.setVisible(true);
 
                 break;
             case "4 Jugadores":
 
                 cartaEntregada = manojo.entregarCartas(28);
+                
+                
+                firstPlayer = players.get(0);
+                secondPlayer = players.get(1);
+                thirdPlayer = players.get(2);
+                fourthPlayer = players.get(3);
+                
                 Player41.setVisible(true);
                 Player42.setVisible(true);
                 Player43.setVisible(true);
@@ -313,7 +240,19 @@ public class TableroMain extends javax.swing.JFrame {
                         cartaLabel.setVisible(true);
                         cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
 
+                        String owner;
+                        if (i < 7) {
+                            owner = firstPlayer;
+                        } else if (i < 14) {
+                            owner = secondPlayer;
+                        } else if (i < 21) {
+                            owner = thirdPlayer;
+                        } else {
+                            owner = fourthPlayer;
+                        }
+
                         Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        carta.setDueño(owner);
                         labelCartaMap.put(cartaLabel, carta);
 
                         MouseListener boardMouseListener = new BoardMouseListener();
@@ -326,8 +265,10 @@ public class TableroMain extends javax.swing.JFrame {
                 tablero1.setBounds(450, 10, 500, 740);
                 Deck.setBounds(520, 760, 120, 80);
                 Timer.setBounds(720, 790, 180, 80);
-                UltimaCarta.setBounds(180,620,110,150);
+                UltimaCarta.setBounds(180, 620, 110, 150);
                 UltimaCartaTexto.setBounds(10, 780, 550, 40);
+                EquipoActual.setBounds(1060, 800, 190, 40);
+                TurnoJugador.setBounds(990, 760, 240, 40);
 
                 tablero1.setVisible(true);
 
@@ -335,6 +276,13 @@ public class TableroMain extends javax.swing.JFrame {
             case "6 Jugadores":
 
                 cartaEntregada = manojo.entregarCartas(30);
+
+                firstPlayer = players.get(0);
+                secondPlayer = players.get(1);
+                thirdPlayer = players.get(2);
+                fourthPlayer = players.get(3);
+                fifthPlayer = players.get(4);
+                sixthPlayer = players.get(5);
 
                 Player61.setVisible(true);
                 Player62.setVisible(true);
@@ -352,7 +300,23 @@ public class TableroMain extends javax.swing.JFrame {
                         cartaLabel.setVisible(true);
                         cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
 
+                                                String owner;
+                        if (i < 5) {
+                            owner = firstPlayer;
+                        } else if (i < 10) {
+                            owner = secondPlayer;
+                        } else if (i < 15) {
+                            owner = thirdPlayer;
+                        } else if (i<20) {
+                            owner = fourthPlayer;
+                        } else if (i<25) {
+                            owner = fifthPlayer;
+                        } else {
+                            owner = sixthPlayer;
+                        }
+
                         Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        carta.setDueño(owner);
                         labelCartaMap.put(cartaLabel, carta);
 
                         MouseListener boardMouseListener = new BoardMouseListener();
@@ -364,9 +328,11 @@ public class TableroMain extends javax.swing.JFrame {
 
                 tablero1.setBounds(780, 30, 500, 740);
                 Deck.setBounds(500, 760, 120, 80);
-                Timer.setBounds(1080, 780,200,130);
-                UltimaCarta.setBounds(220,710,110,150);
-                UltimaCartaTexto.setBounds(350,770,550,40);
+                Timer.setBounds(1080, 780, 200, 130);
+                UltimaCarta.setBounds(20, 710, 110, 150);
+                UltimaCartaTexto.setBounds(140, 770, 550, 40);
+                EquipoActual.setBounds(600, 790, 190, 40);
+                TurnoJugador.setBounds(600, 830, 240, 40);
 
                 tablero1.setVisible(true);
 
@@ -374,6 +340,15 @@ public class TableroMain extends javax.swing.JFrame {
             case "8 Jugadores":
 
                 cartaEntregada = manojo.entregarCartas(32);
+
+                firstPlayer = players.get(0);
+                secondPlayer = players.get(1);
+                thirdPlayer = players.get(2);
+                fourthPlayer = players.get(3);
+                fifthPlayer = players.get(4);
+                sixthPlayer = players.get(5);
+                seventhPlayer = players.get(6);
+                eighthPlayer = players.get(7);
 
                 Player81.setVisible(true);
                 Player82.setVisible(true);
@@ -392,8 +367,27 @@ public class TableroMain extends javax.swing.JFrame {
                         JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
                         cartaLabel.setVisible(true);
                         cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
+                                                String owner;
+                        if (i < 4) {
+                            owner = firstPlayer;
+                        } else if (i < 8) {
+                            owner = secondPlayer;
+                        } else if (i < 12) {
+                            owner = thirdPlayer;
+                        } else if (i < 16) {
+                            owner = fourthPlayer;
+                        } else if (i < 20) {
+                            owner = fifthPlayer;
+                        } else if (i < 24) {
+                            owner = sixthPlayer;
+                        } else if (i < 28) {
+                            owner = seventhPlayer;
+                        } else {
+                            owner = eighthPlayer;
+                        }
 
                         Carta carta = cartaCreada(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango());
+                        carta.setDueño(owner);
                         labelCartaMap.put(cartaLabel, carta);
 
                         MouseListener boardMouseListener = new BoardMouseListener();
@@ -406,9 +400,11 @@ public class TableroMain extends javax.swing.JFrame {
                 tablero1.setBounds(450, 10, 500, 740);
                 Deck.setBounds(520, 760, 120, 80);
                 Timer.setBounds(720, 790, 180, 80);
-                UltimaCarta.setBounds(180,620,110,150);
+                UltimaCarta.setBounds(180, 620, 110, 150);
                 UltimaCartaTexto.setBounds(10, 780, 550, 40);
-                
+                EquipoActual.setBounds(1060, 800, 190, 40);
+                TurnoJugador.setBounds(990, 760, 240, 40);
+
                 tablero1.setVisible(true);
 
                 break;
@@ -454,6 +450,8 @@ public class TableroMain extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         tablero1 = new TABLERO.Tablero();
+        TurnoJugador = new javax.swing.JLabel();
+        EquipoActual = new javax.swing.JLabel();
         UltimaCarta = new javax.swing.JLabel();
         UltimaCartaTexto = new javax.swing.JLabel();
         CartaJugador4_47 = new javax.swing.JLabel();
@@ -631,14 +629,24 @@ public class TableroMain extends javax.swing.JFrame {
         jPanel1.add(tablero1);
         tablero1.setBounds(780, 30, 500, 740);
 
+        TurnoJugador.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
+        TurnoJugador.setText("JUGADOR ACTUAL:");
+        jPanel1.add(TurnoJugador);
+        TurnoJugador.setBounds(600, 770, 240, 40);
+
+        EquipoActual.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
+        EquipoActual.setText("EQUIPO ACTUAL");
+        jPanel1.add(EquipoActual);
+        EquipoActual.setBounds(600, 810, 190, 40);
+
         UltimaCarta.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
         jPanel1.add(UltimaCarta);
-        UltimaCarta.setBounds(180, 610, 110, 150);
+        UltimaCarta.setBounds(20, 710, 110, 150);
 
-        UltimaCartaTexto.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
+        UltimaCartaTexto.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 18)); // NOI18N
         UltimaCartaTexto.setText("ULTIMA CARTA: ");
         jPanel1.add(UltimaCartaTexto);
-        UltimaCartaTexto.setBounds(10, 780, 550, 40);
+        UltimaCartaTexto.setBounds(140, 810, 200, 40);
 
         CartaJugador4_47.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_clubs.png"))); // NOI18N
         CartaJugador4_47.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
@@ -1527,7 +1535,7 @@ public class TableroMain extends javax.swing.JFrame {
                         UltimaCartaTexto.setText("ULTIMA CARTA: " + casillaType.toString() + " " + casillaRank.toString());
 
                         Casilla.selectedButton.setBorder(new LineBorder(Color.black, 1));
-                        Casilla.selectedButton.setIcon(new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_Amarillo.png")));
+                        Casilla.selectedButton.setIcon(Logica.fichaActual);
                         int[] posicion = getPosicion(casillaType, casillaRank);
                         int row = posicion[0];
                         int col = posicion[1];
@@ -1538,10 +1546,16 @@ public class TableroMain extends javax.swing.JFrame {
                         labelCartaMap.put(clickedLabel, nextCarta);
 
                         if (Logica.checkForWin()) {
-                            JOptionPane.showMessageDialog(null,"EL GANADOR ES....");
+                            JOptionPane.showMessageDialog(null, "EL GANADOR ES...." + Logica.equipoActual + "!!");
                         } else {
                             System.out.println("no gano");
                         }
+
+                        String jugadorActual = Logica.getPlayerActual();
+                        TurnoJugador.setText(jugadorActual);
+
+                        String equipoActual = Logica.getEquipoActual();
+                        EquipoActual.setText(equipoActual);
 
                         jPanel1.revalidate();
                         jPanel1.repaint();
@@ -1557,6 +1571,411 @@ public class TableroMain extends javax.swing.JFrame {
                 }
             }
         }
+    }
+
+    public void escondarCartas() {
+        // 2 JUGADORES ---------------------
+        CartaJugador2_11.setVisible(false);
+        CartaJugador2_12.setVisible(false);
+        CartaJugador2_13.setVisible(false);
+        CartaJugador2_14.setVisible(false);
+        CartaJugador2_15.setVisible(false);
+        CartaJugador2_16.setVisible(false);
+        CartaJugador2_17.setVisible(false);
+
+        CartaJugador2_21.setVisible(false);
+        CartaJugador2_22.setVisible(false);
+        CartaJugador2_23.setVisible(false);
+        CartaJugador2_24.setVisible(false);
+        CartaJugador2_25.setVisible(false);
+        CartaJugador2_26.setVisible(false);
+        CartaJugador2_27.setVisible(false);
+
+        // 3 JUGADORES ---------------------
+        CartaJugador3_11.setVisible(false);
+        CartaJugador3_12.setVisible(false);
+        CartaJugador3_13.setVisible(false);
+        CartaJugador3_14.setVisible(false);
+        CartaJugador3_15.setVisible(false);
+        CartaJugador3_16.setVisible(false);
+
+        CartaJugador3_21.setVisible(false);
+        CartaJugador3_22.setVisible(false);
+        CartaJugador3_23.setVisible(false);
+        CartaJugador3_24.setVisible(false);
+        CartaJugador3_25.setVisible(false);
+        CartaJugador3_26.setVisible(false);
+
+        CartaJugador3_31.setVisible(false);
+        CartaJugador3_32.setVisible(false);
+        CartaJugador3_33.setVisible(false);
+        CartaJugador3_34.setVisible(false);
+        CartaJugador3_35.setVisible(false);
+        CartaJugador3_36.setVisible(false);
+
+        // 4 JUGADORES ---------------------
+        CartaJugador4_11.setVisible(false);
+        CartaJugador4_12.setVisible(false);
+        CartaJugador4_13.setVisible(false);
+        CartaJugador4_14.setVisible(false);
+        CartaJugador4_15.setVisible(false);
+        CartaJugador4_16.setVisible(false);
+        CartaJugador4_17.setVisible(false);
+
+        CartaJugador4_21.setVisible(false);
+        CartaJugador4_22.setVisible(false);
+        CartaJugador4_23.setVisible(false);
+        CartaJugador4_24.setVisible(false);
+        CartaJugador4_25.setVisible(false);
+        CartaJugador4_26.setVisible(false);
+        CartaJugador4_27.setVisible(false);
+
+        CartaJugador4_31.setVisible(false);
+        CartaJugador4_32.setVisible(false);
+        CartaJugador4_33.setVisible(false);
+        CartaJugador4_34.setVisible(false);
+        CartaJugador4_35.setVisible(false);
+        CartaJugador4_36.setVisible(false);
+        CartaJugador4_37.setVisible(false);
+
+        CartaJugador4_41.setVisible(false);
+        CartaJugador4_42.setVisible(false);
+        CartaJugador4_43.setVisible(false);
+        CartaJugador4_44.setVisible(false);
+        CartaJugador4_45.setVisible(false);
+        CartaJugador4_46.setVisible(false);
+        CartaJugador4_47.setVisible(false);
+
+        // 6 JUGADORES ---------------------
+        CartaJugador6_11.setVisible(false);
+        CartaJugador6_12.setVisible(false);
+        CartaJugador6_13.setVisible(false);
+        CartaJugador6_14.setVisible(false);
+        CartaJugador6_15.setVisible(false);
+
+        CartaJugador6_21.setVisible(false);
+        CartaJugador6_22.setVisible(false);
+        CartaJugador6_23.setVisible(false);
+        CartaJugador6_24.setVisible(false);
+        CartaJugador6_25.setVisible(false);
+
+        CartaJugador6_31.setVisible(false);
+        CartaJugador6_32.setVisible(false);
+        CartaJugador6_33.setVisible(false);
+        CartaJugador6_34.setVisible(false);
+        CartaJugador6_35.setVisible(false);
+
+        CartaJugador6_41.setVisible(false);
+        CartaJugador6_42.setVisible(false);
+        CartaJugador6_43.setVisible(false);
+        CartaJugador6_44.setVisible(false);
+        CartaJugador6_45.setVisible(false);
+
+        CartaJugador6_51.setVisible(false);
+        CartaJugador6_52.setVisible(false);
+        CartaJugador6_53.setVisible(false);
+        CartaJugador6_54.setVisible(false);
+        CartaJugador6_55.setVisible(false);
+
+        CartaJugador6_61.setVisible(false);
+        CartaJugador6_62.setVisible(false);
+        CartaJugador6_63.setVisible(false);
+        CartaJugador6_64.setVisible(false);
+        CartaJugador6_65.setVisible(false);
+
+        // 8 JUGADORES ---------------------
+        CartaJugador8_11.setVisible(false);
+        CartaJugador8_12.setVisible(false);
+        CartaJugador8_13.setVisible(false);
+        CartaJugador8_14.setVisible(false);
+
+        CartaJugador8_21.setVisible(false);
+        CartaJugador8_22.setVisible(false);
+        CartaJugador8_23.setVisible(false);
+        CartaJugador8_24.setVisible(false);
+
+        CartaJugador8_31.setVisible(false);
+        CartaJugador8_32.setVisible(false);
+        CartaJugador8_33.setVisible(false);
+        CartaJugador8_34.setVisible(false);
+
+        CartaJugador8_41.setVisible(false);
+        CartaJugador8_42.setVisible(false);
+        CartaJugador8_43.setVisible(false);
+        CartaJugador8_44.setVisible(false);
+
+        CartaJugador8_51.setVisible(false);
+        CartaJugador8_52.setVisible(false);
+        CartaJugador8_53.setVisible(false);
+        CartaJugador8_54.setVisible(false);
+
+        CartaJugador8_61.setVisible(false);
+        CartaJugador8_62.setVisible(false);
+        CartaJugador8_63.setVisible(false);
+        CartaJugador8_64.setVisible(false);
+
+        CartaJugador8_71.setVisible(false);
+        CartaJugador8_72.setVisible(false);
+        CartaJugador8_73.setVisible(false);
+        CartaJugador8_74.setVisible(false);
+
+        CartaJugador8_81.setVisible(false);
+        CartaJugador8_82.setVisible(false);
+        CartaJugador8_83.setVisible(false);
+        CartaJugador8_84.setVisible(false);
+
+    }
+
+    public void mostrarCartas1() {
+
+        escondarCartas();
+
+        switch (Configuracion.cantidadJugador) { 
+            case "2 Jugadores":
+                CartaJugador2_11.setVisible(true);
+                CartaJugador2_12.setVisible(true);
+                CartaJugador2_13.setVisible(true);
+                CartaJugador2_14.setVisible(true);
+                CartaJugador2_15.setVisible(true);
+                CartaJugador2_16.setVisible(true);
+                CartaJugador2_17.setVisible(true);
+
+            case "3 Jugadores":
+                CartaJugador3_11.setVisible(true);
+                CartaJugador3_12.setVisible(true);
+                CartaJugador3_13.setVisible(true);
+                CartaJugador3_14.setVisible(true);
+                CartaJugador3_15.setVisible(true);
+                CartaJugador3_16.setVisible(true);
+
+            case "4 Jugadores":
+                CartaJugador4_11.setVisible(true);
+                CartaJugador4_12.setVisible(true);
+                CartaJugador4_13.setVisible(true);
+                CartaJugador4_14.setVisible(true);
+                CartaJugador4_15.setVisible(true);
+                CartaJugador4_16.setVisible(true);
+                CartaJugador4_17.setVisible(true);
+
+            case "6 Jugadores":
+                CartaJugador6_11.setVisible(true);
+                CartaJugador6_12.setVisible(true);
+                CartaJugador6_13.setVisible(true);
+                CartaJugador6_14.setVisible(true);
+                CartaJugador6_15.setVisible(true);
+
+            case "8 Jugadores":
+                CartaJugador8_11.setVisible(true);
+                CartaJugador8_12.setVisible(true);
+                CartaJugador8_13.setVisible(true);
+                CartaJugador8_14.setVisible(true);
+
+        }
+
+    }
+
+    public void mostrarCartas2() {
+       escondarCartas();
+
+        switch (Configuracion.cantidadJugador) { 
+            case "2 Jugadores":
+                CartaJugador2_21.setVisible(true);
+                CartaJugador2_22.setVisible(true);
+                CartaJugador2_23.setVisible(true);
+                CartaJugador2_24.setVisible(true);
+                CartaJugador2_25.setVisible(true);
+                CartaJugador2_26.setVisible(true);
+                CartaJugador2_27.setVisible(true);
+
+            case "3 Jugadores":
+                CartaJugador3_21.setVisible(true);
+                CartaJugador3_22.setVisible(true);
+                CartaJugador3_23.setVisible(true);
+                CartaJugador3_24.setVisible(true);
+                CartaJugador3_25.setVisible(true);
+                CartaJugador3_26.setVisible(true);
+
+            case "4 Jugadores":
+                CartaJugador4_21.setVisible(true);
+                CartaJugador4_22.setVisible(true);
+                CartaJugador4_23.setVisible(true);
+                CartaJugador4_24.setVisible(true);
+                CartaJugador4_25.setVisible(true);
+                CartaJugador4_26.setVisible(true);
+                CartaJugador4_27.setVisible(true);
+
+            case "6 Jugadores":
+                CartaJugador6_21.setVisible(false);
+                CartaJugador6_22.setVisible(false);
+                CartaJugador6_23.setVisible(false);
+                CartaJugador6_24.setVisible(false);
+                CartaJugador6_25.setVisible(false);
+                
+            case "8 Jugadores":
+                CartaJugador8_21.setVisible(false);
+                CartaJugador8_22.setVisible(false);
+                CartaJugador8_23.setVisible(false);
+                CartaJugador8_24.setVisible(false);
+
+        }
+
+    }
+
+    public void mostrarCartas3() {
+       escondarCartas();
+
+        switch (Configuracion.cantidadJugador) { 
+            case "3 Jugadores":
+                CartaJugador3_31.setVisible(true);
+                CartaJugador3_32.setVisible(true);
+                CartaJugador3_33.setVisible(true);
+                CartaJugador3_34.setVisible(true);
+                CartaJugador3_35.setVisible(true);
+                CartaJugador3_36.setVisible(true);
+
+            case "4 Jugadores":
+                CartaJugador4_31.setVisible(true);
+                CartaJugador4_32.setVisible(true);
+                CartaJugador4_33.setVisible(true);
+                CartaJugador4_34.setVisible(true);
+                CartaJugador4_35.setVisible(true);
+                CartaJugador4_36.setVisible(true);
+                CartaJugador4_37.setVisible(true);
+
+            case "6 Jugadores":
+                CartaJugador6_31.setVisible(true);
+                CartaJugador6_32.setVisible(true);
+                CartaJugador6_33.setVisible(true);
+                CartaJugador6_34.setVisible(true);
+                CartaJugador6_35.setVisible(true);
+               
+            case "8 Jugadores":
+                CartaJugador8_31.setVisible(true);
+                CartaJugador8_32.setVisible(true);
+                CartaJugador8_33.setVisible(true);
+                CartaJugador8_34.setVisible(true);
+
+        }
+    }
+
+    public void mostrarCartas4() {
+      escondarCartas();
+
+        switch (Configuracion.cantidadJugador) { 
+
+            case "4 Jugadores":
+                CartaJugador4_41.setVisible(true);
+                CartaJugador4_42.setVisible(true);
+                CartaJugador4_43.setVisible(true);
+                CartaJugador4_44.setVisible(true);
+                CartaJugador4_45.setVisible(true);
+                CartaJugador4_46.setVisible(true);
+                CartaJugador4_47.setVisible(true);
+
+            case "6 Jugadores":
+                CartaJugador6_41.setVisible(true);
+                CartaJugador6_42.setVisible(true);
+                CartaJugador6_43.setVisible(true);
+                CartaJugador6_44.setVisible(true);
+                CartaJugador6_45.setVisible(true);
+               
+            case "8 Jugadores":
+                CartaJugador8_41.setVisible(true);
+                CartaJugador8_42.setVisible(true);
+                CartaJugador8_43.setVisible(true);
+                CartaJugador8_44.setVisible(true);
+
+        }
+   
+    }
+
+    public void mostrarCartas5() {
+      escondarCartas();
+
+        switch (Configuracion.cantidadJugador) { 
+
+            case "6 Jugadores":
+                CartaJugador6_51.setVisible(true);
+                CartaJugador6_52.setVisible(true);
+                CartaJugador6_53.setVisible(true);
+                CartaJugador6_54.setVisible(true);
+                CartaJugador6_55.setVisible(true);
+               
+            case "8 Jugadores":
+                CartaJugador8_51.setVisible(true);
+                CartaJugador8_52.setVisible(true);
+                CartaJugador8_53.setVisible(true);
+                CartaJugador8_54.setVisible(true);
+
+        }
+    }
+
+    public void mostrarCartas6() {
+      escondarCartas();
+
+        switch (Configuracion.cantidadJugador) { 
+
+            case "6 Jugadores":
+                CartaJugador6_61.setVisible(true);
+                CartaJugador6_62.setVisible(true);
+                CartaJugador6_63.setVisible(true);
+                CartaJugador6_64.setVisible(true);
+                CartaJugador6_65.setVisible(true);
+               
+            case "8 Jugadores":
+                CartaJugador8_61.setVisible(true);
+                CartaJugador8_62.setVisible(true);
+                CartaJugador8_63.setVisible(true);
+                CartaJugador8_64.setVisible(true);
+
+        }
+    }
+
+    public void mostrarCartas7() {
+      escondarCartas();
+
+        switch (Configuracion.cantidadJugador) {
+               
+            case "8 Jugadores":
+                CartaJugador8_71.setVisible(true);
+                CartaJugador8_72.setVisible(true);
+                CartaJugador8_73.setVisible(true);
+                CartaJugador8_74.setVisible(true);
+
+        }
+    }
+
+    public void mostrarCartas8() {
+      escondarCartas();
+
+        switch (Configuracion.cantidadJugador) { 
+               
+            case "8 Jugadores":
+                CartaJugador8_81.setVisible(true);
+                CartaJugador8_82.setVisible(true);
+                CartaJugador8_83.setVisible(true);
+                CartaJugador8_84.setVisible(true);
+
+        }
+    }
+
+    public boolean verificarTurno(ActionEvent e) {
+        JLabel clickedLabel = (JLabel) e.getSource();
+
+        Carta carta = labelCartaMap.get(clickedLabel);
+        if (carta != null) {
+            String owner = carta.getDueño();
+
+            String currentPlayer = Logica.getPlayerActual();
+
+            if (owner.equals(currentPlayer)) {
+                return true;
+            } else {
+                JOptionPane.showMessageDialog(null, "No es su turno!");
+                return false;
+            }
+        }
+        return false;
     }
 
     private void DeckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeckMouseClicked
@@ -1750,6 +2169,7 @@ public class TableroMain extends javax.swing.JFrame {
     private javax.swing.JLabel CartaJugador8_84;
     private javax.swing.JLabel Deck;
     private javax.swing.JLabel Divider_Placeholder;
+    private javax.swing.JLabel EquipoActual;
     private javax.swing.JLabel Player21;
     private javax.swing.JLabel Player22;
     private javax.swing.JLabel Player31;
@@ -1774,6 +2194,7 @@ public class TableroMain extends javax.swing.JFrame {
     private javax.swing.JLabel Player87;
     private javax.swing.JLabel Player88;
     private javax.swing.JLabel Timer;
+    private javax.swing.JLabel TurnoJugador;
     private javax.swing.JLabel UltimaCarta;
     private javax.swing.JLabel UltimaCartaTexto;
     private javax.swing.JPanel jPanel1;

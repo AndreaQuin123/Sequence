@@ -7,10 +7,12 @@ public class Carta {
 
     private Tipo tipo;
     private Rango rango;
+    private String dueño;
 
     public Carta(Tipo tipo, Rango rango) {
         this.tipo = tipo;
         this.rango = rango;
+        this.dueño = dueño;
 
     }
 
@@ -26,6 +28,14 @@ public class Carta {
 
     public ManojoCartas.Rango getRango() {
         return rango;
+    }
+    
+    public void setDueño(String dueño){
+        this.dueño = dueño;
+    }
+    
+        public String getDueño(){
+        return dueño;
     }
 
 }
