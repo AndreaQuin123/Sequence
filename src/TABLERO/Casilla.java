@@ -13,7 +13,10 @@ public class Casilla extends JButton {
     static Casilla selectedButton;
     private ManojoCartas.Tipo tipo;
     private ManojoCartas.Rango rango;
-    private boolean tieneFicha; 
+    private String equipo;
+    boolean hasBlock;
+    private boolean isItBlocked;
+    private boolean tieneFicha;
 
     public Casilla(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
         setContentAreaFilled(true);
@@ -22,9 +25,14 @@ public class Casilla extends JButton {
 
         this.tipo = tipo;
         this.rango=rango;
-        this.tieneFicha=false;
-        
-        
+        this.tieneFicha = false;
+        this.equipo = "";
+        this.hasBlock = false;
+
+        if (rango == ManojoCartas.Rango.JOTA) {
+           this.hasBlock = true;
+        }
+
         addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -35,10 +43,7 @@ public class Casilla extends JButton {
                 setBorder(new LineBorder(Color.YELLOW, 3));
 
                 selectedButton = Casilla.this;
-                
-                System.out.println("Este SOUT se encuentra en la clase de Casilla:"+selectedButton.getTipo() + " " + selectedButton.getRango());
-
-                
+              
                 
             }
         });
@@ -68,5 +73,23 @@ public class Casilla extends JButton {
         this.tieneFicha = true;
 
     }
+    
+        public String getEquipo() {
+        return equipo;
+    }
+
+    public void setEquipo(String equipo) {
+        this.equipo = equipo;
+    }
+    
+    public boolean getBlockStatus(){
+        return isItBlocked;
+    }
+    
+    public void setBlockStatus(){
+        this.isItBlocked = true;
+    }
+    
+    
 
 }

@@ -1,21 +1,22 @@
-
 package SWING;
 
 import USUARIOS.UsuariosMetodos;
 import java.io.IOException;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 public class Login extends javax.swing.JFrame {
 
     private UsuariosMetodos funcion;
+    public static String usuarioLoggedIn;
     boolean escondido = true;
 
     public Login(UsuariosMetodos metodo) {
 
         funcion = metodo != null ? metodo : new UsuariosMetodos();
         initComponents();
-        
+
         setLocationRelativeTo(null);
     }
 
@@ -103,11 +104,15 @@ public class Login extends javax.swing.JFrame {
             boolean existe = funcion.revisarContraseña(usuario, contraseña);
 
             if (existe) {
-                
+
+                usuarioLoggedIn = usuario;
+
                 MenuPrincipal pasar = new MenuPrincipal(funcion);
                 pasar.setVisible(true);
                 this.setVisible(false);
-                
+
+            } else {
+                JOptionPane.showMessageDialog(null, "La contraseña o usuario estan incorrectas.");
             }
 
         } catch (IOException ex) {
@@ -124,9 +129,8 @@ public class Login extends javax.swing.JFrame {
     private void ContraseñaStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContraseñaStatusMouseClicked
 
         //STACK OVERFLOW MY BELOVED, GRACIAS.
-
         if (escondido) {
-            ContraseñaTextbox.setEchoChar((char)0);
+            ContraseñaTextbox.setEchoChar((char) 0);
             Icon icon = new ImageIcon(getClass().getClassLoader().getResource("IMAGES/ShowPassword_IconResize.png"));
             ContraseñaStatus.setIcon(icon);
             escondido = false;

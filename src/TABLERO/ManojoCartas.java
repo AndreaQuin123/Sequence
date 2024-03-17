@@ -53,7 +53,7 @@ public final class ManojoCartas {
     Inicializa la baraja y se asegura de poner cada tarjeta dos veces en la baraja y los ochos comodines / cartas de jack.
      */
     public void inicializarBaraja() {
-        numCartas = (4 * 13)*2 + 8;
+        numCartas = (4 * 13)*2;
         cartas = new Carta[numCartas];
         int index = 0;
 
@@ -71,10 +71,6 @@ public final class ManojoCartas {
                     cartas[index++] = new Carta(tipo, rango);
                 }
             }
-        }
-
-        for (int i = 0; i < 8; i++) {
-            cartas[index++] = new Carta(Tipo.COMODIN, Rango.COMODIN);
         }
     }
 

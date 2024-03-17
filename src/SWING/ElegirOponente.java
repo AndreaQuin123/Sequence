@@ -253,7 +253,31 @@ public class ElegirOponente extends javax.swing.JFrame {
         String miembroAgregado = (String) Miembro.getSelectedItem();
         String equipoPerteneciente = (String) Equipo.getSelectedItem();
 
-        System.out.println(miembroAgregado + " " + equipoPerteneciente);
+        if (!miembroAgregado.equals(Login.usuarioLoggedIn) && (!(Equipo1.contains(Login.usuarioLoggedIn) || Equipo2.contains(Login.usuarioLoggedIn) || Equipo3.contains(Login.usuarioLoggedIn)))) {
+            JOptionPane.showMessageDialog(null, "El usuario actual no está en ninguno de los equipos.");
+            return;
+        }
+
+        switch (equipoPerteneciente) {
+            case "EQUIPO 1":
+                if (Equipo1.contains(miembroAgregado) || Equipo2.contains(miembroAgregado) || Equipo3.contains(miembroAgregado) ) {
+                    JOptionPane.showMessageDialog(null, "Este miembro ya se encuentra en otro equipo.");
+                    return;
+                }
+                break;
+            case "EQUIPO 2":
+                if (Equipo1.contains(miembroAgregado) || Equipo2.contains(miembroAgregado) || Equipo3.contains(miembroAgregado) ) {
+                    JOptionPane.showMessageDialog(null, "Este miembro ya se encuentra en otro equipo.");
+                    return;
+                }
+                break;
+            case "EQUIPO 3":
+                if (Equipo1.contains(miembroAgregado) || Equipo2.contains(miembroAgregado) || Equipo3.contains(miembroAgregado) ) {
+                    JOptionPane.showMessageDialog(null, "Este miembro ya se encuentra en otro equipo.");
+                    return;
+                }
+                break;
+        }
 
         if (null != Configuracion.cantidadJugador) {
             switch (Configuracion.cantidadJugador) {
@@ -386,7 +410,7 @@ public class ElegirOponente extends javax.swing.JFrame {
     }//GEN-LAST:event_CrearBTNActionPerformed
 
     private void JugarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JugarBTNActionPerformed
-
+        
         if (Configuracion.cantidadJugador.equals("2 Jugadores")) {
             if ((contadorEquipo1 < 1 || contadorEquipo2 < 1)) {
                 JOptionPane.showMessageDialog(null, "Por favor elegir los miembros de cada equipo.");
@@ -498,10 +522,8 @@ public class ElegirOponente extends javax.swing.JFrame {
         List<Usuario> users;
         try {
             users = funcion.getUsuarios();
-            System.out.println(users);
             for (Usuario user : users) {
-                comboBoxModel.addElement(user.getNombre());
-                System.out.println(user.getNombre());
+                comboBoxModel.addElement(user.getUsuario());
             }
             Miembro.setModel(comboBoxModel);
         } catch (IOException e) {

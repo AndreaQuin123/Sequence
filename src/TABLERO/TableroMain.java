@@ -2,6 +2,7 @@ package TABLERO;
 
 import SWING.Configuracion;
 import SWING.ElegirOponente;
+import TABLERO.Log.Game;
 import java.util.ArrayList;
 import java.util.List;
 import USUARIOS.UsuariosMetodos;
@@ -20,9 +21,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 import javax.swing.border.LineBorder;
 
@@ -30,7 +33,10 @@ public class TableroMain extends javax.swing.JFrame {
 
     private final List<Carta> cards = new ArrayList<>();
     ManojoCartas manojo = new ManojoCartas();
-    private Timer timer;
+    private Log.GameLog gameLog;
+
+    private TimerListener reloj = new TimerListener();
+    private Timer timer = new Timer(1000, reloj);
     private Carta[] cartaEntregada;
     private int jugadores;
     private int turnoActual = 1;
@@ -42,27 +48,26 @@ public class TableroMain extends javax.swing.JFrame {
     private UsuariosMetodos funcion;
     private Tablero Tablero;
     private LogicaJuego Logica;
+    private ElegirOponente oponente;
 
     public TableroMain(UsuariosMetodos metodo) throws IllegalArgumentException, IllegalAccessException, NoSuchFieldException {
         funcion = metodo != null ? metodo : new UsuariosMetodos();
         Configuracion.cantidadJugador = Configuracion.cantidadJugador != null ? Configuracion.cantidadJugador : "3 Jugadores";
         Configuracion.colorFicha = Configuracion.colorFicha != null ? Configuracion.colorFicha : "AMARILLO";
         Tablero = Tablero != null ? Tablero : new Tablero();
-        casillas = Tablero.casillas;
+        gameLog = gameLog != null ? gameLog : new Log.GameLog();
+        manojo = manojo != null ? manojo : new ManojoCartas();
 
         try {
-            ElegirOponente oponente = new ElegirOponente();
+            oponente = oponente != null ? oponente : new ElegirOponente();
         } catch (IOException ex) {
             Logger.getLogger(TableroMain.class.getName()).log(Level.SEVERE, null, ex);
         }
+        casillas = Tablero.casillas;
 
-        ArrayList<String> players = Logica.players;
+        ArrayList<String> players = ElegirOponente.players;
 
-        String jugadorActual = Logica.getPlayerActual();
-        TurnoJugador.setText(jugadorActual);
-
-        String equipoActual = Logica.getEquipoActual();
-        EquipoActual.setText(equipoActual);
+        Logica = Logica != null ? Logica : new LogicaJuego(players, casillas);
 
         switch (Configuracion.cantidadJugador) {
             case "2 Jugadores":
@@ -77,20 +82,25 @@ public class TableroMain extends javax.swing.JFrame {
                 jugadores = 8;
         }
 
-        Logica = Logica != null ? Logica : new LogicaJuego(players, casillas);
-
         manojo.reiniciarMazo();
 
         initComponents();
+        
+        TurnoJugador.setVisible(true);
+        EquipoActual.setVisible(true);
+
+        String jugadorActual = Logica.getPlayerActual();
+        TurnoJugador.setText(jugadorActual);
+
+        String equipoActual = Logica.getEquipoActual();
+        EquipoActual.setText(equipoActual);
 
         tablero1.setVisible(false);
         Divider_Placeholder.setVisible(false);
 
-        escondarCartas();
-
         Player21.setVisible(false);
         Player22.setVisible(false);
-
+        
         // 3 JUGADORES ---------------------
         Player31.setVisible(false);
         Player32.setVisible(false);
@@ -122,11 +132,17 @@ public class TableroMain extends javax.swing.JFrame {
 
         switch (Configuracion.cantidadJugador) {
             case "2 Jugadores":
+
+                cartaEntregada = manojo.entregarCartas(14);
+
+                Player21.setVisible(true);
+                Player22.setVisible(true);
+
                 firstPlayer = players.get(0);
                 secondPlayer = players.get(1);
 
                 for (int i = 0; i < cartaEntregada.length; i++) {
-                    int cardIndex = (i % 4) + 11 + (i / 4) * 10;
+                    int cardIndex = (i % 7) + 11 + (i / 7) * 10;
                     String labelName = String.format("CartaJugador2_" + cardIndex);
 
                     try {
@@ -178,7 +194,7 @@ public class TableroMain extends javax.swing.JFrame {
                 for (int i = 0; i < cartaEntregada.length; i++) {
                     int cardIndex = (i % 6) + 11 + (i / 6) * 10;
 
-                    String labelName = String.format("CartaJugador3_%d", cardIndex);
+                    String labelName = String.format("CartaJugador3_", cardIndex);
 
                     try {
                         JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
@@ -234,7 +250,7 @@ public class TableroMain extends javax.swing.JFrame {
                 for (int i = 0; i < cartaEntregada.length; i++) {
                     int cardIndex = (i % 7) + 11 + (i / 7) * 10;
 
-                    String labelName = String.format("CartaJugador4_%d", cardIndex);
+                    String labelName = String.format("CartaJugador4_", cardIndex);
                     try {
                         JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
                         cartaLabel.setVisible(true);
@@ -367,7 +383,8 @@ public class TableroMain extends javax.swing.JFrame {
                         JLabel cartaLabel = (JLabel) this.getClass().getDeclaredField(labelName).get(this);
                         cartaLabel.setVisible(true);
                         cartaLabel.setIcon(manojo.getCardIcon(cartaEntregada[i].getTipo(), cartaEntregada[i].getRango()));
-                                                String owner;
+                                               
+                        String owner;
                         if (i < 4) {
                             owner = firstPlayer;
                         } else if (i < 8) {
@@ -412,7 +429,8 @@ public class TableroMain extends javax.swing.JFrame {
                 break;
         }
 
-        Timer timer = new Timer(1000, new TimerListener());
+        mostrarCartas1();
+
         timer.start();
 
         setExtendedState(TableroMain.MAXIMIZED_BOTH);
@@ -424,7 +442,11 @@ public class TableroMain extends javax.swing.JFrame {
      */
     private class TimerListener implements ActionListener {
 
-        int segundosRestantes = 120;
+        int segundosRestantes;
+
+        public TimerListener() {
+            segundosRestantes = 120;
+        }
 
         public void actionPerformed(ActionEvent evt) {
             segundosRestantes--;
@@ -434,14 +456,68 @@ public class TableroMain extends javax.swing.JFrame {
                 timerAcabado();
             }
         }
-    }
 
-    /*
+        /*
     Lo que hace al terminarse el timer, el jugador actual pierde su turno
-     */
-    private void timerAcabado() {
-        JOptionPane.showMessageDialog(this, "¡Se acabo el tiempo, pierde su turno!");
-        Logica.cambiarTurno();
+         */
+        private void timerAcabado() {
+            JOptionPane.showMessageDialog(null, "¡Se acabo el tiempo, pierde su turno!");
+            Logica.cambiarTurno();
+
+            switch (Logica.turnoActual) {
+                case 1:
+                    mostrarCartas1();
+                    break;
+                case 2:
+                    mostrarCartas2();
+                    break;
+                case 3:
+                    mostrarCartas3();
+                    break;
+                case 4:
+                    mostrarCartas4();
+                    break;
+                case 5:
+                    mostrarCartas5();
+                    break;
+                case 6:
+                    mostrarCartas6();
+                    break;
+                case 7:
+                    mostrarCartas7();
+                    break;
+                case 8:
+                    mostrarCartas8();
+                    break;
+                default:
+                    System.err.println("Error inesperado: " + Logica.turnoActual);
+                    break;
+            }
+
+            String jugadorActual = "Jugador actual: " + Logica.getPlayerActual();
+            TurnoJugador.setText(jugadorActual);
+
+            String equipoActual = Logica.getEquipoActual();
+            EquipoActual.setText(equipoActual);
+
+            resetTimer();
+
+            jPanel1.revalidate();
+            jPanel1.repaint();
+
+        }
+
+        public void resetTimer() {
+            if (timer != null) {
+                timer.stop();
+                segundosRestantes = 120;
+                SwingUtilities.invokeLater(() -> {
+                    Timer.setText(String.format("%02d:%02d", segundosRestantes / 60, segundosRestantes % 60));
+                });
+                timer.start();
+            }
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -1483,6 +1559,8 @@ public class TableroMain extends javax.swing.JFrame {
         return resizedImage;
     }
 
+
+
     private Carta cartaCreada(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
         return new Carta(tipo, rango);
     }
@@ -1508,24 +1586,27 @@ public class TableroMain extends javax.swing.JFrame {
 
         @Override
         public void mouseClicked(MouseEvent e) {
+            
             JLabel clickedLabel = (JLabel) e.getComponent();
             Carta carta = labelCartaMap.get(clickedLabel);
-
+            
+            boolean turno = verificarTurno(e);
+            
+            if (turno) {
             if (carta != null) {
                 for (JLabel label : labelCartaMap.keySet()) {
                     label.setBorder(new LineBorder(Color.black, 1));
                 }
 
-                String tipo = carta.getTipo().toString();
-                String rango = carta.getRango().toString();
+                ManojoCartas.Tipo tipo = carta.getTipo();
+                ManojoCartas.Rango rango = carta.getRango();
                 clickedLabel.setBorder(new LineBorder(Color.yellow, 3));
-                System.out.println("Type: " + tipo + ", Rank: " + rango);
 
                 if (Casilla.selectedButton != null) {
                     ManojoCartas.Tipo casillaType = Casilla.selectedButton.getTipo();
                     ManojoCartas.Rango casillaRank = Casilla.selectedButton.getRango();
 
-                    if (tipo.equals(casillaType.toString()) && rango.equals(casillaRank.toString())) {
+                    if ((tipo.equals(casillaType) && rango.equals(casillaRank)) || casillaRank == ManojoCartas.Rango.JOTA) {
 
                         ImageIcon icono = (ImageIcon) Casilla.selectedButton.getIcon();
                         Image image = icono.getImage();
@@ -1536,22 +1617,82 @@ public class TableroMain extends javax.swing.JFrame {
 
                         Casilla.selectedButton.setBorder(new LineBorder(Color.black, 1));
                         Casilla.selectedButton.setIcon(Logica.fichaActual);
+                        Casilla.selectedButton.setFicha();
+                        Casilla.selectedButton.setEquipo(Logica.equipoActualTexto);
+
+
                         int[] posicion = getPosicion(casillaType, casillaRank);
                         int row = posicion[0];
                         int col = posicion[1];
                         casillas[row][col].setFicha();
+                        casillas[row][col].setEquipo(Logica.equipoActualTexto);
+
+                        if (casillaRank == ManojoCartas.Rango.JOTA) {
+                            Casilla.selectedButton.setBlockStatus();
+                            Icon clickedIcon = clickedLabel.getIcon();
+                            Casilla.selectedButton.setIcon(clickedIcon);
+                        }
 
                         Carta nextCarta = manojo.siguienteCarta();
                         clickedLabel.setIcon(manojo.getCardIcon(nextCarta.getTipo(), nextCarta.getRango()));
+                        nextCarta.setDueño(Logica.getPlayerActual());
                         labelCartaMap.put(clickedLabel, nextCarta);
 
                         if (Logica.checkForWin()) {
-                            JOptionPane.showMessageDialog(null, "EL GANADOR ES...." + Logica.equipoActual + "!!");
+                            JOptionPane.showMessageDialog(null, "EL GANADOR ES...." + Logica.equipoActualTexto + "!!");
+
+                            ArrayList<String> ganadores = null;
+                            
+                            for (String player : Logica.equipoActual) {
+                                ganadores.add(player + "\n");
+                            }
+
+                            Game juego = new Game(Logica.players, "GANO " + Logica.equipoActualTexto+ ". Los jugadores participantes fueron: "+ganadores);
+
+                            for (int i = 0; i < Logica.equipoActual.size(); i++) {
+                                gameLog.agregarJuego(juego);
+                            }
+
                         } else {
-                            System.out.println("no gano");
+                            System.out.println("No se ha hecho una secuencia.");
                         }
 
-                        String jugadorActual = Logica.getPlayerActual();
+
+                            Logica.cambiarTurno();
+                                                        
+                            reloj.resetTimer();
+
+                            switch (Logica.turnoActual) {
+                                case 1:
+                                    mostrarCartas1();
+                                    break;
+                                case 2:
+                                    mostrarCartas2();
+                                    break;
+                                case 3:
+                                    mostrarCartas3();
+                                    break;
+                                case 4:
+                                    mostrarCartas4();
+                                    break;
+                                case 5:
+                                    mostrarCartas5();
+                                    break;
+                                case 6:
+                                    mostrarCartas6();
+                                    break;
+                                case 7:
+                                    mostrarCartas7();
+                                break;
+                            case 8:
+                                mostrarCartas8();
+                                break;
+                            default:
+                                System.err.println("Error inesperado: " + Logica.turnoActual);
+                                break;
+                        }
+
+                        String jugadorActual = "Jugador actual: "+Logica.getPlayerActual();
                         TurnoJugador.setText(jugadorActual);
 
                         String equipoActual = Logica.getEquipoActual();
@@ -1560,21 +1701,19 @@ public class TableroMain extends javax.swing.JFrame {
                         jPanel1.revalidate();
                         jPanel1.repaint();
 
-                        Logica.cambiarTurno();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "No coinciden.");
+                        }
 
-                    } else {
-                        System.out.println("No coinciden.");
+                        Casilla.selectedButton.setBorder(new LineBorder(Color.black, 1));
+                        Casilla.selectedButton = null;
                     }
-
-                    Casilla.selectedButton.setBorder(new LineBorder(Color.black, 1));
-                    Casilla.selectedButton = null;
                 }
             }
         }
     }
 
-    public void escondarCartas() {
-        // 2 JUGADORES ---------------------
+    public void esconderCartas() {
         CartaJugador2_11.setVisible(false);
         CartaJugador2_12.setVisible(false);
         CartaJugador2_13.setVisible(false);
@@ -1591,7 +1730,6 @@ public class TableroMain extends javax.swing.JFrame {
         CartaJugador2_26.setVisible(false);
         CartaJugador2_27.setVisible(false);
 
-        // 3 JUGADORES ---------------------
         CartaJugador3_11.setVisible(false);
         CartaJugador3_12.setVisible(false);
         CartaJugador3_13.setVisible(false);
@@ -1723,12 +1861,11 @@ public class TableroMain extends javax.swing.JFrame {
         CartaJugador8_82.setVisible(false);
         CartaJugador8_83.setVisible(false);
         CartaJugador8_84.setVisible(false);
-
     }
 
     public void mostrarCartas1() {
 
-        escondarCartas();
+        esconderCartas();
 
         switch (Configuracion.cantidadJugador) { 
             case "2 Jugadores":
@@ -1739,6 +1876,7 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador2_15.setVisible(true);
                 CartaJugador2_16.setVisible(true);
                 CartaJugador2_17.setVisible(true);
+                break;
 
             case "3 Jugadores":
                 CartaJugador3_11.setVisible(true);
@@ -1747,7 +1885,8 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador3_14.setVisible(true);
                 CartaJugador3_15.setVisible(true);
                 CartaJugador3_16.setVisible(true);
-
+                break;
+                
             case "4 Jugadores":
                 CartaJugador4_11.setVisible(true);
                 CartaJugador4_12.setVisible(true);
@@ -1756,6 +1895,7 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador4_15.setVisible(true);
                 CartaJugador4_16.setVisible(true);
                 CartaJugador4_17.setVisible(true);
+                break;
 
             case "6 Jugadores":
                 CartaJugador6_11.setVisible(true);
@@ -1763,19 +1903,21 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador6_13.setVisible(true);
                 CartaJugador6_14.setVisible(true);
                 CartaJugador6_15.setVisible(true);
+                break;
 
             case "8 Jugadores":
                 CartaJugador8_11.setVisible(true);
                 CartaJugador8_12.setVisible(true);
                 CartaJugador8_13.setVisible(true);
                 CartaJugador8_14.setVisible(true);
+                break;
 
         }
 
     }
 
     public void mostrarCartas2() {
-       escondarCartas();
+       esconderCartas();
 
         switch (Configuracion.cantidadJugador) { 
             case "2 Jugadores":
@@ -1786,6 +1928,7 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador2_25.setVisible(true);
                 CartaJugador2_26.setVisible(true);
                 CartaJugador2_27.setVisible(true);
+                break;
 
             case "3 Jugadores":
                 CartaJugador3_21.setVisible(true);
@@ -1803,6 +1946,7 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador4_25.setVisible(true);
                 CartaJugador4_26.setVisible(true);
                 CartaJugador4_27.setVisible(true);
+                break;
 
             case "6 Jugadores":
                 CartaJugador6_21.setVisible(false);
@@ -1810,19 +1954,21 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador6_23.setVisible(false);
                 CartaJugador6_24.setVisible(false);
                 CartaJugador6_25.setVisible(false);
-                
+                break;
+
             case "8 Jugadores":
                 CartaJugador8_21.setVisible(false);
                 CartaJugador8_22.setVisible(false);
                 CartaJugador8_23.setVisible(false);
                 CartaJugador8_24.setVisible(false);
+                break;
 
         }
 
     }
 
     public void mostrarCartas3() {
-       escondarCartas();
+        esconderCartas();
 
         switch (Configuracion.cantidadJugador) { 
             case "3 Jugadores":
@@ -1832,6 +1978,7 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador3_34.setVisible(true);
                 CartaJugador3_35.setVisible(true);
                 CartaJugador3_36.setVisible(true);
+                break;
 
             case "4 Jugadores":
                 CartaJugador4_31.setVisible(true);
@@ -1841,6 +1988,7 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador4_35.setVisible(true);
                 CartaJugador4_36.setVisible(true);
                 CartaJugador4_37.setVisible(true);
+                break;
 
             case "6 Jugadores":
                 CartaJugador6_31.setVisible(true);
@@ -1848,18 +1996,20 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador6_33.setVisible(true);
                 CartaJugador6_34.setVisible(true);
                 CartaJugador6_35.setVisible(true);
+                break;
                
             case "8 Jugadores":
                 CartaJugador8_31.setVisible(true);
                 CartaJugador8_32.setVisible(true);
                 CartaJugador8_33.setVisible(true);
                 CartaJugador8_34.setVisible(true);
+                break;
 
         }
     }
 
     public void mostrarCartas4() {
-      escondarCartas();
+      esconderCartas();
 
         switch (Configuracion.cantidadJugador) { 
 
@@ -1871,6 +2021,7 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador4_45.setVisible(true);
                 CartaJugador4_46.setVisible(true);
                 CartaJugador4_47.setVisible(true);
+                break;
 
             case "6 Jugadores":
                 CartaJugador6_41.setVisible(true);
@@ -1878,19 +2029,21 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador6_43.setVisible(true);
                 CartaJugador6_44.setVisible(true);
                 CartaJugador6_45.setVisible(true);
+                break;
                
             case "8 Jugadores":
                 CartaJugador8_41.setVisible(true);
                 CartaJugador8_42.setVisible(true);
                 CartaJugador8_43.setVisible(true);
                 CartaJugador8_44.setVisible(true);
+                break;
 
         }
    
     }
 
     public void mostrarCartas5() {
-      escondarCartas();
+      esconderCartas();
 
         switch (Configuracion.cantidadJugador) { 
 
@@ -1900,18 +2053,20 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador6_53.setVisible(true);
                 CartaJugador6_54.setVisible(true);
                 CartaJugador6_55.setVisible(true);
+                break;
                
             case "8 Jugadores":
                 CartaJugador8_51.setVisible(true);
                 CartaJugador8_52.setVisible(true);
                 CartaJugador8_53.setVisible(true);
                 CartaJugador8_54.setVisible(true);
+                break;
 
         }
     }
 
     public void mostrarCartas6() {
-      escondarCartas();
+      esconderCartas();
 
         switch (Configuracion.cantidadJugador) { 
 
@@ -1921,18 +2076,20 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador6_63.setVisible(true);
                 CartaJugador6_64.setVisible(true);
                 CartaJugador6_65.setVisible(true);
+                break;
                
             case "8 Jugadores":
                 CartaJugador8_61.setVisible(true);
                 CartaJugador8_62.setVisible(true);
                 CartaJugador8_63.setVisible(true);
                 CartaJugador8_64.setVisible(true);
+                break;
 
         }
     }
 
     public void mostrarCartas7() {
-      escondarCartas();
+      esconderCartas();
 
         switch (Configuracion.cantidadJugador) {
                
@@ -1941,12 +2098,13 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador8_72.setVisible(true);
                 CartaJugador8_73.setVisible(true);
                 CartaJugador8_74.setVisible(true);
+                break;
 
         }
     }
 
     public void mostrarCartas8() {
-      escondarCartas();
+      esconderCartas();
 
         switch (Configuracion.cantidadJugador) { 
                
@@ -1955,28 +2113,29 @@ public class TableroMain extends javax.swing.JFrame {
                 CartaJugador8_82.setVisible(true);
                 CartaJugador8_83.setVisible(true);
                 CartaJugador8_84.setVisible(true);
+                break;
 
         }
     }
 
-    public boolean verificarTurno(ActionEvent e) {
-        JLabel clickedLabel = (JLabel) e.getSource();
+public boolean verificarTurno(MouseEvent e) {
+    JLabel clickedLabel = (JLabel) e.getSource();
 
-        Carta carta = labelCartaMap.get(clickedLabel);
-        if (carta != null) {
-            String owner = carta.getDueño();
+    Carta carta = labelCartaMap.get(clickedLabel);
+    
+    if (carta != null) {
+        String owner = carta.getDueño();
+        String currentPlayer = Logica.getPlayerActual();
 
-            String currentPlayer = Logica.getPlayerActual();
-
-            if (owner.equals(currentPlayer)) {
-                return true;
-            } else {
-                JOptionPane.showMessageDialog(null, "No es su turno!");
-                return false;
-            }
+        if (owner.equals(currentPlayer)) {
+            return true;
+        } else {
+            JOptionPane.showMessageDialog(null, "No es su turno!");
+            return false;
         }
-        return false;
     }
+    return false;
+}
 
     private void DeckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeckMouseClicked
 

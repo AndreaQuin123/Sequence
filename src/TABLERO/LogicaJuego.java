@@ -24,7 +24,8 @@ public class LogicaJuego {
     String ColorEquipo3 = "";
     List<String> coloresDisponibles = new ArrayList<>();
 
-    public Icon fichaActual = null;
+    public Icon fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
+    ;
     public ArrayList<String> Equipo1 = ElegirOponente.Equipo1;
     public ArrayList<String> Equipo2 = ElegirOponente.Equipo2;
     public ArrayList<String> Equipo3 = ElegirOponente.Equipo3;
@@ -51,7 +52,7 @@ public class LogicaJuego {
         this.casillas = casillas;
         this.filas = 10;
         this.columnas = 10;
-        this.turnoActual = 0;
+        this.turnoActual = 1;
 
         for (String color : colors) {
             if (!color.equalsIgnoreCase(Configuracion.colorFicha)) {
@@ -77,13 +78,14 @@ public class LogicaJuego {
                     equipoActualTexto = "EQUIPO 2";
                     equipoActual = Equipo2;
                     turnoActual = 2;
-                    fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
+                    String file = "/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png";
+                    fichaActual = new ImageIcon(getClass().getResource(file));
 
                 } else {
-                    equipoActualTexto = "EQUIPO 2";
-                    equipoActual = Equipo2;
+                    equipoActualTexto = "EQUIPO 1";
+                    equipoActual = Equipo1;
                     turnoActual = 1;
-                    fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                    fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                 }
                 break;
 
@@ -93,20 +95,19 @@ public class LogicaJuego {
                         equipoActualTexto = "EQUIPO 2";
                         equipoActual = Equipo2;
                         turnoActual = 2;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
-                        System.out.println(fichaActual);
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png"));
                         break;
                     case 2:
                         equipoActualTexto = "EQUIPO 3";
                         equipoActual = Equipo3;
                         turnoActual = 3;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/Ficha_" + ColorEquipo3 + "_1.png"));
                         break;
                     case 3:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
                         turnoActual = 1;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo3 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     default:
                         break;
@@ -119,25 +120,25 @@ public class LogicaJuego {
                         equipoActualTexto = "EQUIPO 2";
                         equipoActual = Equipo2;
                         turnoActual = 2;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png"));
                         break;
                     case 2:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
                         turnoActual = 1;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     case 3:
                         equipoActualTexto = "EQUIPO 2";
                         equipoActual = Equipo2;
                         turnoActual = 4;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png"));
                         break;
                     case 4:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
                         turnoActual = 1;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     default:
                         break;
@@ -150,37 +151,37 @@ public class LogicaJuego {
                         equipoActualTexto = "EQUIPO 2";
                         equipoActual = Equipo2;
                         turnoActual = 2;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png"));
                         break;
                     case 2:
                         equipoActualTexto = "EQUIPO 3";
                         equipoActual = Equipo3;
                         turnoActual = 3;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo3 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo3 + "_1.png"));
                         break;
                     case 3:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
                         turnoActual = 4;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     case 4:
                         equipoActualTexto = "EQUIPO 2";
                         equipoActual = Equipo2;
                         turnoActual = 5;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png"));
                         break;
                     case 5:
                         equipoActualTexto = "EQUIPO 3";
                         equipoActual = Equipo3;
                         turnoActual = 6;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo3 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo3 + "_1.png"));
                         break;
                     case 6:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
                         turnoActual = 1;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     default:
                         break;
@@ -193,49 +194,49 @@ public class LogicaJuego {
                         equipoActualTexto = "EQUIPO 2";
                         equipoActual = Equipo2;
                         turnoActual = 2;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png"));
                         break;
                     case 2:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
                         turnoActual = 3;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     case 3:
                         equipoActualTexto = "EQUIPO 2";
                         equipoActual = Equipo2;
                         turnoActual = 4;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png"));
                         break;
                     case 4:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
                         turnoActual = 5;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     case 5:
                         equipoActualTexto = "EQUIPO 2";
                         equipoActual = Equipo2;
                         turnoActual = 6;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png"));
                         break;
                     case 6:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
                         turnoActual = 7;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     case 7:
                         equipoActualTexto = "EQUIPO 2";
                         equipoActual = Equipo2;
                         turnoActual = 8;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + ColorEquipo2 + "_1.png"));
                         break;
                     case 8:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
                         turnoActual = 4;
-                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + ".png"));
+                        fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     default:
                         break;
@@ -248,92 +249,50 @@ public class LogicaJuego {
     }
 
     public String getPlayerActual() {
-        return players.get(turnoActual-1);
+        return players.get(turnoActual - 1);
     }
-    
-        public String getEquipoActual() {
+
+    public String getEquipoActual() {
         return equipoActualTexto;
     }
 
     public boolean checkForWin() {
-
         switch (equipoActualTexto) {
             case "EQUIPO 1":
-                if (checkHorizontalSequence()) {
+                if (checkHorizontalSequence() || checkVerticalSequence() || checkDiagonalSequence()) {
                     sequenceCountEquipo1++;
-                    JOptionPane.showMessageDialog(null, "El " + equipoActual + " completo una secuencia.");
+                    JOptionPane.showMessageDialog(null, "El " + equipoActualTexto + " completó una secuencia.");
                 }
-
-                if (checkVerticalSequence()) {
-                    sequenceCountEquipo1++;
-                    JOptionPane.showMessageDialog(null, "El " + equipoActual + " completo una secuencia.");
-
-                }
-
-                if (checkDiagonalSequence()) {
-                    sequenceCountEquipo1++;
-                    JOptionPane.showMessageDialog(null, "El " + equipoActual + " completo una secuencia.");
-
-                }
+                break;
 
             case "EQUIPO 2":
-                if (checkHorizontalSequence()) {
+                if (checkHorizontalSequence() || checkVerticalSequence() || checkDiagonalSequence()) {
                     sequenceCountEquipo2++;
-                    JOptionPane.showMessageDialog(null, "El " + equipoActual + " completo una secuencia.");
+                    JOptionPane.showMessageDialog(null, "El " + equipoActualTexto + " completó una secuencia.");
                 }
-
-                if (checkVerticalSequence()) {
-                    sequenceCountEquipo2++;
-                    JOptionPane.showMessageDialog(null, "El " + equipoActual + " completo una secuencia.");
-
-                }
-
-                if (checkDiagonalSequence()) {
-                    sequenceCountEquipo2++;
-                    JOptionPane.showMessageDialog(null, "El " + equipoActual + " completo una secuencia.");
-
-                }
+                break;
 
             case "EQUIPO 3":
-                if (checkHorizontalSequence()) {
+                if (checkHorizontalSequence() || checkVerticalSequence() || checkDiagonalSequence()) {
                     sequenceCountEquipo3++;
-                    JOptionPane.showMessageDialog(null, "El " + equipoActual + " completo una secuencia.");
+                    JOptionPane.showMessageDialog(null, "El " + equipoActualTexto + " completó una secuencia.");
                 }
-
-                if (checkVerticalSequence()) {
-                    sequenceCountEquipo3++;
-                    JOptionPane.showMessageDialog(null, "El " + equipoActual + " completo una secuencia.");
-
-                }
-
-                if (checkDiagonalSequence()) {
-                    sequenceCountEquipo3++;
-                    JOptionPane.showMessageDialog(null, "El " + equipoActual + " completo una secuencia.");
-
-                }
+                break;
         }
 
-        if (sequenceCountEquipo1 >= 2) {
-            return true;
-        }
-
-        if (sequenceCountEquipo2 >= 2) {
-            return true;
-        }
-
-        if (sequenceCountEquipo3 >= 2) {
-            return true;
-        }
-
-        return false;
+        return sequenceCountEquipo1 >= 2 || sequenceCountEquipo2 >= 2 || sequenceCountEquipo3 >= 2;
     }
 
     private boolean checkHorizontalSequence() {
         for (int row = 0; row < filas; row++) {
             for (int col = 0; col <= columnas - 5; col++) {
-                boolean sequenceFound = true;
+                boolean sequenceFound = false;
+                String team = casillas[row][col].getEquipo();
+                if (team == null) {
+                    continue; // Skip if no team owns the cell
+                }
                 for (int i = 0; i < 5; i++) {
-                    if (!casillas[row][col + i].getFicha()) {
+                    if (!casillas[row][col + i].getEquipo().equals(team)) {
                         sequenceFound = false;
                         break;
                     }
@@ -349,13 +308,19 @@ public class LogicaJuego {
     private boolean checkVerticalSequence() {
         for (int col = 0; col < columnas; col++) {
             for (int row = 0; row <= filas - 5; row++) {
-                boolean sequenceFound = true;
+                boolean sequenceFound = false;
+                String team = casillas[row][col].getEquipo();
+                System.out.println(team);
+                if (team == null) {
+                    continue;
+                }
                 for (int i = 0; i < 5; i++) {
-                    if (!casillas[row + i][col].getFicha()) {
+                    if (!casillas[row + i][col].getEquipo().equals(team)) {
                         sequenceFound = false;
                         break;
                     }
                 }
+                
                 if (sequenceFound) {
                     return true;
                 }
@@ -367,20 +332,15 @@ public class LogicaJuego {
     private boolean checkDiagonalSequence() {
         for (int row = 0; row <= filas - 5; row++) {
             for (int col = 0; col <= columnas - 5; col++) {
-                boolean sequenceFound = true;
-                for (int i = 0; i < 5; i++) {
-                    if (!casillas[row + i][col + i].getFicha()) {
-                        sequenceFound = false;
-                        break;
-                    }
+                boolean sequenceFound = false;
+                String team = casillas[row][col].getEquipo();
+                
+                if (team == null) {
+                    continue;
                 }
-                if (sequenceFound) {
-                    return true;
-                }
-
-                sequenceFound = true;
+                
                 for (int i = 0; i < 5; i++) {
-                    if (!casillas[row + i][col + 4 - i].getFicha()) {
+                    if (!casillas[row + i][col + i].getFicha() || !casillas[row + i][col + i].getEquipo().equals(team)) {
                         sequenceFound = false;
                         break;
                     }

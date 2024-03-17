@@ -99,10 +99,6 @@ public class UsuariosMetodos {
                 int puntos = usuarios.readInt();
                 long fechaCreacion = usuarios.readLong();
 
-                if (user.equals(usuario)) {
-                    return true;
-                }
-
             if (user.equals(usuario) && (password.equals(contraseña))) {
                 return true;
             }
