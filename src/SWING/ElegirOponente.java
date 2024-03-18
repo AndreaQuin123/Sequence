@@ -511,6 +511,10 @@ public class ElegirOponente extends javax.swing.JFrame {
 
     private void RegresarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RegresarBTNActionPerformed
 
+        Equipo1.clear();
+        Equipo2.clear();
+        Equipo3.clear();
+        
         MenuPrincipal pasar = new MenuPrincipal(funcion);
         pasar.setVisible(true);
         this.setVisible(false);

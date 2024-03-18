@@ -14,24 +14,24 @@ public class Casilla extends JButton {
     private ManojoCartas.Tipo tipo;
     private ManojoCartas.Rango rango;
     private String equipo;
-    boolean hasBlock;
+    private boolean hasBlock;
     private boolean isItBlocked;
     private boolean tieneFicha;
+    private int fila;
+    private int columna;
 
-    public Casilla(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
+    public Casilla(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango, int fila, int columna) {
         setContentAreaFilled(true);
         setBorder(new LineBorder(Color.black, 2));
         setHorizontalAlignment(JLabel.CENTER);
 
         this.tipo = tipo;
-        this.rango=rango;
+        this.rango = rango;
+        this.fila = fila;
+        this.columna = columna;
         this.tieneFicha = false;
         this.equipo = "";
-        this.hasBlock = false;
-
-        if (rango == ManojoCartas.Rango.JOTA) {
-           this.hasBlock = true;
-        }
+        this.hasBlock = rango == ManojoCartas.Rango.JOTA;
 
         addActionListener(new ActionListener() {
             @Override
@@ -43,53 +43,52 @@ public class Casilla extends JButton {
                 setBorder(new LineBorder(Color.YELLOW, 3));
 
                 selectedButton = Casilla.this;
-              
-                
             }
         });
     }
 
-    static Casilla setTipoRango(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
-        return new Casilla(tipo, rango);
-
+    static Casilla setTipoRango(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango, int fila, int columna) {
+        return new Casilla(tipo, rango, fila, columna);
     }
 
     public ManojoCartas.Tipo getTipo() {
         return tipo;
-
     }
 
     public ManojoCartas.Rango getRango() {
         return rango;
-
     }
 
     public boolean getFicha() {
         return tieneFicha;
-
     }
 
     public void setFicha() {
         this.tieneFicha = true;
-
     }
-    
-        public String getEquipo() {
+
+    public String getEquipo() {
         return equipo;
     }
 
     public void setEquipo(String equipo) {
         this.equipo = equipo;
     }
-    
-    public boolean getBlockStatus(){
+
+    public boolean getBlockStatus() {
         return isItBlocked;
     }
-    
-    public void setBlockStatus(){
+
+    public void setBlockStatus() {
         this.isItBlocked = true;
     }
-    
-    
 
+    public int getFila() {
+        return fila;
+    }
+
+    public int getColumna() {
+        return columna;
+    }
+    
 }

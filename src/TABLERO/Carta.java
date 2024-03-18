@@ -16,8 +16,8 @@ public class Carta {
 
     }
 
-    static Casilla setTipoRango(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango) {
-        return new Casilla(tipo, rango);
+    static Casilla setTipoRango(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango, int fila, int columna) {
+        return new Casilla(tipo, rango, fila, columna);
 
     }
 
