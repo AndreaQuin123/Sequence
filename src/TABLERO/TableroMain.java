@@ -174,7 +174,7 @@ public class TableroMain extends javax.swing.JFrame {
                 UltimaCarta.setBounds(180, 620, 110, 150);
                 UltimaCartaTexto.setBounds(10, 780, 550, 40);
                 EquipoActual.setBounds(1060, 800, 190, 40);
-                TurnoJugador.setBounds(990, 760, 240, 40);
+                TurnoJugador.setBounds(990, 760, 460, 40);
                 tablero1.setVisible(true);
 
                 break;
@@ -226,7 +226,7 @@ public class TableroMain extends javax.swing.JFrame {
                 UltimaCarta.setBounds(20, 710, 110, 150);
                 UltimaCartaTexto.setBounds(140, 770, 550, 40);
                 EquipoActual.setBounds(600, 770, 190, 40);
-                TurnoJugador.setBounds(600, 810, 240, 40);
+                TurnoJugador.setBounds(600, 810, 460, 40);
 
                 tablero1.setVisible(true);
 
@@ -282,7 +282,7 @@ public class TableroMain extends javax.swing.JFrame {
                 UltimaCarta.setBounds(180, 620, 110, 150);
                 UltimaCartaTexto.setBounds(10, 780, 550, 40);
                 EquipoActual.setBounds(1060, 800, 190, 40);
-                TurnoJugador.setBounds(990, 760, 240, 40);
+                TurnoJugador.setBounds(990, 760, 460, 40);
 
                 tablero1.setVisible(true);
 
@@ -346,7 +346,7 @@ public class TableroMain extends javax.swing.JFrame {
                 UltimaCarta.setBounds(20, 710, 110, 150);
                 UltimaCartaTexto.setBounds(140, 770, 550, 40);
                 EquipoActual.setBounds(600, 790, 190, 40);
-                TurnoJugador.setBounds(600, 830, 240, 40);
+                TurnoJugador.setBounds(600, 830, 460, 40);
 
                 tablero1.setVisible(true);
 
@@ -418,7 +418,7 @@ public class TableroMain extends javax.swing.JFrame {
                 UltimaCarta.setBounds(180, 620, 110, 150);
                 UltimaCartaTexto.setBounds(10, 780, 550, 40);
                 EquipoActual.setBounds(1060, 800, 190, 40);
-                TurnoJugador.setBounds(990, 760, 240, 40);
+                TurnoJugador.setBounds(990, 760, 460, 40);
 
                 tablero1.setVisible(true);
 
@@ -706,7 +706,7 @@ public class TableroMain extends javax.swing.JFrame {
         TurnoJugador.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
         TurnoJugador.setText("JUGADOR ACTUAL:");
         jPanel1.add(TurnoJugador);
-        TurnoJugador.setBounds(600, 770, 240, 40);
+        TurnoJugador.setBounds(600, 770, 460, 40);
 
         EquipoActual.setFont(new java.awt.Font("Yu Gothic UI Semilight", 1, 24)); // NOI18N
         EquipoActual.setText("EQUIPO ACTUAL");
@@ -1589,6 +1589,11 @@ public class TableroMain extends javax.swing.JFrame {
 
             boolean turno = verificarTurno(e);
 
+            if (Casilla.selectedButton.getBlockStatus()) {
+                JOptionPane.showMessageDialog(null, "Esta celda está bloqueada y no se puede modificar.");
+                return;
+            }
+
             if (turno) {
                 if (carta != null) {
                     for (JLabel label : labelCartaMap.keySet()) {
@@ -1607,6 +1612,7 @@ public class TableroMain extends javax.swing.JFrame {
                                 || (casillaType == ManojoCartas.Tipo.COMODIN && casillaRank == ManojoCartas.Rango.COMODIN)
                                 || (rango == ManojoCartas.Rango.JOTA)) {
 
+                            //ULTIMA CARTA SETTINGS
                             ImageIcon icono = (ImageIcon) Casilla.selectedButton.getIcon();
                             Image image = icono.getImage();
                             Image resizedImage = image.getScaledInstance(110, 150, Image.SCALE_SMOOTH);
@@ -1614,27 +1620,53 @@ public class TableroMain extends javax.swing.JFrame {
                             UltimaCarta.setIcon(resizedIcon);
                             UltimaCartaTexto.setText("ULTIMA CARTA: " + casillaType.toString() + " " + casillaRank.toString());
 
+                            //ACTUALIZACION DEL TABLERO
                             Casilla.selectedButton.setBorder(new LineBorder(Color.black, 1));
                             Casilla.selectedButton.setIcon(Logica.fichaActual);
                             Casilla.selectedButton.setFicha();
                             Casilla.selectedButton.setEquipo(Logica.equipoActualTexto);
 
+                            //Agarrando la posicion para ponerlo en el array de casillas
                             int[] posicion = getPosicion(casillaType, casillaRank);
                             int row = posicion[0];
                             int col = posicion[1];
                             casillas[row][col].setFicha();
                             casillas[row][col].setEquipo(Logica.equipoActualTexto);
 
-                            if (rango == ManojoCartas.Rango.JOTA) {
-                                Carta nextCarta = manojo.siguienteCarta();
-                                clickedLabel.setIcon(manojo.getCardIcon(nextCarta.getTipo(), nextCarta.getRango()));
-                                nextCarta.setDueño(Logica.getPlayerActual());
-                                labelCartaMap.put(clickedLabel, nextCarta);
-                                casillas[row][col].setFicha();
-                                casillas[row][col].setEquipo(Logica.equipoActualTexto);
-                            }
-
+                            //PARA LOS COMODINES
                             if (casillaType == ManojoCartas.Tipo.COMODIN && casillaRank == ManojoCartas.Rango.COMODIN) {
+                                clickedLabel.setIcon(manojo.getCardIcon(ManojoCartas.Tipo.COMODIN, ManojoCartas.Rango.COMODIN));
+                                casillas[row][col].setFicha();
+                                casillas[row][col].setEquipo(Logica.equipoActualTexto);
+
+                                //PARA LAS JOTAS
+                            } else if (rango == ManojoCartas.Rango.JOTA) {
+                                Carta nextCarta = manojo.siguienteCarta();
+                                clickedLabel.setIcon(manojo.getCardIcon(nextCarta.getTipo(), nextCarta.getRango()));
+                                nextCarta.setDueño(Logica.getPlayerActual());
+                                labelCartaMap.put(clickedLabel, nextCarta);
+                                casillas[row][col].setFicha();
+                                casillas[row][col].setEquipo(Logica.equipoActualTexto);
+                                casillas[row][col].setBlockStatus();
+                                Casilla.selectedButton.setIcon(null);
+
+                                if (Logica.fichaActual.equals("AMARILLO")) {
+                                    Casilla.selectedButton.setForeground(Color.YELLOW);
+                                }
+
+                                if (Logica.fichaActual.equals("ROJO")) {
+                                    Casilla.selectedButton.setForeground(Color.RED);
+                                }
+
+                                if (Logica.fichaActual.equals("AZUL")) {
+                                    Casilla.selectedButton.setForeground(Color.BLUE);
+                                }
+
+                                if (Logica.fichaActual.equals("VERDE")) {
+                                    Casilla.selectedButton.setForeground(Color.GREEN);
+                                }
+
+                            } else {
                                 Carta nextCarta = manojo.siguienteCarta();
                                 clickedLabel.setIcon(manojo.getCardIcon(nextCarta.getTipo(), nextCarta.getRango()));
                                 nextCarta.setDueño(Logica.getPlayerActual());
@@ -1643,28 +1675,22 @@ public class TableroMain extends javax.swing.JFrame {
                                 casillas[row][col].setEquipo(Logica.equipoActualTexto);
                             }
 
-                            Carta nextCarta = manojo.siguienteCarta();
-                            clickedLabel.setIcon(manojo.getCardIcon(nextCarta.getTipo(), nextCarta.getRango()));
-                            nextCarta.setDueño(Logica.getPlayerActual());
-                            labelCartaMap.put(clickedLabel, nextCarta);
-
+                            //REVISANDO LAS GANADAS
                             if (Logica.checkForWin()) {
                                 JOptionPane.showMessageDialog(null, "EL GANADOR ES...." + Logica.equipoActualTexto + "!!");
 
-                                ArrayList<String> ganadores = null;
+                                ArrayList<String> ganadores = new ArrayList<>();;
 
                                 for (String player : Logica.equipoActual) {
                                     ganadores.add(player + "\n");
                                 }
 
-                                Game juego = new Game(Logica.players, "GANO " + Logica.equipoActualTexto + ". Los jugadores participantes fueron: " + ganadores);
+                                Game juego = new Game(Logica.players, "GANO " + Logica.equipoActualTexto + ". Los jugadores participantes fueron: " + ganadores+"pero participaron "+ElegirOponente.players);
 
                                 for (int i = 0; i < Logica.equipoActual.size(); i++) {
                                     gameLog.agregarJuego(juego);
                                 }
 
-                            } else {
-                                System.out.println("No se ha hecho una secuencia.");
                             }
 
                             Logica.cambiarTurno();
@@ -2148,16 +2174,23 @@ public class TableroMain extends javax.swing.JFrame {
 
     private void DeckMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeckMouseClicked
 
-        Carta carta = manojo.siguienteCarta();
+        JLabel clickedLabel = (JLabel) evt.getComponent();
+        Carta cartaSeleccionada = labelCartaMap.get(clickedLabel);
 
-        if (carta == null) {
+        Carta siguienteCarta = manojo.siguienteCarta();
+
+        if (manojo.siguienteCarta() != null) {
+
+            clickedLabel.setIcon(manojo.getCardIcon(siguienteCarta.getTipo(), siguienteCarta.getRango()));
+            siguienteCarta.setDueño(Logica.getPlayerActual());
+            labelCartaMap.put(clickedLabel, cartaSeleccionada);
+
+        } else {
+
+            JOptionPane.showMessageDialog(null, "La baraja se encuentra vacia, se reiniciara la baraja.");
 
             manojo.revisarBaraja();
             manojo.reiniciarMazo();
-
-        } else {
-            // Perform actions with the drawn card, e.g., display it on the GUI
-            // Example: Player21.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/" + carta.getFileName())));
         }
 
     }//GEN-LAST:event_DeckMouseClicked
