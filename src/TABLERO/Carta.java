@@ -8,12 +8,17 @@ public class Carta {
     private Tipo tipo;
     private Rango rango;
     private String dueño;
+    private boolean especial;
 
     public Carta(Tipo tipo, Rango rango) {
         this.tipo = tipo;
         this.rango = rango;
         this.dueño = dueño;
-
+        especial = false;
+    }
+    
+    public void setEspecial(){
+        especial=true;
     }
 
     static Casilla setTipoRango(ManojoCartas.Tipo tipo, ManojoCartas.Rango rango, int fila, int columna) {
@@ -25,7 +30,7 @@ public class Carta {
         return tipo;
 
     }
-
+    
     public ManojoCartas.Rango getRango() {
         return rango;
     }

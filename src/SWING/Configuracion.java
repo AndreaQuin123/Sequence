@@ -30,6 +30,7 @@ public class Configuracion extends javax.swing.JFrame {
         ;
         Equipos = new javax.swing.JLabel();
         CantidadJugadores = new javax.swing.JComboBox<>();
+        jButton6 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -90,8 +91,6 @@ public class Configuracion extends javax.swing.JFrame {
         Equipos.setOpaque(true);
         getContentPane().add(Equipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 190, 40));
 
-        CantidadJugadores.setBackground(new java.awt.Color(255, 255, 255));
-        CantidadJugadores.setForeground(new java.awt.Color(0, 0, 0));
         CantidadJugadores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 Jugadores", "3 Jugadores", "4 Jugadores", "6 Jugadores", "8 Jugadores" }));
         CantidadJugadores.setSelectedItem("4 Jugadores");
         CantidadJugadores.addActionListener(new java.awt.event.ActionListener() {
@@ -100,6 +99,16 @@ public class Configuracion extends javax.swing.JFrame {
             }
         });
         getContentPane().add(CantidadJugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 260, 30));
+
+        jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        jButton6.setForeground(new java.awt.Color(255, 51, 0));
+        jButton6.setText("CARTAS ESPECIALES");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 190, 30));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/BG_Configuracion.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
@@ -178,6 +187,12 @@ public class Configuracion extends javax.swing.JFrame {
         
     }//GEN-LAST:event_SalirBTNActionPerformed
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        new CartaEspecial(funcion).setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -221,6 +236,7 @@ public class Configuracion extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }

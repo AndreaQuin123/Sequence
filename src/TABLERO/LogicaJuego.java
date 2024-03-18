@@ -70,7 +70,7 @@ public class LogicaJuego {
         ColorEquipo3 = coloresDisponibles.get(index2);
 
     }
-
+    
     public void cambiarTurno() {
         switch (Configuracion.cantidadJugador) {
             case "2 Jugadores":

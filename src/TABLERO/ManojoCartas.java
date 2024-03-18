@@ -12,6 +12,10 @@ public final class ManojoCartas {
     private Carta cartas[];
     private int posicionCarta = 0;
     private int numCartas = 0;
+    public static int tipoEspecial = 0;
+    public static int rangoEspecial= 10;
+    private boolean cartaEspecial;
+
 
     /*
     Tipo y Rango Enum para clasificar cada carta 
@@ -61,6 +65,9 @@ public final class ManojoCartas {
             for (Rango rango : Rango.values()) {
                 if (!(tipo == Tipo.COMODIN || rango == Rango.COMODIN)) {
                     cartas[index++] = new Carta(tipo, rango);
+                }
+                if(tipo.ordinal()==tipoEspecial && rango.ordinal()==rangoEspecial){
+                    cartas[index].setEspecial();
                 }
             }
         }
