@@ -89,7 +89,7 @@ public class Configuracion extends javax.swing.JFrame {
         Equipos.setText("2 EQUIPOS");
         Equipos.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         Equipos.setOpaque(true);
-        getContentPane().add(Equipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 190, 40));
+        getContentPane().add(Equipos, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 280, 190, 30));
 
         CantidadJugadores.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "2 Jugadores", "3 Jugadores", "4 Jugadores", "6 Jugadores", "8 Jugadores" }));
         CantidadJugadores.setSelectedItem("4 Jugadores");
@@ -100,15 +100,17 @@ public class Configuracion extends javax.swing.JFrame {
         });
         getContentPane().add(CantidadJugadores, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 230, 260, 30));
 
+        jButton6.setBackground(new java.awt.Color(255, 255, 255));
         jButton6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jButton6.setForeground(new java.awt.Color(255, 51, 0));
         jButton6.setText("CARTAS ESPECIALES");
+        jButton6.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(0, 0, 0), 2, true));
         jButton6.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton6ActionPerformed(evt);
             }
         });
-        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 330, 190, 30));
+        getContentPane().add(jButton6, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 320, 190, 40));
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/IMAGES/BG_Configuracion.png"))); // NOI18N
         getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));

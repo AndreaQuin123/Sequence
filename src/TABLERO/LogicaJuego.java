@@ -69,8 +69,10 @@ public class LogicaJuego {
         int index2 = random.nextInt(coloresDisponibles.size());
         ColorEquipo3 = coloresDisponibles.get(index2);
 
+        String ColorEquipo1 = Configuracion.colorFicha;
+
     }
-    
+
     public void cambiarTurno() {
         switch (Configuracion.cantidadJugador) {
             case "2 Jugadores":
@@ -125,7 +127,7 @@ public class LogicaJuego {
                     case 2:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
-                        turnoActual = 1;
+                        turnoActual = 3;
                         fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     case 3:
@@ -235,7 +237,7 @@ public class LogicaJuego {
                     case 8:
                         equipoActualTexto = "EQUIPO 1";
                         equipoActual = Equipo1;
-                        turnoActual = 4;
+                        turnoActual = 1;
                         fichaActual = new ImageIcon(getClass().getResource("/IMAGES/FICHAS/ICON_Ficha_" + Configuracion.colorFicha + "_1.png"));
                         break;
                     default:
@@ -257,7 +259,6 @@ public class LogicaJuego {
     }
 
     public boolean checkForWin() {
-
         sequenceCountEquipo1 = 0;
         sequenceCountEquipo2 = 0;
         sequenceCountEquipo3 = 0;
@@ -296,7 +297,6 @@ public class LogicaJuego {
             }
         }
         return (sequenceCountEquipo1 >= 2 || sequenceCountEquipo2 >= 2 || sequenceCountEquipo3 >= 2);
-
     }
 
     private void secuenciaHorizontal(int fila, int columna, String equipo) {
@@ -305,6 +305,7 @@ public class LogicaJuego {
             return;
         }
 
+        boolean[][] visited = new boolean[filas][columnas];
         String[] horizontal = new String[columnas];
 
         for (int i = 0; i < columnas; i++) {
@@ -312,132 +313,140 @@ public class LogicaJuego {
         }
 
         int consecutiveCount = 0;
-        int startIndex = -1; // Initialize startIndex to track the start of the sequence
+        int startIndex = -1;
+        boolean showMessage = true;
         for (int i = 0; i < horizontal.length; i++) {
             String team = horizontal[i];
             if (team != null && team.equals(equipo)) {
                 if (consecutiveCount == 0) {
-                    startIndex = i; // Update startIndex when a new sequence starts
+                    startIndex = i;
                 }
                 consecutiveCount++;
-                if (consecutiveCount >= 5) {
-                    break;
+                if (consecutiveCount >= 5 && showMessage) {
+                    String message = "El equipo " + equipo + " ha hecho una secuencia horizontal.";
+                    JOptionPane.showMessageDialog(null, message);
+
+                    if (equipo.equals("EQUIPO 1")) {
+                        sequenceCountEquipo1++;
+                    } else if (equipo.equals("EQUIPO 2")) {
+                        sequenceCountEquipo2++;
+                    } else if (equipo.equals("EQUIPO 3")) {
+                        sequenceCountEquipo3++;
+                    }
+                    showMessage = false; // Set showMessage to false after displaying message
                 }
             } else {
                 consecutiveCount = 0;
+                showMessage = true; // Reset showMessage if sequence breaks
             }
         }
 
-        if (consecutiveCount >= 5) {
-            String message = "El equipo " + equipo + " ha hecho una secuencia horizontal.";
-            JOptionPane.showMessageDialog(null, message);
-
-            // Update counters or visuals if needed
-            if (equipo.equals("EQUIPO 1")) {
-                sequenceCountEquipo1++;
-            } else if (equipo.equals("EQUIPO 2")) {
-                sequenceCountEquipo2++;
-            } else if (equipo.equals("EQUIPO 3")) {
-                sequenceCountEquipo3++;
-            }
-
-            // Update the cells in the sequence with the team
+        if (consecutiveCount >= 5 && !visited[fila][startIndex]) {
             for (int j = startIndex; j < startIndex + 5; j++) {
                 casillas[fila][j].setEquipo(equipo);
+                visited[fila][j] = true;
             }
         }
     }
 
     private void secuenciaVertical(int columna, String equipo) {
+        boolean[][] visited = new boolean[filas][columnas];
         int consecutiveCount = 0;
-        for (int i = 0; i < filas; i++) {
-            String team = casillas[i][columna].getEquipo();
+        boolean showMessage = true;
+        for (int fila = 0; fila < filas; fila++) {
+            String team = casillas[fila][columna].getEquipo();
 
             if (team != null && team.equals(equipo)) {
                 consecutiveCount++;
-                if (consecutiveCount >= 5) {
-                    break;
+                if (consecutiveCount >= 5 && showMessage) {
+                    String message = "El equipo " + equipo + " ha hecho una secuencia vertical.";
+                    JOptionPane.showMessageDialog(null, message);
+
+                    if (equipo.equals("EQUIPO 1")) {
+                        sequenceCountEquipo1++;
+                    } else if (equipo.equals("EQUIPO 2")) {
+                        sequenceCountEquipo2++;
+                    } else if (equipo.equals("EQUIPO 3")) {
+                        sequenceCountEquipo3++;
+                    }
+                    showMessage = false;
+                } else {
+                    consecutiveCount = 0;
+                    showMessage = true;
                 }
-            } else {
-                consecutiveCount = 0;
-            }
-        }
-
-        if (consecutiveCount >= 5) {
-            String message = "El equipo " + equipo + " ha hecho una secuencia vertical.";
-            JOptionPane.showMessageDialog(null, message);
-
-            if (equipo.equals("EQUIPO 1")) {
-                sequenceCountEquipo1++;
-            } else if (equipo.equals("EQUIPO 2")) {
-                sequenceCountEquipo2++;
-            } else if (equipo.equals("EQUIPO 3")) {
-                sequenceCountEquipo3++;
             }
         }
     }
 
     private void obtenerDiagonalIzquierdaDerecha(int fila, int columna, String equipo) {
+        boolean[][] visited = new boolean[filas][columnas];
         int apiadate = Math.min(fila, columna);
         fila -= apiadate;
         columna -= apiadate;
         int consecutiveCount = 0;
+        boolean showMessage = true; // Flag to control message display
         for (int i = 0; i < filas && fila + i < filas && columna + i < columnas; i++) {
             String team = casillas[fila + i][columna + i].getEquipo();
 
             if (team != null && team.equals(equipo)) {
                 consecutiveCount++;
-                if (consecutiveCount >= 5) {
-                    break;
+                if (consecutiveCount >= 5 && showMessage) {
+                    String message = "El equipo " + equipo + " ha hecho una secuencia diagonal.";
+                    JOptionPane.showMessageDialog(null, message);
+
+                    if (equipo.equals("EQUIPO 1")) {
+                        sequenceCountEquipo1++;
+                    } else if (equipo.equals("EQUIPO 2")) {
+                        sequenceCountEquipo2++;
+                    } else if (equipo.equals("EQUIPO 3")) {
+                        sequenceCountEquipo3++;
+                    }
+                    showMessage = false; // Set showMessage to false after displaying message
                 }
             } else {
                 consecutiveCount = 0;
+                showMessage = true; // Reset showMessage if sequence breaks
             }
         }
 
-        if (consecutiveCount >= 5) {
-            String message = "El equipo " + equipo + " ha hecho una secuencia diagonal.";
-            JOptionPane.showMessageDialog(null, message);
-
-            if (equipo.equals("EQUIPO 1")) {
-                sequenceCountEquipo1++;
-            } else if (equipo.equals("EQUIPO 2")) {
-                sequenceCountEquipo2++;
-            } else if (equipo.equals("EQUIPO 3")) {
-                sequenceCountEquipo3++;
-            }
+        if (consecutiveCount >= 5 && !visited[fila][columna]) {
+            visited[fila][columna] = true;
         }
     }
 
     private void obtenerDiagonalDerechaIzquierda(int fila, int columna, String equipo) {
+        boolean[][] visited = new boolean[filas][columnas];
         int apiadate = Math.min(fila, columnas - 1 - columna);
         fila -= apiadate;
         columna += apiadate;
         int consecutiveCount = 0;
+        boolean showMessage = true; // Flag to control message display
         for (int i = 0; i < filas && fila + i < filas && columna - i >= 0; i++) {
             String team = casillas[fila + i][columna - i].getEquipo();
 
             if (team != null && team.equals(equipo)) {
                 consecutiveCount++;
-                if (consecutiveCount >= 5) {
-                    break;
+                if (consecutiveCount >= 5 && showMessage) {
+                    String message = "El equipo " + equipo + " ha hecho una secuencia diagonal.";
+                    JOptionPane.showMessageDialog(null, message);
+
+                    if (equipo.equals("EQUIPO 1")) {
+                        sequenceCountEquipo1++;
+                    } else if (equipo.equals("EQUIPO 2")) {
+                        sequenceCountEquipo2++;
+                    } else if (equipo.equals("EQUIPO 3")) {
+                        sequenceCountEquipo3++;
+                    }
+                    showMessage = false; // Set showMessage to false after displaying message
                 }
             } else {
                 consecutiveCount = 0;
+                showMessage = true; // Reset showMessage if sequence breaks
             }
         }
 
-        if (consecutiveCount >= 5) {
-            String message = "El equipo " + equipo + " ha hecho una secuencia diagonal.";
-            JOptionPane.showMessageDialog(null, message);
-
-            if (equipo.equals("EQUIPO 1")) {
-                sequenceCountEquipo1++;
-            } else if (equipo.equals("EQUIPO 2")) {
-                sequenceCountEquipo2++;
-            } else if (equipo.equals("EQUIPO 3")) {
-                sequenceCountEquipo3++;
-            }
+        if (consecutiveCount >= 5 && !visited[fila][columna]) {
+            visited[fila][columna] = true;
         }
     }
 }

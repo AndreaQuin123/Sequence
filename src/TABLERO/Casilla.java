@@ -16,6 +16,7 @@ public class Casilla extends JButton {
     private String equipo;
     private boolean hasBlock;
     private boolean isItBlocked;
+    private boolean isitEspecial;
     private boolean tieneFicha;
     private int fila;
     private int columna;
@@ -32,6 +33,7 @@ public class Casilla extends JButton {
         this.tieneFicha = false;
         this.equipo = "";
         this.hasBlock = rango == ManojoCartas.Rango.JOTA;
+        this.isitEspecial = false;
 
         addActionListener(new ActionListener() {
             @Override
@@ -89,6 +91,14 @@ public class Casilla extends JButton {
 
     public int getColumna() {
         return columna;
+    }
+    
+    public void setEspecial() {
+        this.isitEspecial = true;
+    }
+
+    public boolean getEspecial() {
+        return isitEspecial;
     }
     
 }

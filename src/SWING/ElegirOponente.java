@@ -253,11 +253,6 @@ public class ElegirOponente extends javax.swing.JFrame {
         String miembroAgregado = (String) Miembro.getSelectedItem();
         String equipoPerteneciente = (String) Equipo.getSelectedItem();
 
-        if (!miembroAgregado.equals(Login.usuarioLoggedIn) && (!(Equipo1.contains(Login.usuarioLoggedIn) || Equipo2.contains(Login.usuarioLoggedIn) || Equipo3.contains(Login.usuarioLoggedIn)))) {
-            JOptionPane.showMessageDialog(null, "El usuario actual no está en ninguno de los equipos.");
-            return;
-        }
-
         switch (equipoPerteneciente) {
             case "EQUIPO 1":
                 if (Equipo1.contains(miembroAgregado) || Equipo2.contains(miembroAgregado) || Equipo3.contains(miembroAgregado) ) {
@@ -407,10 +402,17 @@ public class ElegirOponente extends javax.swing.JFrame {
                     break;
             }
         }
+
+        if (!miembroAgregado.equals(Login.usuarioLoggedIn) && (!(Equipo1.contains(Login.usuarioLoggedIn) || Equipo2.contains(Login.usuarioLoggedIn) || Equipo3.contains(Login.usuarioLoggedIn)))) {
+            JOptionPane.showMessageDialog(null, "El usuario actual no está en ninguno de los equipos.");
+            return;
+        }
+
+
     }//GEN-LAST:event_CrearBTNActionPerformed
 
     private void JugarBTNActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_JugarBTNActionPerformed
-        
+
         if (Configuracion.cantidadJugador.equals("2 Jugadores")) {
             if ((contadorEquipo1 < 1 || contadorEquipo2 < 1)) {
                 JOptionPane.showMessageDialog(null, "Por favor elegir los miembros de cada equipo.");
@@ -514,7 +516,14 @@ public class ElegirOponente extends javax.swing.JFrame {
         Equipo1.clear();
         Equipo2.clear();
         Equipo3.clear();
+
+        TextArea21.setText("");
+        TextArea22.setText("");
         
+        TextArea32.setText("");
+        TextArea32.setText("");
+        TextArea33.setText("");
+
         MenuPrincipal pasar = new MenuPrincipal(funcion);
         pasar.setVisible(true);
         this.setVisible(false);
