@@ -295,14 +295,6 @@ public class LogicaJuego {
                 obtenerDiagonalDerechaIzquierda(row, col, "EQUIPO 3");
             }
         }
-
-        for (int row = 0; row < filas; row++) {
-            for (int col = 0; col < columnas; col++) {
-                System.out.print(casillas[row][col].getEquipo() + " ");
-            }
-            System.out.println();
-        }
-
         return (sequenceCountEquipo1 >= 2 || sequenceCountEquipo2 >= 2 || sequenceCountEquipo3 >= 2);
 
     }
@@ -317,7 +309,6 @@ public class LogicaJuego {
 
     for (int i = 0; i < columnas; i++) {
         horizontal[i] = casillas[fila][i].getEquipo();
-        System.out.println("H Fila: [" + fila + "] Columna [" + i + " ] Equipo: " + casillas[i][columna].getEquipo());
 
     }
 
@@ -358,8 +349,6 @@ public class LogicaJuego {
         for (int i = 0; i < filas; i++) {
             String team = casillas[i][columna].getEquipo();
 
-            System.out.println("V Columna: [" + columna + "] fila [" + i + " ] Equipo: " + casillas[i][columna].getEquipo());
-
             if (team != null && team.equals(equipo)) {
                 consecutiveCount++;
             } else {
@@ -391,8 +380,7 @@ public class LogicaJuego {
         int consecutiveCount = 0;
         for (int i = 0; i < filas && fila + i < filas && columna + i < columnas; i++) {
             String team = casillas[fila + i][columna + i].getEquipo();
-            System.out.println("D I-D :Columna: [" + (columna + i) + "] fila [" + (fila + i) + " ] Equipo: " + casillas[fila + i][columna + i].getEquipo());
-
+            
             if (team != null && team.equals(equipo)) {
                 consecutiveCount++;
             } else {

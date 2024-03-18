@@ -69,78 +69,107 @@ public class Tablero extends JPanel {
 
         casillas[1][0] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.SEIS, 1, 0);
         ImageIcon icon10 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/6_of_clubs.png"));
+        casillas[1][0].setIcon(icon10);
 
         casillas[1][1] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.CINCO, 1, 1);
         ImageIcon icon11 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/5_of_clubs.png"));
+        casillas[1][1].setIcon(icon11);
 
         casillas[1][2] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.CUATRO, 1, 2);
         ImageIcon icon12 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/4_of_clubs.png"));
+        casillas[1][2].setIcon(icon12);
 
         casillas[1][3] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.TRES, 1, 3);
         ImageIcon icon13 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/3_of_clubs.png"));
+        casillas[1][3].setIcon(icon13);
 
         casillas[1][4] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.DOS, 1, 4);
         ImageIcon icon14 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/2_of_clubs.png"));
+        casillas[1][4].setIcon(icon14);
 
         casillas[1][5] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.AS, 1, 5);
         ImageIcon icon15 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/ace_of_clubs.png"));
+        casillas[1][5].setIcon(icon15);
 
         casillas[1][6] = Casilla.setTipoRango(ManojoCartas.Tipo.CORAZÓN, ManojoCartas.Rango.REY, 1, 6);
         ImageIcon icon16 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/king_of_hearts.png"));
+        casillas[1][6].setIcon(icon16);
 
         casillas[1][7] = Casilla.setTipoRango(ManojoCartas.Tipo.CORAZÓN, ManojoCartas.Rango.REINA, 1, 7);
         ImageIcon icon17 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/queen_of_hearts.png"));
+        casillas[1][7].setIcon(icon17);
 
         casillas[1][8] = Casilla.setTipoRango(ManojoCartas.Tipo.CORAZÓN, ManojoCartas.Rango.DIEZ, 1, 8);
         ImageIcon icon18 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_hearts.png"));
+        casillas[1][8].setIcon(icon18);
 
         casillas[1][9] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.DIEZ, 1, 9);
         ImageIcon icon19 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_spades.png"));
+        casillas[1][9].setIcon(icon19);
+
+        casillas[2][0] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.SIETE, 2, 0);
+        ImageIcon icon20 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/7_of_clubs.png"));
+        casillas[2][0].setIcon(icon20);
 
         casillas[2][1] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.AS, 2, 1);
         ImageIcon icon21 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/ace_of_spades.png"));
+        casillas[2][1].setIcon(icon21);
 
         casillas[2][2] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.DOS, 2, 2);
         ImageIcon icon22 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/2_of_diamonds.png"));
+        casillas[2][2].setIcon(icon22);
 
         casillas[2][3] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.TRES, 2, 3);
         ImageIcon icon23 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/3_of_diamonds.png"));
+        casillas[2][3].setIcon(icon23);
 
         casillas[2][4] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.CUATRO, 2, 4);
         ImageIcon icon24 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/4_of_diamonds.png"));
+        casillas[2][4].setIcon(icon24);
 
         casillas[2][5] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.CINCO, 2, 5);
         ImageIcon icon25 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/5_of_diamonds.png"));
+        casillas[2][5].setIcon(icon25);
 
         casillas[2][6] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.SEIS, 2, 6);
         ImageIcon icon26 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/6_of_diamonds.png"));
+        casillas[2][6].setIcon(icon26);
 
         casillas[2][7] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.SIETE, 2, 7);
         ImageIcon icon27 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/7_of_diamonds.png"));
+        casillas[2][7].setIcon(icon27);
 
         casillas[2][8] = Casilla.setTipoRango(ManojoCartas.Tipo.CORAZÓN, ManojoCartas.Rango.NUEVE, 2, 8);
         ImageIcon icon28 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/9_of_hearts.png"));
+        casillas[2][8].setIcon(icon28);
 
         casillas[2][9] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.REINA, 2, 9);
         ImageIcon icon29 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/queen_of_spades.png"));
+        casillas[2][9].setIcon(icon29);
 
         casillas[3][0] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.OCHO, 3, 0);
         ImageIcon icon30 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/8_of_clubs.png"));
+        casillas[3][0].setIcon(icon30);
 
         casillas[3][1] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.REY, 3, 1);
         ImageIcon icon31 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/king_of_spades.png"));
+        casillas[3][1].setIcon(icon31);
 
         casillas[3][2] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.SEIS, 3, 2);
         ImageIcon icon32 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/6_of_clubs.png"));
+        casillas[3][2].setIcon(icon32);
 
         casillas[3][3] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.CINCO, 3, 3);
         ImageIcon icon33 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/5_of_clubs.png"));
+        casillas[3][3].setIcon(icon33);
 
         casillas[3][4] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.CUATRO, 3, 4);
         ImageIcon icon34 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/4_of_clubs.png"));
+        casillas[3][4].setIcon(icon34);
 
         casillas[3][5] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.TRES, 3, 5);
         ImageIcon icon35 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/3_of_clubs.png"));
+        casillas[3][5].setIcon(icon35);
 
         casillas[3][6] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.DOS, 3, 6);
         ImageIcon icon36 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/2_of_clubs.png"));
@@ -318,85 +347,85 @@ public class Tablero extends JPanel {
         ImageIcon icon79 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/4_of_diamonds.png"));
         casillas[7][9].setIcon(icon79);
 
- casillas[8][0] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.AS, 8, 0);
-ImageIcon icon80 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/ace_of_clubs.png"));
-casillas[8][0].setIcon(icon80);
+        casillas[8][0] = Casilla.setTipoRango(ManojoCartas.Tipo.TRÉBOL, ManojoCartas.Rango.AS, 8, 0);
+        ImageIcon icon80 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/ace_of_clubs.png"));
+        casillas[8][0].setIcon(icon80);
 
-casillas[8][1] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.SIETE, 8, 1);
-ImageIcon icon81 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/7_of_spades.png"));
-casillas[8][1].setIcon(icon81);
+        casillas[8][1] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.SIETE, 8, 1);
+        ImageIcon icon81 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/7_of_spades.png"));
+        casillas[8][1].setIcon(icon81);
 
-casillas[8][2] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.SEIS, 8, 2);
-ImageIcon icon82 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/6_of_spades.png"));
-casillas[8][2].setIcon(icon82);
+        casillas[8][2] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.SEIS, 8, 2);
+        ImageIcon icon82 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/6_of_spades.png"));
+        casillas[8][2].setIcon(icon82);
 
-        casillas[8][3] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.CINCO,8,3);
+        casillas[8][3] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.CINCO, 8, 3);
         ImageIcon icon83 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/5_of_spades.png"));
         casillas[8][3].setIcon(icon83);
 
-        casillas[8][4] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.CUATRO,8,4);
+        casillas[8][4] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.CUATRO, 8, 4);
         ImageIcon icon84 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/4_of_spades.png"));
         casillas[8][4].setIcon(icon84);
 
-        casillas[8][5] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.TRES,8,5);
+        casillas[8][5] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.TRES, 8, 5);
         ImageIcon icon85 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/3_of_spades.png"));
         casillas[8][5].setIcon(icon85);
 
-        casillas[8][6] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.DOS,8,6);
+        casillas[8][6] = Casilla.setTipoRango(ManojoCartas.Tipo.PICA, ManojoCartas.Rango.DOS, 8, 6);
         ImageIcon icon86 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/2_of_spades.png"));
         casillas[8][6].setIcon(icon86);
 
-        casillas[8][7] = Casilla.setTipoRango(ManojoCartas.Tipo.CORAZÓN, ManojoCartas.Rango.DOS,8,7);
+        casillas[8][7] = Casilla.setTipoRango(ManojoCartas.Tipo.CORAZÓN, ManojoCartas.Rango.DOS, 8, 7);
         ImageIcon icon87 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/2_of_hearts.png"));
         casillas[8][7].setIcon(icon87);
 
-        casillas[8][8] = Casilla.setTipoRango(ManojoCartas.Tipo.CORAZÓN, ManojoCartas.Rango.TRES,8,8);
+        casillas[8][8] = Casilla.setTipoRango(ManojoCartas.Tipo.CORAZÓN, ManojoCartas.Rango.TRES, 8, 8);
         ImageIcon icon88 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/3_of_hearts.png"));
         casillas[8][8].setIcon(icon88);
 
-        casillas[8][9] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.CINCO,8, 9);
+        casillas[8][9] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.CINCO, 8, 9);
         ImageIcon icon89 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/5_of_diamonds.png"));
         casillas[8][9].setIcon(icon89);
 
-        casillas[9][0] = Casilla.setTipoRango(ManojoCartas.Tipo.COMODIN, ManojoCartas.Rango.COMODIN, 9,0);
+        casillas[9][0] = Casilla.setTipoRango(ManojoCartas.Tipo.COMODIN, ManojoCartas.Rango.COMODIN, 9, 0);
         ImageIcon icon90 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/red_joker.png"));
         casillas[9][0].setIcon(icon90);
 
-        casillas[9][1] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.AS, 9,1);
+        casillas[9][1] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.AS, 9, 1);
         ImageIcon icon91 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/ace_of_diamonds.png"));
         casillas[9][1].setIcon(icon91);
 
-        casillas[9][2] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.REY, 9,2);
+        casillas[9][2] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.REY, 9, 2);
         ImageIcon icon92 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/king_of_diamonds.png"));
         casillas[9][2].setIcon(icon92);
 
-        casillas[9][3] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.REINA, 9,3);
+        casillas[9][3] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.REINA, 9, 3);
         ImageIcon icon93 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/queen_of_diamonds.png"));
         casillas[9][3].setIcon(icon93);
 
-        casillas[9][4] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.DIEZ, 9,4);
+        casillas[9][4] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.DIEZ, 9, 4);
         ImageIcon icon94 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/10_of_diamonds.png"));
         casillas[9][4].setIcon(icon94);
 
-        casillas[9][5] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.NUEVE, 9,5);
+        casillas[9][5] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.NUEVE, 9, 5);
         ImageIcon icon95 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/9_of_diamonds.png"));
         casillas[9][5].setIcon(icon95);
 
-        casillas[9][6] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.OCHO, 9,6);
+        casillas[9][6] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.OCHO, 9, 6);
         ImageIcon icon96 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/8_of_diamonds.png"));
         casillas[9][6].setIcon(icon96);
 
-        casillas[9][7] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.SIETE, 9,7);
+        casillas[9][7] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.SIETE, 9, 7);
         ImageIcon icon97 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/7_of_diamonds.png"));
         casillas[9][7].setIcon(icon97);
 
-casillas[9][8] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.SEIS, 9, 8);
-ImageIcon icon98 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/6_of_diamonds.png"));
-casillas[9][8].setIcon(icon98);
+        casillas[9][8] = Casilla.setTipoRango(ManojoCartas.Tipo.DIAMANTE, ManojoCartas.Rango.SEIS, 9, 8);
+        ImageIcon icon98 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/6_of_diamonds.png"));
+        casillas[9][8].setIcon(icon98);
 
-casillas[9][9] = Casilla.setTipoRango(ManojoCartas.Tipo.COMODIN, ManojoCartas.Rango.COMODIN, 9, 9);
-ImageIcon icon99 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/red_joker.png"));
-casillas[9][9].setIcon(icon99);
+        casillas[9][9] = Casilla.setTipoRango(ManojoCartas.Tipo.COMODIN, ManojoCartas.Rango.COMODIN, 9, 9);
+        ImageIcon icon99 = new ImageIcon(getClass().getResource("/IMAGES/CARDS/red_joker.png"));
+        casillas[9][9].setIcon(icon99);
 
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
     }
