@@ -115,6 +115,7 @@ public class CrearUsuario extends javax.swing.JFrame {
             
             try {
                 funcion.agregarUsuario(name, usuario, password);
+                new MenuPrincipal(funcion).setVisible(true);
             } catch (IOException e) {
                 e.printStackTrace();
             }
